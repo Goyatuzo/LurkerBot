@@ -7,9 +7,9 @@ class Counter {
 
     count(word) {
         if (word in this.counter) {
-            word[counter]++;
+            this.counter[word]++;
         } else {
-            word[counter] = 0;
+            this.counter[word] = 1;
         }
     }
 
