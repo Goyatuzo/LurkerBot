@@ -1,0 +1,21 @@
+{
+    "name": "CloudBot",
+    "version": "0.0.0",
+    "private": true,
+    
+    "scripts": {
+        "start": "npm install; node src/base.js",
+        "test": "./node_modules/.bin/mocha"
+    },
+    
+    "dependencies": {
+        "discord.js": "7.0.1",
+        "mkdirp": "*",
+        "mysql": "*"
+    },
+
+    "devDependencies": {
+        "mocha": "*",
+        "chai": "*"
+    }
+}
