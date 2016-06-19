@@ -5,8 +5,6 @@ var bot = new Discord.Client({ queue : true });
 
 var presenceHandler = require('./Handlers/presence');
 
-var words = require('../src/counter');
-
 // When someone's status changes, run a function.
 bot.on('presence', presenceHandler);
 
