@@ -33,7 +33,7 @@ function endLogging(uniqueName, id, gameName) {
 
         // If undefined seconds, just exit and don't do anything.
         if (seconds === undefined || seconds === null) {
-            Logger.warn('WARNING: Seconds is ' + seconds);
+            Logger.warn('Seconds is ' + seconds);
         }
 
         Logger.log("Played for " + seconds + " seconds.");
