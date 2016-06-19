@@ -95,7 +95,7 @@ function gameTracker(before, after) {
     } 
 }
 
-function presenceHandler(before, after) {
+module.exports = function(before, after) {
     var name = UserMethods.getUniqueName(before);
 
     // Validation to make sure it's the same user whose presence has been logged.
@@ -105,5 +105,3 @@ function presenceHandler(before, after) {
         gameTracker(before, after);
     }
 }
-
-module.exports = presenceHandler;
