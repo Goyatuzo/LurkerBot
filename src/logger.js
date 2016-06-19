@@ -28,7 +28,7 @@ function _lineFormat(line) {
 class Logger {
     constructor() {
         this.norm = [];
-        this.warn = [];
+        this.warning = [];
         this.err = [];
 
         mkdirp('output', function (err) {
@@ -47,7 +47,7 @@ class Logger {
 
     warn(line) {
         var toPrint = _lineFormat("WARNING: " + line);
-        this.warn.push(toPrint);
+        this.warning.push(toPrint);
         console.log(toPrint);
         this.wstream.write(toPrint + '\n');
     }
@@ -57,10 +57,6 @@ class Logger {
         this.err.push(toPrint);
         console.log(toPrint);
         this.wstream.write(toPrint + '\n');
-    }
-
-    saveLog() {
-        this.wstream.end();
     }
 }
 
