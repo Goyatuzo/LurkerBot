@@ -3,20 +3,18 @@
 var Discord = require('discord.js');
 var bot = new Discord.Client({ queue : true });
 
-var initialFunction = require('./Handlers/initial');
+var initialHandler = require('./Handlers/initial');
+var presenceHandler = require('./Handlers/presence');
+
 var words = require('../src/counter');
 
 // Run the init function to set up the words dictionary.
 bot.on('ready', function() {
-    initialFunction(bot);
+    initialHandler(bot);
 });
 
-bot.on('presence', function(before, after) {
-    console.log(before.name + ' has changed something about his status.');
-});
+// When someone's status changes, run a function.
+bot.on('presence', presenceHandler);
 
-bot.on('message', function(message) {
-    console.log(message.cleanContent);
-})
 
 bot.loginWithToken(process.env.DISCORD_TOKEN);

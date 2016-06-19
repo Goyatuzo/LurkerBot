@@ -12,8 +12,6 @@ function countWords(messages) {
         }
 
     }
-
-    console.log(words.current);
 }
 
 function messageHandler(client) {
@@ -24,8 +22,6 @@ function messageHandler(client) {
         var messageStrings = messages.map(function(message) {
             return message.cleanContent;
         });
-
-        countWords(messageStrings);
     });
 }
 

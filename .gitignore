@@ -48,3 +48,6 @@ Temporary Items
 
 .vscode
 .vscode/launch.json
+
+*.log
+*.txt
