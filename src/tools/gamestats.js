@@ -39,7 +39,7 @@ function addGame(userId, gameName) {
     // If the name already exists, check to see if the game does.
     if (userId in stats) {
         // Since bot will be running in multiple servers, make sure it doesn't count the same game twice.
-        if (!(gameName in stas[userId])) {
+        if (!(gameName in stats[userId])) {
             stats[userId][gameName] = new Timer();
         } else {
             console.log("Duplicate game being tracked.");
