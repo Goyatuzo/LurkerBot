@@ -21,9 +21,9 @@ class Timer {
 /**
  * Helper functon to help determine whether or not the game exists in the stats dictionary.
  */
-function _gameExists(uniqueName, gameName) {
-    if (uniqueName in stats) {
-        if (gameName in stats[uniqueName]) {
+function _gameExists(userId, gameName) {
+    if (userId in stats) {
+        if (gameName in stats[userId]) {
             return true;
         }
     }
@@ -35,32 +35,37 @@ function _gameExists(uniqueName, gameName) {
 /**
  * Add a game to the user's list of game times being tracked.
  */
-function addGame(uniqueName, gameName) {
+function addGame(userId, gameName) {
     // If the name already exists, check to see if the game does.
-    if (uniqueName in stats) {
-        stats[uniqueName][gameName] = new Timer();
+    if (userId in stats) {
+        // Since bot will be running in multiple servers, make sure it doesn't count the same game twice.
+        if (!(gameName in stas[userId])) {
+            stats[userId][gameName] = new Timer();
+        } else {
+            console.log("Duplicate game being tracked.");
+        }
     } else {
-        stats[uniqueName] = {};
-        stats[uniqueName][gameName] = new Timer();
+        stats[userId] = {};
+        stats[userId][gameName] = new Timer();
     }
 }
 
 /**
  * If the game exists in the stats dictionary, remove it. Otherwise do nothing. 
  */
-function removeGame(uniqueName, gameName) {
+function removeGame(userId, gameName) {
     // Find the TimeData object corresponding to the gameName.
-    if (_gameExists(uniqueName, gameName)) {
-        delete stats[uniqueName][gameName];
+    if (_gameExists(userId, gameName)) {
+        delete stats[userId][gameName];
     }
 }
 
 /**
  *  Get the time played from the user and name of the game. If no suitable game, return undefined.
  */
-function getTime(uniqueName, gameName) {
-    if (_gameExists(uniqueName, gameName)) {
-        return stats[uniqueName][gameName].timePlayed();
+function getTime(userId, gameName) {
+    if (_gameExists(userId, gameName)) {
+        return stats[userId][gameName].timePlayed();
     }
 
     return undefined;
@@ -69,13 +74,13 @@ function getTime(uniqueName, gameName) {
 /**
  * Get a dictionary of the times associated with each game from the input user name.
  */
-function getTimes(uniqueName) {
+function getTimes(userId) {
     // If the user DNE, return undefined.
-    if (!(uniqueName in stats)) {
+    if (!(userId in stats)) {
         return undefined;
     }
 
-    var gameList = stats[uniqueName];
+    var gameList = stats[userId];
 
     var dict = {};
 
@@ -92,16 +97,16 @@ var folderPath = 'resources/stats/';
 /**
  * Helper function to get the filepath to the username.
  */
-function filePathFromName(uniqueName) {
-    return folderPath + uniqueName + '.txt';
+function filePathFromName(userId) {
+    return folderPath + userId + '.txt';
 }
 
 /**
  * Read in the data that exists for a particular user. This function assumes that the file associated
  * with the user already exists.
  */
-function getExistingTimes(uniqueName, callback) {
-    fs.readFile(filePathFromName(uniqueName), (error, data) => {
+function getExistingTimes(userId, callback) {
+    fs.readFile(filePathFromName(userId), (error, data) => {
         if (error) {
             console.log("File name couldn't be found.");
             return;
@@ -116,23 +121,10 @@ function getExistingTimes(uniqueName, callback) {
 /**
  * Given the stats input to the function, write data that is the string represntation of the JSON input.
  */
-function writeData(uniqueName, stats) {
-    Logger.log('////////////////////////////////////////////');
-    Logger.log('Currently stored on memory:');
-    Logger.log(stats);
+function writeData(userId, stats) {
+    Logger.log(`Saving stats for ${userId}.`).
 
-    for (var key in stats) {
-        Logger.log(key + ": " + stats[key]);
-    }
-
-    Logger.log('////////////////////////////////////////////');
-    Logger.log('To be stored on disk:');
-    Logger.log(JSON.stringify(stats));
-    Logger.log('////////////////////////////////////////////');
-
-    
-
-    fs.writeFile(filePathFromName(uniqueName), JSON.stringify(stats), (error) => {
+    fs.writeFile(filePathFromName(userId), JSON.stringify(stats), (error) => {
         if (error) throw error;
     });
 }
