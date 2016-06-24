@@ -122,7 +122,7 @@ function getExistingTimes(userId, callback) {
  * Given the stats input to the function, write data that is the string represntation of the JSON input.
  */
 function writeData(userId, stats) {
-    Logger.log(`Saving stats for ${userId}.`).
+    Logger.log(`Saving stats for ${userId}.`);
 
     fs.writeFile(filePathFromName(userId), JSON.stringify(stats), (error) => {
         if (error) throw error;
