@@ -14,7 +14,7 @@ class Timer {
     timePlayed() {
         var curr = new Date();
 
-        return Math.floor((curr - this.start) / 1000 );
+        return Math.floor((curr - this.start) / 1000);
     }
 }
 
@@ -108,7 +108,8 @@ function filePathFromName(userId) {
 function getExistingTimes(userId, callback) {
     fs.readFile(filePathFromName(userId), (error, data) => {
         if (error) {
-            console.log("File name couldn't be found.");
+            console.log(`${userId}.txt couldn't be found.`);
+            callback({});
             return;
         }
 

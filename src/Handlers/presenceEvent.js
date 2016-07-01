@@ -59,7 +59,7 @@ function endLogging(uniqueName, id, gameName) {
  */
 function gameTracker(before, after) {
     var name = UserMethods.getUniqueName(before);
-    var id   = UserMethods.getId(before);
+    var id = UserMethods.getId(before);
     var game;
     // If the game is on the before state, it has been quit.
     if (UserMethods.getGame(before)) {
@@ -93,10 +93,13 @@ function gameTracker(before, after) {
 
     if (game) {
         beginLogging(name, id, game);
-    } 
+    }
 }
 
-module.exports = function(before, after) {
+/**
+ * The actual function that processes each "presence" event fired.
+ */
+module.exports = function (before, after) {
     var name = UserMethods.getUniqueName(before);
 
     // Validation to make sure it's the same user whose presence has been logged.
