@@ -8,8 +8,14 @@ var db = new sqlite3.Database('resources/stats.db');
 
 // Create the database that contains the information.
 db.serialize(function() {
-
+    `CREATE TABLE IF NOT EXISTS GameStats (
+        ID          INT         PRIMARY KEY     NOT NULL,
+        START       DATETIME    DEFAULT         CURRENT_TIMESTAMP,
+        DURATION    INT                         NOT NULL
+    )`;
 });
+
+db.close();
 
 var stats = {};
 
