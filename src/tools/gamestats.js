@@ -3,6 +3,14 @@
 var fs = require('fs');
 var Logger = require('../logger');
 
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('resources/stats.db');
+
+// Create the database that contains the information.
+db.serialize(function() {
+
+});
+
 var stats = {};
 
 class Timer {
