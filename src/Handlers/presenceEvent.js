@@ -27,27 +27,15 @@ function beginLogging(uniqueName, id, gameName) {
 function endLogging(uniqueName, id, gameName) {
     Logger.log('Logging has ended for ' + uniqueName + ' playing ' + gameName);
 
-    GameStats.getExistingTimes(id, (currStats) => {
-        // Get the current time spent for the game.
-        var seconds = GameStats.getTime(uniqueName, gameName);
+    var seconds = GameStats.getTime(uniqueName, gameName);
 
-        // If undefined seconds, just exit and don't do anything.
-        if (seconds === undefined || seconds === null) {
-            Logger.warn('Seconds is ' + seconds);
-            return;
-        }
+    // If undefined seconds, just exit and don't do anything.
+    if (seconds === undefined || seconds === null) {
+        Logger.warn('Seconds is ' + seconds);
+        return;
+    }
 
-        // Add the current time to the existing one, and save the resulting JSON.
-        // If the time stored in gameName is null, then make sure to account for that case.
-        // Althought I have no idea why that happens on Raspberry Pi.
-        if (gameName in currStats && currStats[gameName] !== null) {
-            currStats[gameName] += seconds;
-        } else {
-            currStats[gameName] = seconds;
-        }
-
-        GameStats.writeData(id, currStats);
-    });
+    GameStats.writeData(id, gameName, seconds);
 }
 
 /**

@@ -136,15 +136,13 @@ function getExistingTimes(userId, callback) {
 /**
  * Given the stats input to the function, write data that is the string represntation of the JSON input.
  */
-function writeData(userId, gameTimes) {
+function writeData(userId, gameName, time) {
     db.serialize(function () {
         var statement = db.prepare("INSERT INTO Times (ID, GAMENAME, DURATION) VALUES (?, ?, ?)")
 
-        for (var game in gameTimes) {
-            var args = [userId, game, gameTimes[game]];
-            Logger.log(`Saving stats for ${userId} playing ${game} for ${gameTimes[game]}.`)
-            statement.run(args);
-        }
+        var args = [userId, gameName, time];
+        Logger.log(`Saving stats for ${userId} playing ${gameName} for ${time}.`)
+        statement.run(args);
     });
 }
 
