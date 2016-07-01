@@ -43,11 +43,9 @@ function printStatsSummary(client, channel, users) {
 
             // If on the final userId, print out the summary.
             if (count === userIds.length - 1) {
-                var summaryString = `Server Summary:\n`;
-                summaryString += statsString(summary);
-                console.log(summaryString);
+                var summary = statsString(summary);
                 Logger.log(`Printing stats summary to: ${channel.name}`)
-                client.sendMessage(channel, summaryString);
+                client.sendMessage(channel, statsString(summary));
             }
 
             count++;
