@@ -4,18 +4,22 @@ var fs = require('fs');
 var Logger = require('../logger');
 
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('resources/stats.db');
+var db = new sqlite3.Database(process.env.GAMEDB, function (error) {
+   if (error) {
+      console.log(error);
+   } 
+});
 
 // Create the database that contains the information.
 db.serialize(function() {
-    `CREATE TABLE IF NOT EXISTS GameStats (
+    db.run(`CREATE TABLE IF NOT EXISTS PlayStats (
         ID          INT         PRIMARY KEY     NOT NULL,
-        START       DATETIME    DEFAULT         CURRENT_TIMESTAMP,
+        END         DATETIME    DEFAULT         CURRENT_TIMESTAMP,
+        GAMENAME    CHAR(40)                    NOT NULL,
         DURATION    INT                         NOT NULL
-    )`;
+    )`);
 });
 
-db.close();
 
 var stats = {};
 
