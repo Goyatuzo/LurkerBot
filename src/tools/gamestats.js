@@ -4,16 +4,12 @@ var fs = require('fs');
 var Logger = require('../logger');
 
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(process.env.GAMEDB, function (error) {
-   if (error) {
-      console.log(error);
-   } 
-});
+var db = new sqlite3.Database(process.env.GAMEDB);
 
 // Create the database that contains the information.
-db.serialize(function() {
-    db.run(`CREATE TABLE IF NOT EXISTS PlayStats (
-        ID          INT         PRIMARY KEY     NOT NULL,
+db.serialize(function () {
+    db.run(`CREATE TABLE IF NOT EXISTS Times (
+        ID          INT                         NOT NULL,
         END         DATETIME    DEFAULT         CURRENT_TIMESTAMP,
         GAMENAME    CHAR(40)                    NOT NULL,
         DURATION    INT                         NOT NULL
@@ -140,11 +136,15 @@ function getExistingTimes(userId, callback) {
 /**
  * Given the stats input to the function, write data that is the string represntation of the JSON input.
  */
-function writeData(userId, stats) {
-    Logger.log(`Saving stats for ${userId}.`);
+function writeData(userId, gameTimes) {
+    db.serialize(function () {
+        var statement = db.prepare("INSERT INTO Times (ID, GAMENAME, DURATION) VALUES (?, ?, ?)")
 
-    fs.writeFile(filePathFromName(userId), JSON.stringify(stats), (error) => {
-        if (error) throw error;
+        for (var game in gameTimes) {
+            var args = [userId, game, gameTimes[game]];
+            Logger.log(`Saving stats for ${userId} playing ${game} for ${gameTimes[game]}.`)
+            statement.run(args);
+        }
     });
 }
 

@@ -53,3 +53,6 @@ Temporary Items
 *.txt
 
 node_modules
+
+# Ignore the testing database.
+GameTest.db
