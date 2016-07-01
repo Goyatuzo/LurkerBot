@@ -1,4 +1,5 @@
 var GameStats = require('../../tools/gamestats');
+var Logger = require('../../logger');
 
 function stringifyTime(seconds) {
     var m = Math.floor(seconds / 60);
@@ -40,6 +41,8 @@ function printStatsSummary(client, channel, users) {
                 }
             }
 
+            console.log(`count: ${count}; length: ${userIds.length}`);
+
             // If on the final userId, print out the summary.
             if (count === userIds.length - 1) {
                 var summaryString = `Server Summary:\n`;
@@ -60,5 +63,6 @@ module.exports = function (client, message) {
         return idx;
     });
 
+    Logger.log('Server stats summary requested.');
     printStatsSummary(client, message.channel, users);
 }
