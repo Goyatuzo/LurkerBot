@@ -33,6 +33,7 @@ function printStatsSummary(client, channel, users) {
         var count = 0;
 
         GameStats.getExistingTimes(userIds[i], function (stats) {
+
             for (var game in stats) {
                 if (game in summary) {
                     summary[game] += stats[game];
@@ -43,9 +44,9 @@ function printStatsSummary(client, channel, users) {
 
             // If on the final userId, print out the summary.
             if (count === userIds.length - 1) {
-                var summary = statsString(summary);
-                Logger.log(`Printing stats summary to: ${channel.name}`)
-                client.sendMessage(channel, statsString(summary));
+                var summaryString = statsString(summary);
+                Logger.log(`Printing stats summary to: ${channel.name}`);
+                client.sendMessage(channel, summaryString);
             }
 
             count++;
