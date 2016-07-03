@@ -18,7 +18,7 @@ mkdirp(GameStats.folderPath);
 function beginLogging(uniqueName, id, gameName) {
     Logger.log('Logging has begun for ' + uniqueName + ' playing ' + gameName);
 
-    GameStats.addGame(uniqueName, gameName);
+    GameStats.addGame(id, gameName);
 }
 
 /**
@@ -27,7 +27,8 @@ function beginLogging(uniqueName, id, gameName) {
 function endLogging(uniqueName, id, gameName) {
     Logger.log('Logging has ended for ' + uniqueName + ' playing ' + gameName);
 
-    var seconds = GameStats.getTime(uniqueName, gameName);
+    var seconds = GameStats.getTime(id, gameName);
+    GameStats.removeGame(id, gameName);
 
     // If undefined seconds, just exit and don't do anything.
     if (seconds === undefined || seconds === null) {
@@ -46,38 +47,20 @@ function endLogging(uniqueName, id, gameName) {
 function gameTracker(before, after) {
     var name = UserMethods.getUniqueName(before);
     var id = UserMethods.getId(before);
-    var game;
-    // If the game is on the before state, it has been quit.
-    if (UserMethods.getGame(before)) {
-        game = UserMethods.getGame(before);
+    var game = UserMethods.getGame(before);
+
+    console.log(game);
+    // If the BEFORE state has a game, it means the game is being ended one way or anothoer.
+    if (game) {
         Logger.log(name + ' has quit ' + game);
+        endLogging(name, id, game);
     }
 
-    // If a game has been quit, have it quit logging for that user.
+    game = UserMethods.getGame(after);
+
+    // If the AFTER state has a game, it means the game is being started.
     if (game) {
-        // Since stat is async, create temp so value is stored.
-        var tempGame = game;
-
-        // Make sure the user file exists. If not, create it.
-        fs.stat(GameStats.filePathFromName(id, tempGame), (err, res) => {
-            // If no err
-            if (err) {
-                if (err.code === 'ENOENT') {
-                    fs.writeFileSync(GameStats.filePathFromName(id, tempGame), '{}');
-                }
-            }
-
-            endLogging(name, id, tempGame);
-        });
-    }
-
-    game = undefined;
-    if (UserMethods.getGame(after)) {
-        game = UserMethods.getGame(after);
-        Logger.log(name + ' has begun playing ' + game);
-    }
-
-    if (game) {
+        Logger.log(name + ' has begun ' + game);
         beginLogging(name, id, game);
     }
 }
@@ -86,6 +69,7 @@ function gameTracker(before, after) {
  * The actual function that processes each "presence" event fired.
  */
 module.exports = function (before, after) {
+    console.log('Presence function is fired.');
     var name = UserMethods.getUniqueName(before);
 
     // Validation to make sure it's the same user whose presence has been logged.

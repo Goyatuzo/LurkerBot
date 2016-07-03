@@ -50,6 +50,7 @@ function _gameExists(userId, gameName) {
  * Add a game to the user's list of game times being tracked.
  */
 function addGame(userId, gameName) {
+    Logger.log(`${gameName} is now being tracked.`);
     // If the name already exists, check to see if the game does.
     if (userId in stats) {
         // Since bot will be running in multiple servers, make sure it doesn't count the same game twice.
@@ -70,6 +71,7 @@ function addGame(userId, gameName) {
 function removeGame(userId, gameName) {
     // Find the TimeData object corresponding to the gameName.
     if (_gameExists(userId, gameName)) {
+        Logger.log(`${gameName} is not being tracked anymore.`);
         delete stats[userId][gameName];
     }
 }
