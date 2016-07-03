@@ -148,6 +148,22 @@ function writeData(userId, gameName, time) {
     });
 }
 
+/**
+ * Get the summary (total of all games played) by the players in the server.
+ */
+function getExistingSummary(ids, callback) {
+    // Convert ids array to string to be parsed by sqlite3.
+    var idString = JSON.stringify(ids);
+
+    // Regex to replace brackets with nothing.
+    idString = idString.replace(/[\[\]']+/g, '');
+
+    db.serialize(function () {
+        var query = `SELECT GAMENAME, SUM(DURATION) AS DURATION FROM Times WHERE ID in (${idString}) GROUP BY GAMENAME`;
+        db.all(query, [], callback);
+    });
+}
+
 module.exports = {
     addGame: addGame,
 
@@ -161,5 +177,7 @@ module.exports = {
 
     removeGame: removeGame,
 
-    writeData: writeData
+    writeData: writeData,
+
+    getSummary: getExistingSummary
 };

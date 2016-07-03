@@ -29,29 +29,14 @@ function printStatsSummary(client, channel, users) {
         return user.id;
     });
 
-    for (var i = 0; i < userIds.length; ++i) {
-        var count = 0;
+    GameStats.getSummary(userIds, function (error, result) {
+        if (error) {
+            console.log(error);
+            return;
+        }
 
-        GameStats.getExistingTimes(userIds[i], function (stats) {
-
-            for (var game in stats) {
-                if (game in summary) {
-                    summary[game] += stats[game];
-                } else {
-                    summary[game] = stats[game];
-                }
-            }
-
-            // If on the final userId, print out the summary.
-            if (count === userIds.length - 1) {
-                var summaryString = statsString(summary);
-                Logger.log(`Printing stats summary to: ${channel.name}`);
-                client.sendMessage(channel, summaryString);
-            }
-
-            count++;
-        });
-    }
+        console.log(result);
+    });
 }
 
 module.exports = function (client, message) {
