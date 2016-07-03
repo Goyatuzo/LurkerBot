@@ -49,7 +49,6 @@ function gameTracker(before, after) {
     var id = UserMethods.getId(before);
     var game = UserMethods.getGame(before);
 
-    console.log(game);
     // If the BEFORE state has a game, it means the game is being ended one way or anothoer.
     if (game) {
         Logger.log(name + ' has quit ' + game);
@@ -69,7 +68,6 @@ function gameTracker(before, after) {
  * The actual function that processes each "presence" event fired.
  */
 module.exports = function (before, after) {
-    console.log('Presence function is fired.');
     var name = UserMethods.getUniqueName(before);
 
     // Validation to make sure it's the same user whose presence has been logged.

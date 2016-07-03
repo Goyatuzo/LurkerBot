@@ -35,7 +35,15 @@ function printStatsSummary(client, channel, users) {
             return;
         }
 
-        console.log(result);
+        var resultString = '';
+
+        for (var i = 0; i < result.length; ++i) {
+            var game = result[i];
+
+            resultString += `${game.GAMENAME}\n - ${stringifyTime(game.DURATION)}\n\n`;
+        }
+
+        client.sendMessage(channel, resultString);
     });
 }
 
