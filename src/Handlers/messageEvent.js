@@ -13,7 +13,7 @@ module.exports = function (client) {
             puppyHandler(message);
         }
 
-        if (messageString === 'stats') {
+        if (messageString.startsWith('stats')) {
             statsHandler(client, message);
         }
     }

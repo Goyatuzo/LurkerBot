@@ -151,7 +151,7 @@ function writeData(userId, gameName, time) {
 /**
  * Get the summary (total of all games played) by the players in the server.
  */
-function getExistingSummary(ids, callback) {
+function getSummary(ids, callback) {
     // Convert ids array to string to be parsed by sqlite3.
     var idString = JSON.stringify(ids);
 
@@ -161,6 +161,13 @@ function getExistingSummary(ids, callback) {
     db.serialize(function () {
         var query = `SELECT GAMENAME, SUM(DURATION) AS DURATION FROM Times WHERE ID in (${idString}) GROUP BY GAMENAME`;
         db.all(query, [], callback);
+    });
+}
+
+function getStatsFor(id, callback) {
+    db.serialize(function () {
+        var query = `SELECT GAMENAME, SUM(DURATION) AS DURATION FROM Times WHERE ID=(?) GROUP BY GAMENAME`;
+        db.all(query, id, callback);
     });
 }
 
@@ -179,5 +186,6 @@ module.exports = {
 
     writeData: writeData,
 
-    getSummary: getExistingSummary
+    getSummary: getSummary,
+    getStatsFor: getStatsFor
 };

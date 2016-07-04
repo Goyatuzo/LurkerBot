@@ -22,9 +22,11 @@ function statsString(stats) {
     return summaryString;
 }
 
-function printStatsSummary(client, channel, users) {
-    var summary = {};
 
+/**
+ * Print the summary of all the stats of the users contained in the users array.
+ */
+function printStatsSummary(client, channel, users) {
     var userIds = users.map(function (user) {
         return user.id;
     });
@@ -36,9 +38,35 @@ function printStatsSummary(client, channel, users) {
         }
 
         var resultString = '';
+        var game;
 
         for (var i = 0; i < result.length; ++i) {
-            var game = result[i];
+            game = result[i];
+
+            resultString += `${game.GAMENAME}\n - ${stringifyTime(game.DURATION)}\n\n`;
+        }
+
+        client.sendMessage(channel, resultString);
+    });
+}
+
+/**
+ * Print the stats of a single user.
+ */
+function printUserStats(client, channel, user) {
+    var userId = user.id;
+
+    GameStats.getStatsFor(userId, function (error, result) {
+        if (error) {
+            console.log(error);
+            return;
+        }
+
+        var resultString = '';
+        var game;
+
+        for (var i = 0; i < result.length; ++i) {
+            game = result[i];
 
             resultString += `${game.GAMENAME}\n - ${stringifyTime(game.DURATION)}\n\n`;
         }
@@ -50,11 +78,28 @@ function printStatsSummary(client, channel, users) {
 module.exports = function (client, message) {
     var server = message.channel.server;
 
-    // Put the member listing in an array.
-    var users = (server.members).map(function (idx) {
-        return idx;
-    });
+    var messageString = message.cleanContent;
 
-    Logger.log('Server stats summary requested.');
-    printStatsSummary(client, message.channel, users);
+    // Get the arguments of stats.
+    var tokens = messageString.split(' ');
+
+    // Game and Name.
+    var type = tokens[1];
+    var name = tokens[2];
+
+    // If there is no type, then print the summary for the server.
+    if (type === undefined) {
+        // Put the member listing in an array.
+        var users = (server.members).map(function (idx) {
+            return idx;
+        });
+
+        Logger.log('Server stats summary requested.');
+        printStatsSummary(client, message.channel, users);
+    } else if (type === 'me') {
+        var user = message.author;
+
+        printUserStats(client, message.channel, user);
+    }
+
 }
