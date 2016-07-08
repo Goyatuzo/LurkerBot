@@ -37,7 +37,7 @@ class Logger {
 
         var curr = new Date();
 
-        var fileName = `${curr.getFullYear()}-${curr.getMonth()}-${curr.getDate()} ${curr.getHours()}:${curr.getMinutes()}:${curr.getSeconds()}`;
+        var fileName = `${curr.getFullYear()}-${curr.getMonth()}-${curr.getDate()}_${curr.getHours()}_${curr.getMinutes()}_${curr.getSeconds()}`;
 
         this.wstream = fs.createWriteStream(`output/${fileName}.log`); 
     }
