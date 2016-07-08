@@ -4,6 +4,7 @@ var fs = require('fs');
 
 var UserMethods = require('../tools/user_methods');
 var GameStats = require('../tools/gamestats');
+var path = require('path');
 
 var Logger = require('../logger');
 
@@ -62,17 +63,31 @@ function gameTracker(before, after) {
     }
 }
 
+var botIds = ((fs.readFileSync('resources/bots.txt', 'utf-8')).split('\n')).map(function (id) {
+    return parseInt(id);
+});
+
+function isBot(before, after) {
+    // First check through id list to see if there's a bot.
+    for (var i = 0; i < botIds.length; ++i) {
+        if (before.id === botIds[i] || after.id === botIds[i]) {
+            return true;
+        }
+    }
+
+    return before.bot || after.bot;
+}
+
 /**
  * The actual function that processes each "presence" event fired.
  */
 module.exports = function (before, after) {
     var name = UserMethods.getUniqueName(before);
-    var isBot = before.bot || after.bot;
 
     // Validation to make sure it's the same user whose presence has been logged.
     var sameUser = name === UserMethods.getUniqueName(after);
-    
-    if (isBot) {
+
+    if (isBot(before, after)) {
         Logger.log(`${name} is a bot.`);
         return;
     }
