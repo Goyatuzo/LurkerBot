@@ -10,6 +10,7 @@ function getUsername(user) {
     return name + '#' + discrim.toString();
 };
 
+
 function getId(user) {
     return user.id;
 }
@@ -22,7 +23,7 @@ function getGameName(user) {
     var game = user.game;
 
     // If there is a game object, then return the name.
-    if (game) {
+    if (game && user.bot) {
         return game.name;
     }
 
