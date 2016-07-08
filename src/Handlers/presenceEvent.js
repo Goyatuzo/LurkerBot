@@ -51,7 +51,6 @@ function gameTracker(before, after) {
 
     // If the BEFORE state has a game, it means the game is being ended one way or anothoer.
     if (game) {
-        Logger.log(name + ' has quit ' + game);
         endLogging(name, id, game);
     }
 
@@ -59,7 +58,6 @@ function gameTracker(before, after) {
 
     // If the AFTER state has a game, it means the game is being started.
     if (game) {
-        Logger.log(name + ' has begun ' + game);
         beginLogging(name, id, game);
     }
 }
