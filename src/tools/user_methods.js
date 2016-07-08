@@ -23,7 +23,7 @@ function getGameName(user) {
     var game = user.game;
 
     // If there is a game object, then return the name.
-    if (game && user.bot) {
+    if (game && !user.bot) {
         return game.name;
     }
 
