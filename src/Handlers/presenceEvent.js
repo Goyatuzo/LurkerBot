@@ -74,6 +74,8 @@ module.exports = function (before, after) {
     // Validation to make sure it's the same user whose presence has been logged.
     var sameUser = name === UserMethods.getUniqueName(after);
 
+    Logger.log(`${name}: ${isBot}, before: ${before.bot}, after: ${after.bot}`);
+
     if (isBot) {
         Logger.log(`${name} is a bot.`);
     }
