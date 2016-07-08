@@ -73,6 +73,7 @@ module.exports = function (before, after) {
     var sameUser = name === UserMethods.getUniqueName(after);
     
     // If it's a bot, then nothing should be done.
+    console.log(`${name}, isBot: ${isBot}, before: ${before.bot}, after: ${after.bot}`);
     if (isBot) {
         Logger.log(`${name} is a bot.`);
         return;
