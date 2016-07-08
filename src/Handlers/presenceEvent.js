@@ -69,11 +69,16 @@ function gameTracker(before, after) {
  */
 module.exports = function (before, after) {
     var name = UserMethods.getUniqueName(before);
+    var isBot = before.bot || after.bot;
 
     // Validation to make sure it's the same user whose presence has been logged.
     var sameUser = name === UserMethods.getUniqueName(after);
 
-    if (sameUser) {
+    if (isBot) {
+        Logger.log(`${name} is a bot.`);
+    }
+
+    if (sameUser && !isBot) {
         gameTracker(before, after);
     }
 }
