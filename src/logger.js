@@ -35,7 +35,11 @@ class Logger {
             if (err) throw err;
         });
 
-        this.wstream = fs.createWriteStream('output/bot.log'); 
+        var curr = new Date();
+
+        var fileName = `${curr.getFullYear()}-${curr.getMonth()}-${curr.getDate()}-${curr.getHours()}-${curr.getMinutes()}-${curr.getSeconds()}`;
+
+        this.wstream = fs.createWriteStream(`output/${fileName}.log`); 
     }
 
     log(line) {
