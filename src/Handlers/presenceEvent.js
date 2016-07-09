@@ -33,7 +33,7 @@ function endLogging(uniqueName, id, gameName) {
 
     // If undefined seconds, just exit and don't do anything.
     if (seconds === undefined || seconds === null) {
-        Logger.warn('Seconds is ' + seconds);
+        Logger.log('Undefined seconds.');
         return;
     }
 
@@ -63,9 +63,7 @@ function gameTracker(before, after) {
     }
 }
 
-var botIds = ((fs.readFileSync('resources/bots.txt', 'utf-8')).split('\n')).map(function (id) {
-    return parseInt(id);
-});
+var botIds = (fs.readFileSync('resources/bots.txt', 'utf-8')).split('\n');
 
 function isBot(before, after) {
     // First check through id list to see if there's a bot.
