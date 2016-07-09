@@ -97,7 +97,7 @@ module.exports = function (client, message) {
             return idx;
         });
 
-        Logger.log('Server STATS summary requested.');
+        Logger.log(`Printing server summary to ${message.channel}`);
         printStatsSummary(client, message.channel, users);
     } else if (type === 'me') {
         var user = message.author;
