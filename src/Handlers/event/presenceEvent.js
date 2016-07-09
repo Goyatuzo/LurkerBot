@@ -2,11 +2,11 @@
 
 var fs = require('fs');
 
-var UserMethods = require('../tools/user_methods');
-var GameStats = require('../tools/gamestats');
+var UserMethods = require('../../tools/user_methods');
+var GameStats = require('../../tools/gamestats');
 var path = require('path');
 
-var Logger = require('../logger');
+var Logger = require('../../logger');
 
 var mkdirp = require('mkdirp');
 

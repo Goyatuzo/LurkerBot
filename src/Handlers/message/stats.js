@@ -1,5 +1,6 @@
 var GameStats = require('../../tools/gamestats');
 var Logger = require('../../logger');
+var UserMethods = require('../../tools/user_methods');
 
 function stringifyTime(seconds) {
     var m = Math.floor(seconds / 60);
@@ -54,6 +55,8 @@ function printStatsSummary(client, channel, users) {
  * Print the stats of a single user.
  */
 function printUserStats(client, channel, user) {
+    Logger.log(`${UserMethods.getUniqueName(user)} requested STATS summary.`)
+
     var userId = user.id;
 
     GameStats.getStatsFor(userId, function (error, result) {
@@ -94,7 +97,7 @@ module.exports = function (client, message) {
             return idx;
         });
 
-        Logger.log('Server stats summary requested.');
+        Logger.log('Server STATS summary requested.');
         printStatsSummary(client, message.channel, users);
     } else if (type === 'me') {
         var user = message.author;
