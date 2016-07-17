@@ -5,14 +5,40 @@ var Logger = require('../logger');
 var mysql = require('mysql2');
 
 var connection = mysql.createConnection({
-  host      : process.env.GAMEDB,
-  port      : 3306,
-  user      : process.env.USERNAME,
-  password  : process.env.PASSWORD,
-  database : process.env.DBNAME
+    host: process.env.GAMEDB,
+    port: 3306,
+    user: process.env.USERNAME,
+    password: process.env.PASSWORD,
+    database: process.env.DBNAME
 });
 
-connection.connect();
+function _connect(conn) {
+    // Connect to DB and define the Times table here.
+    conn.connect(function (err) {
+        if (err) {
+            Logger.warn(err);
+            return;
+        }
+
+        connection.execute(`
+        CREATE TABLE IF NOT EXISTS Times (
+            id          VARCHAR(25) NOT NULL,
+            endTime     DATETIME    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
+            gameName    VARCHAR(45) NOT NULL,
+            duration    INT(6)      NOT NULL
+        )
+    `);
+    });
+}
+
+_connect(connection);
+
+connection.on('error', function (err) {
+    console.log(err);
+
+    _connect(connection);
+})
+
 
 var stats = {};
 
@@ -141,7 +167,7 @@ function writeData(userId, gameName, time) {
             Logger.warn(err);
             return;
         }
-        
+
         Logger.log(`Saving stats for ${userId} playing ${gameName} for ${time}.`)
     });
 }
@@ -160,7 +186,7 @@ function getSummary(ids, callback) {
         if (err) {
             Logger.warn(err);
         }
-        
+
         callback(err, rows);
     });
 }
