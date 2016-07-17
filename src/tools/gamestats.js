@@ -2,20 +2,17 @@
 
 var fs = require('fs');
 var Logger = require('../logger');
+var mysql = require('mysql2');
 
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(process.env.GAMEDB);
-
-// Create the database that contains the information.
-db.serialize(function () {
-    db.run(`CREATE TABLE IF NOT EXISTS Times (
-        ID          INT                         NOT NULL,
-        END         DATETIME    DEFAULT         CURRENT_TIMESTAMP,
-        GAMENAME    CHAR(40)                    NOT NULL,
-        DURATION    INT                         NOT NULL
-    )`);
+var connection = mysql.createConnection({
+  host      : process.env.GAMEDB,
+  port      : 3306,
+  user      : process.env.USERNAME,
+  password  : process.env.PASSWORD,
+  database : 'lurkerbot'
 });
 
+connection.connect();
 
 var stats = {};
 
@@ -139,12 +136,13 @@ function getExistingTimes(userId, callback) {
  * Given the stats input to the function, write data that is the string represntation of the JSON input.
  */
 function writeData(userId, gameName, time) {
-    db.serialize(function () {
-        var statement = db.prepare("INSERT INTO Times (ID, GAMENAME, DURATION) VALUES (?, ?, ?)")
-
-        var args = [userId, gameName, time];
+    connection.execute(`INSERT INTO Times (id, gameName, duration) VALUES (?, ?, ?)`, [userId, gameName, time], function (err) {
+        if (err) {
+            Logger.warn(err);
+            return;
+        }
+        
         Logger.log(`Saving stats for ${userId} playing ${gameName} for ${time}.`)
-        statement.run(args);
     });
 }
 
@@ -158,16 +156,22 @@ function getSummary(ids, callback) {
     // Regex to replace brackets with nothing.
     idString = idString.replace(/[\[\]']+/g, '');
 
-    db.serialize(function () {
-        var query = `SELECT GAMENAME, SUM(DURATION) AS DURATION FROM Times WHERE ID in (${idString}) GROUP BY GAMENAME`;
-        db.all(query, [], callback);
+    connection.execute(`SELECT gameName, SUM(duration) AS duration FROM lurkerbot.Times WHERE ID in (${idString}) GROUP BY gameName`, function (err, rows) {
+        if (err) {
+            Logger.warn(err);
+        }
+        
+        callback(err, rows);
     });
 }
 
 function getStatsFor(id, callback) {
-    db.serialize(function () {
-        var query = `SELECT GAMENAME, SUM(DURATION) AS DURATION FROM Times WHERE ID=(?) GROUP BY GAMENAME`;
-        db.all(query, id, callback);
+    connection.execute(`SELECT gameName, SUM(duration) AS duration FROM Times WHERE ID=(?) GROUP BY gameName`, [id], function (err, rows) {
+        if (err) {
+            Logger.warn(err);
+        }
+
+        callback(err, rows);
     });
 }
 

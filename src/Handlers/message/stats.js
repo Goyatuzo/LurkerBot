@@ -1,3 +1,5 @@
+"use strict";
+
 var GameStats = require('../../tools/gamestats');
 var Logger = require('../../logger');
 var UserMethods = require('../../tools/user_methods');
@@ -38,13 +40,13 @@ function printStatsSummary(client, channel, users) {
             return;
         }
 
-        var resultString = '';
-        var game;
+        let resultString = '';
+        let game;
 
         for (var i = 0; i < result.length; ++i) {
             game = result[i];
 
-            resultString += `${game.GAMENAME}\n - ${stringifyTime(game.DURATION)}\n\n`;
+            resultString += `${game.gameName}\n - ${stringifyTime(game.duration)}\n\n`;
         }
 
         client.sendMessage(channel, resultString);
@@ -65,13 +67,13 @@ function printUserStats(client, channel, user) {
             return;
         }
 
-        var resultString = '';
-        var game;
+        let resultString = '';
+        let game;
 
         for (var i = 0; i < result.length; ++i) {
             game = result[i];
 
-            resultString += `${game.GAMENAME}\n - ${stringifyTime(game.DURATION)}\n\n`;
+            resultString += `${game.gameName}\n - ${stringifyTime(game.duration)}\n\n`;
         }
 
         client.sendMessage(channel, resultString);

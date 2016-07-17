@@ -13,7 +13,8 @@
         "mkdirp": "*",
         "mysql": "*",
         "random-puppy": "1.1.0",
-        "sqlite3": "3.1.4"
+        "sqlite3": "3.1.4",
+        "mysql2": "1.0.0-rc.7"
     },
 
     "devDependencies": {
