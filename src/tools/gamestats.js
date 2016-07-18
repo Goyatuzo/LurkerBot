@@ -4,13 +4,16 @@ var fs = require('fs');
 var Logger = require('../logger');
 var mysql = require('mysql2');
 
-var connection = mysql.createConnection({
-    host: process.env.GAMEDB,
-    port: 3306,
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
-    database: process.env.DBNAME
-});
+
+function getConnection() {
+    return connection = mysql.createConnection({
+        host: process.env.GAMEDB,
+        port: 3306,
+        user: process.env.USERNAME,
+        password: process.env.PASSWORD,
+        database: process.env.DBNAME
+    });
+}
 
 function _connect(conn) {
     // Connect to DB and define the Times table here.
@@ -31,12 +34,12 @@ function _connect(conn) {
     });
 }
 
-_connect(connection);
+_connect(getConnection());
 
 connection.on('error', function (err) {
     console.log(err);
 
-    _connect(connection);
+    _connect(getConnection());
 })
 
 
