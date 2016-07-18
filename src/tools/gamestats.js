@@ -6,14 +6,19 @@ var mysql = require('mysql2');
 
 
 function getConnection() {
-    return mysql.createConnection({
+    let connection = mysql.createConnection({
         host: process.env.GAMEDB,
         port: 3306,
         user: process.env.USERNAME,
         password: process.env.PASSWORD,
         database: process.env.DBNAME
     });
+
+    _connect(connection);
+
+    return connection;
 }
+
 
 function _connect(conn) {
     // Connect to DB and define the Times table here.
@@ -34,14 +39,19 @@ function _connect(conn) {
     });
 }
 
-_connect(getConnection());
 
-connection.on('error', function (err) {
-    console.log(err);
+function handleDisconnect(conn) {
+    conn.on('error', function(err) {
+        Logger.log(`Regaining connection...`);
 
-    _connect(getConnection());
-})
+        let connection = getConnection();
+        handleDisconnect(connection);
+        connection.connect();
+    });
+}
 
+var connection = getConnection();
+handleDisconnect(connection);
 
 var stats = {};
 
