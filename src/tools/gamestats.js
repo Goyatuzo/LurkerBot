@@ -6,7 +6,7 @@ var mysql = require('mysql2');
 
 
 function getConnection() {
-    return connection = mysql.createConnection({
+    return mysql.createConnection({
         host: process.env.GAMEDB,
         port: 3306,
         user: process.env.USERNAME,
