@@ -46,7 +46,7 @@ function handleDisconnect(conn) {
 
         let connection = getConnection();
         handleDisconnect(connection);
-        connection.connect();
+        _connect(connection);;
     });
 }
 
