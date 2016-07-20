@@ -12,6 +12,19 @@ var connection = mysql.createConnection({
     database: process.env.DBNAME
 });
 
+
+_connect(connection);
+
+connection.on('error', function (err) {
+    console.log(err);
+
+    _connect(connection);
+})
+
+
+var stats = {};
+
+
 function _connect(conn) {
     // Connect to DB and define the Times table here.
     conn.connect(function (err) {
@@ -31,16 +44,6 @@ function _connect(conn) {
     });
 }
 
-_connect(connection);
-
-connection.on('error', function (err) {
-    console.log(err);
-
-    _connect(connection);
-})
-
-
-var stats = {};
 
 class Timer {
     constructor() {
