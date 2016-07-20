@@ -4,7 +4,8 @@
     "private": true,
     
     "scripts": {
-        "start": "npm install; node src/cloudbot.js",
+        "web": "npm install; node web/main.js",
+        "bot": "npm install; node src/cloudbot.js",
         "test": "./node_modules/.bin/mocha"
     },
     
