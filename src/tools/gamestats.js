@@ -4,13 +4,21 @@ var fs = require('fs');
 var Logger = require('../logger');
 var mysql = require('mysql2');
 
-var connection = mysql.createConnection({
-    host: process.env.GAMEDB,
-    port: 3306,
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
-    database: process.env.DBNAME
-});
+
+function getConnection() {
+    let connection = mysql.createConnection({
+        host: process.env.GAMEDB,
+        port: 3306,
+        user: process.env.USERNAME,
+        password: process.env.PASSWORD,
+        database: process.env.DBNAME
+    });
+
+    _connect(connection);
+
+    return connection;
+}
+
 
 
 _connect(connection);
@@ -44,6 +52,20 @@ function _connect(conn) {
     });
 }
 
+function handleDisconnect(conn) {
+    conn.on('error', function(err) {
+        Logger.log(`Regaining connection...`);
+
+        let connection = getConnection();
+        handleDisconnect(connection);
+        _connect(connection);;
+    });
+}
+
+var connection = getConnection();
+handleDisconnect(connection);
+
+var stats = {};
 
 class Timer {
     constructor() {
