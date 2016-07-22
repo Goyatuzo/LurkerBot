@@ -25,7 +25,6 @@ function statsString(stats) {
     return summaryString;
 }
 
-
 /**
  * Print the summary of all the stats of the users contained in the users array.
  */
