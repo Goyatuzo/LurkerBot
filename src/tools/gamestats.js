@@ -38,20 +38,15 @@ function _connect(conn) {
     });
 }
 
-function handleDisconnect(conn) {
-    conn.on('error', function(err) {
-        Logger.log(`Regaining connection...`);
+function handleDisconnect() {
+    connection.end();
 
-        let connection = getConnection();
-        handleDisconnect(connection);
-        _connect(connection);
-
-        conn.end();
-    });
+    connection = getConnection();
+    _connect(connection);
 }
 
 var connection = getConnection();
-handleDisconnect(connection);
+_connect(connection);
 
 var stats = {};
 
@@ -178,6 +173,7 @@ function writeData(userId, gameName, time) {
     connection.execute(`INSERT INTO Times (id, gameName, duration) VALUES (?, ?, ?)`, [userId, gameName, time], function (err) {
         if (err) {
             Logger.warn(err);
+            handleDisconnect();
             return;
         }
 
@@ -198,6 +194,8 @@ function getSummary(ids, callback) {
     connection.execute(`SELECT gameName, SUM(duration) AS duration FROM lurkerbot.Times WHERE ID in (${idString}) GROUP BY gameName`, function (err, rows) {
         if (err) {
             Logger.warn(err);
+            handleDisconnect();
+            return;
         }
 
         callback(err, rows);
@@ -208,6 +206,8 @@ function getStatsFor(id, callback) {
     connection.execute(`SELECT gameName, SUM(duration) AS duration FROM Times WHERE ID=(?) GROUP BY gameName`, [id], function (err, rows) {
         if (err) {
             Logger.warn(err);
+            handleDisconnect();
+            return;
         }
 
         callback(err, rows);
