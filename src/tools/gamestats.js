@@ -39,6 +39,8 @@ function _connect(conn) {
 }
 
 function handleDisconnect() {
+    Logger.log("Reconnecting to server...");
+
     connection.end();
 
     connection = getConnection();
