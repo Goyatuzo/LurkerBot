@@ -304,5 +304,6 @@ Temporary Items
 node_modules
 
 # Ignore the compiled .js files and map files.
-*.js*
+*.js
+*.js.map
 obj
