@@ -8,10 +8,14 @@ describe("Initialize timer,", () => {
         timer = new Timer();
     });
 
-    it("the time elapsed should be greater than 0.", done => {
+    it("there should be a starting time in milliseconds.", () => {
+        expect(timer.start).to.be.greaterThan(0);
+    });
+
+    it("after 1001 milliseconds, timeElapsed() should be 1.", function (done) {
         setInterval(() => {
-            console.log(timer.timeElapsed());
+            expect(timer.timeElapsed()).to.equal(1);
             done();
-        }, 2);
+        }, 1001);
     });
 });

@@ -25,9 +25,9 @@
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="database\connection.ts" />
     <TypeScriptCompile Include="handlers\events\presence.ts" />
-    <TypeScriptCompile Include="stats\server.ts" />
-    <TypeScriptCompile Include="stats\game_stats.ts" />
-    <TypeScriptCompile Include="database\server_config.ts" />
+    <TypeScriptCompile Include="stats\game_tracker.ts" />
+    <TypeScriptCompile Include="stats\stats.ts" />
+    <TypeScriptCompile Include="test\stats.test.ts" />
     <TypeScriptCompile Include="test\timer.test.ts" />
     <TypeScriptCompile Include="tools\bots.ts" />
     <TypeScriptCompile Include="tools\timer.ts" />

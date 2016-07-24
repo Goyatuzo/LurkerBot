@@ -3,9 +3,10 @@
 import * as mkdirp from "mkdirp";
 import * as path from "path";
 
+import gameTracker from "../../stats/game_tracker";
+
 import * as UserMethods from "../../tools/user_methods";
 import {isBot} from "../../tools/bots";
-
 
 export default function (before: User, after: User) {
     // If either is a bot, then do not process it at all.
@@ -16,7 +17,7 @@ export default function (before: User, after: User) {
 
     // If the two users are identical, process it further.
     if (before.id === after.id) {
-        console.log("Same guy");
+        gameTracker(before, after);
     } else {
         console.log(`${UserMethods.getUniqueUsername(before)} and ${UserMethods.getUniqueUsername(after)}`);
     }
