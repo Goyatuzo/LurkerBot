@@ -28,6 +28,7 @@
     <TypeScriptCompile Include="stats\server.ts" />
     <TypeScriptCompile Include="stats\game_stats.ts" />
     <TypeScriptCompile Include="database\server_config.ts" />
+    <TypeScriptCompile Include="tests\timer.test.ts" />
     <TypeScriptCompile Include="tools\timer.ts" />
   </ItemGroup>
   <ItemGroup>

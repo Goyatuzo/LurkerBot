@@ -14,9 +14,8 @@ var bot = new Discord.Client();
 bot.loginWithToken(process.env.DISCORD_TOKEN);
 
 bot.on('ready', event => {
-    _.map(bot.servers, server => {
-        console.log(server.id);
-    });
+    const serverNames = _.map(bot.servers, server => server.name);
+    console.log("Servers: " + _.join(serverNames, ", "));
 });
 
 bot.on('presence', presenceEvent);
