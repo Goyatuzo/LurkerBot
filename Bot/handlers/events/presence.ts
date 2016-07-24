@@ -4,5 +4,5 @@ import * as mkdirp from "mkdirp";
 import * as path from "path";
 
 export default function (before: User, after: User) {
-    console.log("In the presence function.");
+    
 }

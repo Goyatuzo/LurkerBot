@@ -30,6 +30,7 @@
     <TypeScriptCompile Include="database\server_config.ts" />
     <TypeScriptCompile Include="tests\timer.test.ts" />
     <TypeScriptCompile Include="tools\timer.ts" />
+    <TypeScriptCompile Include="tools\user_method.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
