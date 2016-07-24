@@ -8,5 +8,10 @@ describe("Initialize timer,", () => {
         timer = new Timer();
     });
 
-
+    it("the time elapsed should be greater than 0.", done => {
+        setInterval(() => {
+            console.log(timer.timeElapsed());
+            done();
+        }, 2);
+    });
 });
