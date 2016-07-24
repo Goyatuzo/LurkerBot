@@ -1,7 +1,13 @@
 ﻿import * as mysql from "mysql";
 import * as fs from "fs";
 
-import connectionDetails from "./server_config";
+const connectionDetails = {
+    host: process.env.LURKER_DB,
+    port: 3306,
+    user: process.env.LURKER_USERNAME,
+    password: process.env.LURKER_PASSWORD,
+    database: process.env.LURKER_SCHEMA
+};
 
 // Hold the database connection on this variable.
 var connection;
