@@ -24,6 +24,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="database\connection.ts" />
+    <TypeScriptCompile Include="database\times_table.ts" />
     <TypeScriptCompile Include="handlers\events\presence.ts" />
     <TypeScriptCompile Include="stats\game_tracker.ts" />
     <TypeScriptCompile Include="stats\stats.ts" />

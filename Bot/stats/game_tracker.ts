@@ -3,32 +3,35 @@ import * as UserMethods from "../tools/user_methods";
 
 import stats from "../stats/stats";
 
-import connection from "../database/connection";
-
-// The Times table to store the times.
-connection.execute(`
-    CREATE TABLE IF NOT EXISTS Times (
-        id          VARCHAR(25) NOT NULL,
-        endTime     DATETIME    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
-        gameName    VARCHAR(45) NOT NULL,
-        duration    INT(6)      NOT NULL
-    )`
-);
+import {writeNewTimeRow} from "../database/times_table";
 
 /**
  * When the user starts playing a game, call this function.
  * @param user
  */
-function beginLogging(user: User) {
+function beginLogging(user: User, game: string) {
+    console.log(`${UserMethods.getUniqueUsername(user)} is now playing ${game}`);
 
+    stats.addGame(user, game);
 }
 
 /**
  * When the user stops playing a game, call this function.
  * @param user
  */
-function endLogging(user: User) {
+function endLogging(user: User, game: string) {
+    console.log(`${UserMethods.getUniqueUsername(user)} stopped playing ${game}`);
 
+    const seconds: number = stats.timePlayed(user, game);
+    stats.removeGame(user, game);
+
+    if (seconds === null) {
+        console.log("Seconds are undefined.");
+        return;
+    }
+
+    // If a valid number of seconds, be sure to add it to the database.
+    writeNewTimeRow(user, seconds);
 }
 
 export default function (before: User, after: User) {
@@ -37,12 +40,12 @@ export default function (before: User, after: User) {
     // If the user has a game on before, that means they quit that game.
     game = UserMethods.getGameName(before);
     if (game) {
-        endLogging(before);
+        endLogging(before, game);
     }
 
     // If the user has a game on after, that means they began playing the game.
     game = UserMethods.getGameName(after);
     if (game) {
-        beginLogging(after);
+        beginLogging(after, game);
     }
 }

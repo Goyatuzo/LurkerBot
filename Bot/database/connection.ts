@@ -1,7 +1,7 @@
 ﻿import * as mysql from "mysql";
 import * as fs from "fs";
 
-const connectionDetails = {
+const connectionDetails: mysql.IConnectionConfig = {
     host: process.env.LURKER_DB,
     port: 3306,
     user: process.env.LURKER_USERNAME,
@@ -10,7 +10,7 @@ const connectionDetails = {
 };
 
 // Hold the database connection on this variable.
-var connection;
+var connection: mysql.IConnection;
 
 /**
  * Connect to the database and create the Times table.
