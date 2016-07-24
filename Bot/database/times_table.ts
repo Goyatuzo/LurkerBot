@@ -21,10 +21,10 @@ connection.query(`
  * @param duration
  */
 export function writeNewTimeRow(user: User, duration: number) {
-    const _user = _.cloneDeep(user);
+    const game = UserMethods.getGameName(user);
 
-    const stmt = `INSERT INTO Times (id, gameName, duration) VALUES (${_user.id}, ?, ${duration})`;
-    const prepared = mysql.format(stmt, [UserMethods.getGameName(_user)]);
+    const stmt = `INSERT INTO Times (id, gameName, duration) VALUES (${user.id}, ?, ${duration})`;
+    const prepared = mysql.format(stmt, [game]);
     
     connection.query(prepared, (err, results) => {
         if (err) {
@@ -32,7 +32,7 @@ export function writeNewTimeRow(user: User, duration: number) {
             return;
         }
 
-        console.log(`Saving stats for ${UserMethods.getUniqueUsername(_user)} playing ${UserMethods.getGameName(_user)} for ${duration}`);
+        console.log(`Saving stats for ${UserMethods.getUniqueUsername(user)} playing ${game} for ${duration}`);
     });
 }
 
