@@ -1,6 +1,7 @@
 ﻿import {User} from "discord.js";
 import * as UserMethods from "../tools/user_methods";
 
+import stats from "../stats/stats";
 
 import connection from "../database/connection";
 
@@ -14,8 +15,10 @@ connection.execute(`
     )`
 );
 
-
-
+/**
+ * When the user starts playing a game, call this function.
+ * @param user
+ */
 function beginLogging(user: User) {
 
 }

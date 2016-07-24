@@ -1,7 +1,7 @@
 ﻿import {expect} from "chai";
 import {User} from "discord.js";
 
-import Stats from "../stats/stats";
+import {Stats} from "../stats/stats";
 
 describe("Initialize stats,", () => {
     let stats: Stats;
@@ -21,6 +21,15 @@ describe("Initialize stats,", () => {
         } as User;
 
         expect(stats.timePlayed(playerA, "Starcraft")).to.be.null;
+    });
+
+    it("no game should exists, so exists function should return false.", () => {
+        const playerA = {
+            id: "abc",
+            name: "PlayerA"
+        } as User;
+
+        expect(stats.exists(playerA, "Starcraft")).to.be.false;
     });
 
     describe("PlayerA is playing Starcraft,", () => {

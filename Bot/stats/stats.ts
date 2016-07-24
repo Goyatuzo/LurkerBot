@@ -2,11 +2,11 @@
 import {User} from "discord.js";
 import * as UserMethods from "../tools/user_methods";
 
-interface GameList {
+export interface GameList {
     [gameName: string]: Timer;
 }
 
-export default class Stats {
+export class Stats {
     stats: { [userId: string]: GameList } = {};
 
     private _addUser(user: User) {
@@ -89,3 +89,7 @@ export default class Stats {
         }
     }
 }
+
+// Export a new instance of stats.
+var stats = new Stats();
+export default stats;
