@@ -29,8 +29,9 @@
     <TypeScriptCompile Include="stats\game_stats.ts" />
     <TypeScriptCompile Include="database\server_config.ts" />
     <TypeScriptCompile Include="test\timer.test.ts" />
+    <TypeScriptCompile Include="tools\bots.ts" />
     <TypeScriptCompile Include="tools\timer.ts" />
-    <TypeScriptCompile Include="tools\user_method.ts" />
+    <TypeScriptCompile Include="tools\user_methods.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />

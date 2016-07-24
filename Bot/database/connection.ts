@@ -22,15 +22,6 @@ function _connect() {
             console.log(err);
             return;
         };
-
-        connection.execute(`
-            CREATE TABLE IF NOT EXISTS Times (
-                id          VARCHAR(25) NOT NULL,
-                endTime     DATETIME    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
-                gameName    VARCHAR(45) NOT NULL,
-                duration    INT(6)      NOT NULL
-            )
-        `);
     });
 
     _disconnectHandler();
