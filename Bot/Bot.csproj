@@ -25,7 +25,7 @@
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="database\connection.ts" />
     <TypeScriptCompile Include="handlers\events\presence.ts" />
-    <TypeScriptCompile Include="tools\server.ts" />
+    <TypeScriptCompile Include="stats\server.ts" />
     <TypeScriptCompile Include="stats\game_stats.ts" />
     <TypeScriptCompile Include="database\server_config.ts" />
     <TypeScriptCompile Include="tools\timer.ts" />
@@ -35,6 +35,7 @@
     <Content Include="package.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resources\bots.txt" />
     <Content Include="typings.json" />
   </ItemGroup>
   <ItemGroup>
