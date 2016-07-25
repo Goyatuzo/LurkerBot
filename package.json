@@ -1,8 +1,0 @@
-{
-  "name": "lurker",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "cd Bot && npm start"
-  }
-}
