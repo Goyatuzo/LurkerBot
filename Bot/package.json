@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "npm install && gulp default && node build/app.js",
-    "test": "./node_modules/.bin/mocha"
+    "test": "npm install && gulp default && ./node_modules/.bin/mocha"
   },
   "dependencies": {
     "discord.js": "7.0.1",

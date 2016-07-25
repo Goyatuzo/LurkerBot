@@ -4,10 +4,10 @@ import * as _ from "lodash";
 
 /**
  * BOT token = process.env.DISCORD_TOKEN
- * DB URL = process.env.GAMEDB
- * DB Username = process.env.USERNAME
- * DB Password = process.env.PASSWORD
- * DB Default = process.env.DBNAME
+ * DB URL = process.env.LURKER_DB
+ * DB Username = process.env.LURKER_USERNAME
+ * DB Password = process.env.LURKER_PASSWORD
+ * DB Default = process.env.LURKER_SCHEMA
  */
 
 var bot = new Discord.Client();

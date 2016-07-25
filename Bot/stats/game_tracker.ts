@@ -26,7 +26,7 @@ function endLogging(user: User, game: string) {
     stats.removeGame(user, game);
 
     if (seconds === null) {
-        console.log("Seconds are undefined.");
+        console.log("Invalid seconds, skipping this log.");
         return;
     }
 
