@@ -1,0 +1,20 @@
+{
+  "name": "lurker",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cd Bot && npm start"
+  },
+  "dependencies": {
+    "discord.js": "7.0.1",
+    "lodash": "^4.13.1",
+    "mkdirp": "*",
+    "mysql": "2.11.1",
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^2.13.6"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}

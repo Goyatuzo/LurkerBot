@@ -1,1 +1,1 @@
-worker: npm run-script bot
+worker: npm start
