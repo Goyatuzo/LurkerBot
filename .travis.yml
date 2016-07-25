@@ -1,6 +1,7 @@
 language: node_js
 node_js:
     - "4.4"
+before_install: npm install -g mocha
 script: cd Bot && npm test
 os:
     - linux
