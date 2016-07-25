@@ -305,6 +305,9 @@ node_modules
 
 # Ignore the compiled .js files and map files.
 *.js
-!gulpfile.js
 *.js.map
 obj
+
+# These are exclusions because they conflict with "*.js"
+!gulpfile.js
+!discord.js

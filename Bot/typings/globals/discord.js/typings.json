@@ -1,0 +1,12 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/nicholastay/discord.js.d.ts/33b375bbb4a2cad6d708399398ebd8914d8d2f3b/typings.json",
+    "raw": "github:nicholastay/discord.js.d.ts#33b375bbb4a2cad6d708399398ebd8914d8d2f3b",
+    "main": "discord.js.d.ts",
+    "version": "8.0.0",
+    "global": false,
+    "name": "discord.js",
+    "type": "typings"
+  }
+}
