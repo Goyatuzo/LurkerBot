@@ -1,2 +1,1 @@
-worker: npm run-script bot
-web: npm start
+worker: cd Bot && npm start
