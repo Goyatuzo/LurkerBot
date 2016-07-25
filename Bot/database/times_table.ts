@@ -44,7 +44,7 @@ export function getDurationSum(users: Array<User>, callback: (results: any) => a
     const userIds = users.map(user => user.id);
     const idString = _.join(userIds, ", ");
 
-    const stmt = `SELECT gameName, SUM(duration) AS duration FROM Times WHERE ID in (${idString}) GROUP BY gameName`;
+    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Times WHERE ID in (${idString}) GROUP BY gameName`;
 
     connection.query(stmt, (err, results) => {
         if (err) {

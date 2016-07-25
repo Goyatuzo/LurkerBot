@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm install; node build/app.js",
+    "start": "npm install && node build/app.js",
     "test": "npm install && mocha build/test",
 
     "postinstall": "gulp default"
