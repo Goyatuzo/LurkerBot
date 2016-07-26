@@ -9,9 +9,9 @@ import * as _ from "lodash";
 connection.query(`
     CREATE TABLE IF NOT EXISTS Users (
         id          VARCHAR(25) NOT NULL    PRIMARY KEY,
-        name        VARCHAR(25) NOT NULL,
+        name        VARCHAR(40) NOT NULL,
         avatar      VARCHAR(150)
-    )`
+    ) CHARACTER SET utf8 COLLATE utf8_unicode_ci`
 );
 
 /**

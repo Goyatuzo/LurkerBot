@@ -12,7 +12,7 @@ connection.query(`
         name        VARCHAR(25) NOT NULL,
         region      VARCHAR(20) NOT NULL,
         icon        VARCHAR(150)
-    )`
+    ) CHARACTER SET utf8 COLLATE utf8_unicode_ci`
 );
 
 // The Servers to Users table to store the mappings between Servers and their users.
@@ -21,7 +21,7 @@ connection.query(`
         id          VARCHAR(40) NOT NULL  PRIMARY KEY,
         serverId    VARCHAR(25) NOT NULL,
         userId      VARCHAR(25) NOT NULL
-    )`
+    ) CHARACTER SET utf8 COLLATE utf8_unicode_ci`
 );
 
 
