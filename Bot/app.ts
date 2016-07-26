@@ -3,7 +3,7 @@ import * as _ from "lodash";
 
 import presenceEvent from "./handlers/events/presence";
 
-import {updateServer} from "./database/servers_table";
+import {updateServer, updateServerUserMap} from "./database/servers_table";
 import {updateUser} from "./database/users_table";
 
 import messageEvent from "./handlers/events/message";
@@ -25,6 +25,9 @@ bot.on('ready', event => {
     const serverNames = _.map(bot.servers, server => {
         // Iterate through the list of servers, and add each one to the database.
         updateServer(server);
+
+        // Update the server to user mappings.
+        updateServerUserMap(server);
         // Add all the users to the database.
         _.map(server.members, user => updateUser(user as Discord.User));
         

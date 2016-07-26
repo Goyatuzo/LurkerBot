@@ -5,7 +5,7 @@ import connection from "../database/connection";
 import * as UserMethods from "../tools/user_methods";
 import * as _ from "lodash";
 
-// The Times table to store the times.
+// The Servers table to store the server information.
 connection.query(`
     CREATE TABLE IF NOT EXISTS Servers (
         id          VARCHAR(25) NOT NULL    PRIMARY KEY,
@@ -14,6 +14,16 @@ connection.query(`
         icon        VARCHAR(150)
     )`
 );
+
+// The Servers to Users table to store the mappings between Servers and their users.
+connection.query(`
+    CREATE TABLE IF NOT EXISTS ServersToUsers (
+        id          VARCHAR(40) NOT NULL  PRIMARY KEY,
+        serverId    VARCHAR(25) NOT NULL,
+        userId      VARCHAR(25) NOT NULL
+    )`
+);
+
 
 /**
  * Update or push in a new server object to the SQL database.
@@ -29,5 +39,28 @@ export function updateServer(server: Server) {
         if (err) {
             console.log(err);
         }
+    });
+}
+
+/**
+ * Update the mapping for the users list on a server.
+ * @param server
+ */
+export function updateServerUserMap(server: Server) {
+    const userIds = _.map(server.members, user => user.id);
+    const serverId = server.id;
+
+    const stmt = `INSERT INTO ServersToUsers (id, serverId, userId) VALUES (?, ?, ?)
+                    ON DUPLICATE KEY UPDATE
+                        serverId=?, userId=?`;
+
+    _.map(userIds, userId => {
+        let prepared = mysql.format(stmt, [serverId + userId, serverId, userId, serverId, userId]);
+
+        connection.query(prepared, err => {
+            if (err) {
+                console.log(err);
+            }
+        });
     });
 }
