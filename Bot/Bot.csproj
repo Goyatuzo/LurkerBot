@@ -24,15 +24,24 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="database\connection.ts" />
+    <TypeScriptCompile Include="database\servers_table.ts" />
     <TypeScriptCompile Include="database\times_table.ts" />
     <TypeScriptCompile Include="handlers\events\presence.ts" />
     <TypeScriptCompile Include="stats\game_tracker.ts" />
     <TypeScriptCompile Include="stats\stats.ts" />
     <TypeScriptCompile Include="test\stats.test.ts" />
-    <TypeScriptCompile Include="test\timer.test.ts" />
+    <TypeScriptCompile Include="test\game-timer.test.ts" />
     <TypeScriptCompile Include="tools\bots.ts" />
-    <TypeScriptCompile Include="tools\timer.ts" />
+    <TypeScriptCompile Include="tools\game_timer.ts" />
     <TypeScriptCompile Include="tools\user_methods.ts" />
+    <TypeScriptCompile Include="typings\globals\discord.js\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\mocha\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\mysql\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\node-4\index.d.ts" />
+    <TypeScriptCompile Include="typings\index.d.ts" />
+    <TypeScriptCompile Include="typings\modules\chai\index.d.ts" />
+    <TypeScriptCompile Include="typings\modules\lodash\index.d.ts" />
+    <TypeScriptCompile Include="typings\modules\mkdirp\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
@@ -44,6 +53,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="tsconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="test\database\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="typings\globals\discord.js\typings.json" />
+    <Content Include="typings\globals\mocha\typings.json" />
+    <Content Include="typings\globals\mysql\typings.json" />
+    <Content Include="typings\globals\node-4\typings.json" />
+    <Content Include="typings\modules\chai\typings.json" />
+    <Content Include="typings\modules\lodash\typings.json" />
+    <Content Include="typings\modules\mkdirp\typings.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
