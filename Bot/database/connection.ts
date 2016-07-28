@@ -19,7 +19,10 @@ var connection: mysql.IConnection;
 function _disconnectHandler() {
     connection = mysql.createConnection(connectionDetails);
 
-    connection.connect();
+    connection.connect(err => {
+        console.log("Error on trying to connect to DB.");
+        console.log(err);
+    });
 
     connection.on('error', err => {
         console.log("SQL server error.");
