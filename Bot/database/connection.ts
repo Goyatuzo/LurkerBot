@@ -24,11 +24,7 @@ function _disconnectHandler() {
     connection.on('error', err => {
         console.log("SQL server error.");
         console.log(err);
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            _disconnectHandler();
-        } else {
-            throw err;
-        }
+        _disconnectHandler();
     });
 }
 
