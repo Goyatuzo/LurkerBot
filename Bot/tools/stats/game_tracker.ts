@@ -1,9 +1,9 @@
 ﻿import {User} from "discord.js";
-import * as UserMethods from "../tools/user_methods";
+import * as UserMethods from "../user_methods";
 
 import stats from "../stats/stats";
 
-import {writeNewTimeRow} from "../database/times_table";
+import {writeNewTimeRow} from "../../database/times_table";
 
 /**
  * When the user starts playing a game, call this function.

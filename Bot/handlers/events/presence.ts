@@ -3,7 +3,7 @@
 import * as mkdirp from "mkdirp";
 import * as path from "path";
 
-import gameTracker from "../../stats/game_tracker";
+import gameTracker from "../../tools/stats/game_tracker";
 
 import * as UserMethods from "../../tools/user_methods";
 import {isBot} from "../../tools/bots";

@@ -6,7 +6,8 @@ const connectionDetails: mysql.IConnectionConfig = {
     port: 3306,
     user: process.env.LURKER_USERNAME,
     password: process.env.LURKER_PASSWORD,
-    database: process.env.LURKER_SCHEMA
+    database: process.env.LURKER_SCHEMA,
+    multipleStatements: true
 };
 
 // Hold the database connection on this variable.

@@ -1,6 +1,6 @@
-﻿import Timer from "../tools/game_timer";
+﻿import Timer from "../../tools/game_timer";
 import {User} from "discord.js";
-import * as UserMethods from "../tools/user_methods";
+import * as UserMethods from "../user_methods";
 
 export interface GameList {
     [gameName: string]: Timer;

@@ -25,7 +25,7 @@ export function writeNewTimeRow(user: User, duration: number) {
 
     const stmt = `INSERT INTO Immutable.Times (id, gameName, duration) VALUES (${user.id}, ?, ${duration})`;
     const prepared = mysql.format(stmt, [game]);
-    
+
     connection.query(prepared, (err, results) => {
         if (err) {
             console.log(err);

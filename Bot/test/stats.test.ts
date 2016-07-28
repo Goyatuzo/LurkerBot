@@ -1,7 +1,7 @@
 ﻿import {expect} from "chai";
 import {User} from "discord.js";
 
-import {Stats} from "../stats/stats";
+import {Stats} from "../tools/stats/stats";
 
 describe("Initialize stats,", () => {
     let stats: Stats;
