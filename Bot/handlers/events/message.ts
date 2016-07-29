@@ -8,7 +8,6 @@ export default function (message: Message) {
     let msg = message.cleanContent;
 
     if (_.startsWith(msg, "stats")) {
-        msg = msg.substring(("stats").length);
-        statsMessageHandler(msg, client);
+        statsMessageHandler(message);
     }
 }

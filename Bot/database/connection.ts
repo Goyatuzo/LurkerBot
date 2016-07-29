@@ -20,8 +20,11 @@ function _disconnectHandler() {
     connection = mysql.createConnection(connectionDetails);
 
     connection.connect(err => {
-        console.log("Error on trying to connect to DB.");
-        console.log(err);
+        if (err) {
+            console.log("Error on trying to connect to DB.");
+            console.log(err);
+            _disconnectHandler();
+        }
     });
 
     connection.on('error', err => {
