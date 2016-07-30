@@ -33,7 +33,7 @@ export default function (message: Message) {
         const users = (message.channel as TextChannel).server.members;
         const userIds = users.map(user => user);
 
-        getDurationSum(userIds, results => {
+        getDurationSum(userIds, undefined, results => {
             client.sendMessage(message.channel, _formatResults(results));
         });
     }

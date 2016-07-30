@@ -40,11 +40,11 @@ export function writeNewTimeRow(user: User, duration: number) {
  * Get the sum of the duration of all the users passed into the function.
  * @param users
  */
-export function getDurationSum(users: Array<User>, callback: (results: any) => any) {
+export function getDurationSum(users: Array<User>, sortBy: string = "gameName", callback: (results: any) => any) {
     const userIds = users.map(user => user.id);
-    const idString = _.join(userIds, ", ");
+    const idString = _.join(userIds, ",");
 
-    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Immutable.Times WHERE ID in (${idString}) GROUP BY gameName`;
+    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Immutable.Times WHERE ID in (${idString}) GROUP BY ${sortBy}`;
 
     connection.query(stmt, (err, results) => {
         if (err) {
