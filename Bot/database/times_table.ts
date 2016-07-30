@@ -56,6 +56,11 @@ export function getDurationSum(users: Array<User>, callback: (results: any) => a
     });
 }
 
+/**
+ * Get the sum of the duration of all the users passed into the function, then sort by the time.
+ * @param users
+ * @param callback
+ */
 export function getDurationSumTimeSorted(users: Array<User>, callback: (results: any) => any) {
     const userIds = users.map(user => user.id);
     const idString = _.join(userIds, ", ");
