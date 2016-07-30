@@ -1,7 +1,7 @@
 ﻿import {Message, Client, TextChannel} from "discord.js";
 import * as _ from "lodash";
 
-import {getDurationSum} from "../../database/times_table";
+import {getDurationSumTimeSorted} from "../../database/times_table";
 
 function _stringifyTime(seconds) {
     var m = Math.floor(seconds / 60);
@@ -28,12 +28,14 @@ export default function (message: Message) {
     const tokens = _.drop(message.cleanContent.split(" "));
     const client = message.client;
 
+    const sortTerm = _.drop(message.cleanContent.split(" sortby "))[0];
+
     // If the user only requests stats, then print out the server's stats.
-    if (tokens.length === 0) {
+    if (tokens.length  <= 2) {
         const users = (message.channel as TextChannel).server.members;
         const userIds = users.map(user => user);
-
-        getDurationSum(userIds, undefined, results => {
+        
+        getDurationSumTimeSorted(userIds, results => {
             client.sendMessage(message.channel, _formatResults(results));
         });
     }
