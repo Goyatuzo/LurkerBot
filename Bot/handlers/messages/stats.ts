@@ -31,7 +31,7 @@ export default function (message: Message) {
     const sortTerm = _.drop(message.cleanContent.split(" sortby "))[0];
 
     // If the user only requests stats, then print out the server's stats.
-    if (tokens.length  <= 2) {
+    if (tokens.length === 0) {
         const users = (message.channel as TextChannel).server.members;
         const userIds = users.map(user => user);
         
