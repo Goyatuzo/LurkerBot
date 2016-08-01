@@ -1,1 +1,1 @@
-worker: cd BotAzure; npm start
+worker: cd Bot; npm start
