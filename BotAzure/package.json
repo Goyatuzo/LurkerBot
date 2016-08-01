@@ -6,6 +6,10 @@
   "author": {
     "name": "Yuto Otaguro"
   },
+  "scripts": {
+    "start": "npm install && npm build/server.js",
+    "postinstall": "gulp default"
+  },
   "dependencies": {
     "discord.js": "7.0.1",
     "lodash": "^4.13.1",
