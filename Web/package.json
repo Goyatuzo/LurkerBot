@@ -1,0 +1,14 @@
+{
+  "name": "lurkerweb",
+  "version": "0.0.0",
+  "description": "Web",
+  "main": "app.js",
+  "author": {
+    "name": "Yuto Otaguro"
+  },
+  "dependencies": {
+    "express": "3.4.4",
+    "jade": "*",
+    "stylus": "*"
+  }
+}

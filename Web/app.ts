@@ -1,28 +1,34 @@
-﻿class Greeter {
-    element: HTMLElement;
-    span: HTMLElement;
-    timerToken: number;
+﻿import express = require('express');
+import routes = require('./routes/index');
+import http = require('http');
+import path = require('path');
 
-    constructor(element: HTMLElement) {
-        this.element = element;
-        this.element.innerHTML += "The time is: ";
-        this.span = document.createElement('span');
-        this.element.appendChild(this.span);
-        this.span.innerText = new Date().toUTCString();
-    }
+var app = express();
 
-    start() {
-        this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString(), 500);
-    }
+// all environments
+app.set('port', process.env.PORT || 3000);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+app.use(express.favicon());
+app.use(express.logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.methodOverride());
+app.use(app.router);
 
-    stop() {
-        clearTimeout(this.timerToken);
-    }
+import stylus = require('stylus');
+app.use(stylus.middleware(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
+// development only
+if ('development' == app.get('env')) {
+    app.use(express.errorHandler());
 }
 
-window.onload = () => {
-    var el = document.getElementById('content');
-    var greeter = new Greeter(el);
-    greeter.start();
-};
+app.get('/', routes.index);
+app.get('/about', routes.about);
+app.get('/contact', routes.contact);
+
+http.createServer(app).listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + app.get('port'));
+});
