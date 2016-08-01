@@ -2,7 +2,7 @@
   "name": "bot-azure",
   "version": "0.0.0",
   "description": "BotAzure",
-  "main": "app.js",
+  "main": "server.js",
   "author": {
     "name": "Yuto Otaguro"
   },
