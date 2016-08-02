@@ -16,7 +16,9 @@ import messageEvent from "./handlers/events/message";
  * DB Default = process.env.LURKER_SCHEMA
  */
 
-var bot = new Discord.Client();
+var bot = new Discord.Client({
+    autoReconnect: true
+});
 bot.loginWithToken(process.env.DISCORD_TOKEN);
 
 bot.on('ready', event => {
