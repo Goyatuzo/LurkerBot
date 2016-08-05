@@ -311,3 +311,6 @@ obj
 # These are exclusions because they conflict with "*.js"
 !gulpfile.js
 !discord.js
+
+# Don't ignore typings files.
+!*.d.ts
