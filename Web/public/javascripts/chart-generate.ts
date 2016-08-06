@@ -21,10 +21,6 @@
             });
         });
 
-        data.map(da => {
-            console.log(da);
-        });
-
         response.map(entry => {
             const gameIdx = _.findIndex(uniqueGames, gameName => gameName === entry.gameName);
             const nameIdx = _.findIndex(uniqueNames, name => name === entry.name);
@@ -34,8 +30,6 @@
 
         return data;
     }
-
-    console.log(url);
 
     $.get({
         url: url
