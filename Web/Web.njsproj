@@ -49,13 +49,14 @@
     <Content Include="typings\globals\jquery\typings.json" />
     <Content Include="typings\globals\lodash\typings.json" />
     <Content Include="typings\globals\mysql\typings.json" />
+    <Content Include="views\server.jade" />
     <Content Include="Web.config" />
     <None Include="Web.Debug.config" />
     <TypeScriptCompile Include="api\connection.ts" />
     <TypeScriptCompile Include="api\times.ts" />
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="classes\i-times.ts" />
-    <TypeScriptCompile Include="public\javascripts\chart.ts" />
+    <TypeScriptCompile Include="public\javascripts\chart-generate.ts" />
     <TypeScriptCompile Include="routes\api.ts" />
     <TypeScriptCompile Include="routes\index.ts" />
     <TypeScriptCompile Include="Scripts\typings\express\express.d.ts" />

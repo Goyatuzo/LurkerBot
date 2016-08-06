@@ -5,4 +5,5 @@ block content
 
     script(src="/javascripts/chart-generate.js")
     script.
-        generateChartFromUrl("/api/summary");
+        const serverId = window.location.search.replace("?", "");
+        generateChartFromUrl(`/api/server?${serverId}`);
