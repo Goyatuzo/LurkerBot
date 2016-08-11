@@ -55,7 +55,7 @@ export function getTimesFromUser(userId: string, callback) {
                             FROM Immutable.Times T JOIN Users U
                             ON T.id = U.id
                             WHERE U.id = ${userId}
-                            GROUP BY gameName`;
+                            GROUP BY gameName ORDER BY duration DESC`;
 
     _runQueryNoParams(stmt, callback);
 }
