@@ -49,7 +49,7 @@
     <Content Include="typings\globals\jquery\typings.json" />
     <Content Include="typings\globals\lodash\typings.json" />
     <Content Include="typings\globals\mysql\typings.json" />
-    <Content Include="views\server.jade" />
+    <Content Include="views\query.jade" />
     <Content Include="Web.config" />
     <None Include="Web.Debug.config" />
     <TypeScriptCompile Include="api\connection.ts" />

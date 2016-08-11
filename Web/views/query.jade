@@ -1,0 +1,13 @@
+﻿extends layout
+
+block content
+    div(id="container" style="min-width: 310px; max-width: 1500px; height: 2500px; margin: 0 auto")
+
+    script(src="/javascripts/chart-generate.js")
+    script.
+        const params = window.location.search.replace("?", "");
+        if (params.indexOf('serverId') > -1) {
+            generateChartFromUrl(`/api/server?${params}`);
+        } else if (params.indexOf('userId') > -1) {
+            generateChartFromUrl(`/api/user?${params}`);
+        }

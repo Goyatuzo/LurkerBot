@@ -1,9 +1,0 @@
-﻿extends layout
-
-block content
-    div(id="container" style="min-width: 310px; max-width: 1500px; height: 2500px; margin: 0 auto")
-
-    script(src="/javascripts/chart-generate.js")
-    script.
-        const serverId = window.location.search.replace("?", "");
-        generateChartFromUrl(`/api/server?${serverId}`);
