@@ -45,7 +45,7 @@
     <TypeScriptCompile Include="test\game-timer.test.ts" />
     <TypeScriptCompile Include="test\stats.test.ts" />
     <TypeScriptCompile Include="tools\bots.ts" />
-    <TypeScriptCompile Include="tools\game_timer.ts" />
+    <TypeScriptCompile Include="tools\stats\game_timer.ts" />
     <TypeScriptCompile Include="tools\user_methods.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
     <TypeScriptCompile Include="handlers\events\message.ts" />

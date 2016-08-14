@@ -7,7 +7,7 @@ import * as _ from "lodash";
 
 // The Times table to store the times.
 connection.query(`
-    CREATE TABLE IF NOT EXISTS Immutable.Times (
+    CREATE TABLE IF NOT EXISTS Times (
         id          VARCHAR(25) NOT NULL,
         endTime     DATETIME    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
         gameName    VARCHAR(45) NOT NULL,
@@ -23,7 +23,7 @@ connection.query(`
 export function writeNewTimeRow(user: User, duration: number) {
     const game = UserMethods.getGameName(user);
 
-    const stmt = `INSERT INTO Immutable.Times (id, gameName, duration) VALUES (${user.id}, ?, ${duration})`;
+    const stmt = `INSERT INTO Times (id, gameName, duration) VALUES (${user.id}, ?, ${duration})`;
     const prepared = mysql.format(stmt, [game]);
 
     connection.query(prepared, (err, results) => {
@@ -44,7 +44,7 @@ export function getDurationSum(users: Array<User>, callback: (results: any) => a
     const userIds = users.map(user => user.id);
     const idString = _.join(userIds, ", ");
 
-    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Immutable.Times WHERE ID in (${idString}) GROUP BY gameName`;
+    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Times WHERE ID in (${idString}) GROUP BY gameName`;
 
     connection.query(stmt, (err, results) => {
         if (err) {
@@ -65,7 +65,7 @@ export function getDurationSumTimeSorted(users: Array<User>, callback: (results:
     const userIds = users.map(user => user.id);
     const idString = _.join(userIds, ", ");
 
-    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Immutable.Times WHERE ID in (${idString}) GROUP BY gameName ORDER BY duration DESC`;
+    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Times WHERE ID in (${idString}) GROUP BY gameName ORDER BY duration DESC`;
 
     connection.query(stmt, (err, results) => {
         if (err) {

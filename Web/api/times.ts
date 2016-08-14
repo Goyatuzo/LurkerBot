@@ -38,7 +38,7 @@ export function getTimesByUser(callback) {
  */
 export function getTimesFromServer(serverId: string, callback) {
     const stmt: string = `SELECT U.name, D.gameName, D.duration FROM (SELECT T.id, T.gameName, SUM(T.duration) AS duration
-                            FROM Immutable.Times T
+                            FROM Times T
                             WHERE T.id IN (SELECT userId from ServersToUsers WHERE serverId = ${serverId}) GROUP BY T.gameName, T.id ORDER BY T.gameName) as D
                             JOIN Users U ON D.id = U.id ORDER BY D.gameName`;
 
@@ -52,7 +52,7 @@ export function getTimesFromServer(serverId: string, callback) {
  */
 export function getTimesFromUser(userId: string, callback) {
     const stmt: string = `SELECT U.name, gameName, SUM(duration) AS duration
-                            FROM Immutable.Times T JOIN Users U
+                            FROM Times T JOIN Users U
                             ON T.id = U.id
                             WHERE U.id = ${userId}
                             GROUP BY gameName ORDER BY duration DESC`;
