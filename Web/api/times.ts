@@ -59,3 +59,24 @@ export function getTimesFromUser(userId: string, callback) {
 
     _runQueryNoParams(stmt, callback);
 }
+
+/**
+ * Get the list of servers with the ID and the name.
+ * @param callback
+ */
+export function getServerList(callback) {
+    const stmt: string = `SELECT id, name FROM Servers`;
+
+    _runQueryNoParams(stmt, callback);
+}
+
+/**
+ * Get the complete list of users associated with the input serverId.
+ * @param {string} serverId The id of the server to retrieve the list of users from.
+ * @param callback
+ */
+export function getAllUsers(serverId: string, callback) {
+    const stmt: string = `SELECT id, name FROM Users`;
+
+    _runQueryNoParams(stmt, callback);
+}

@@ -36,16 +36,19 @@
     }).done(response => {
         response = JSON.parse(response);
 
+        const uniqueGames = _getUniqueGames(response);
+
         $(function () {
             $('#container').highcharts({
                 chart: {
-                    type: 'bar'
+                    type: 'bar',
+                    height: uniqueGames.length * 30
                 },
                 title: {
                     text: 'Complete Summary of LurkerBot'
                 },
                 xAxis: {
-                    categories: _getUniqueGames(response)
+                    categories: uniqueGames
                 },
                 yAxis: {
                     min: 0,
