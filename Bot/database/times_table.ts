@@ -8,7 +8,6 @@ import * as _ from "lodash";
 // The Times table to store the times.
 connection.query(`
     CREATE TABLE IF NOT EXISTS Times (
-        id          INT         NOT NULL PRIMARY KEY AUTO_INCREMENT
         userId          VARCHAR(25) NOT NULL,
         endTime     DATETIME    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
         gameName    VARCHAR(45) NOT NULL,
