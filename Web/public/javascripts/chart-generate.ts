@@ -37,6 +37,7 @@
         response = JSON.parse(response);
 
         const uniqueGames = _getUniqueGames(response);
+        const uniqueNames = _getUniqueNames(response);
 
         $(function () {
             $('#container').highcharts({
@@ -45,7 +46,7 @@
                     height: uniqueGames.length * 30 + 150
                 },
                 title: {
-                    text: `Complete Summary of ${response[0].name ? response[0].name : 'LurkerBot'}`
+                    text: `Complete Summary of ${uniqueNames.length === 1 ? response[0].name : 'LurkerBot'}`
                 },
                 xAxis: {
                     categories: uniqueGames
