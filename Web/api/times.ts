@@ -1,6 +1,17 @@
 ﻿import connection from './connection';
 import ITime from '../classes/i-times';
 
+// Create a VIEW to be used for queries.
+connection.query(`
+    CREATE OR REPLACE VIEW UserTimes AS
+        SELECT 
+            U.name, T.gameName, T.duration
+        FROM
+            Times T
+                JOIN
+            Users U ON T.id = U.id
+`);
+
 /**
  * Since code that runs the query seems to be duplicated in each function that's exported in this file, it is a
  * helper function now to help ease file size.
@@ -24,8 +35,8 @@ function _runQueryNoParams(query: string, callback) {
  */
 export function getTimesByUser(callback) {
     const stmt: string = `SELECT U.name, T.gameName, SUM(T.duration) AS duration
-                            FROM Immutable.Times T
-                            JOIN Users U ON T.userId = U.userId GROUP BY T.gameName, U.name ORDER BY T.gameName`;
+                            FROM Times T
+                            JOIN Users U ON T.id = U.id GROUP BY T.gameName, U.name ORDER BY T.gameName`;
 
     const start: Date = new Date();
     _runQueryNoParams(stmt, callback);
@@ -37,10 +48,10 @@ export function getTimesByUser(callback) {
  * @param callback
  */
 export function getTimesFromServer(serverId: string, callback) {
-    const stmt: string = `SELECT U.name, D.gameName, D.duration FROM (SELECT T.userId, T.gameName, SUM(T.duration) AS duration
+    const stmt: string = `SELECT U.name, D.gameName, D.duration FROM (SELECT T.id, T.gameName, SUM(T.duration) AS duration
                             FROM Times T
-                            WHERE T.userId IN (SELECT userId from ServersToUsers WHERE serverId = ${serverId}) GROUP BY T.gameName, T.userId ORDER BY T.gameName) as D
-                            JOIN Users U ON D.userId = U.id ORDER BY D.gameName`;
+                            WHERE T.id IN (SELECT userId from ServersToUsers WHERE serverId = ${serverId}) GROUP BY T.gameName, T.id ORDER BY T.gameName) as D
+                            JOIN Users U ON D.id = U.id ORDER BY D.gameName`;
 
     _runQueryNoParams(stmt, callback);
 }
@@ -51,10 +62,8 @@ export function getTimesFromServer(serverId: string, callback) {
  * @param callback
  */
 export function getTimesFromUser(userId: string, callback) {
-    const stmt: string = `SELECT U.name, gameName, SUM(duration) AS duration
-                            FROM Times T JOIN Users U
-                            ON T.userId = U.id
-                            WHERE U.id = ${userId}
+    const stmt: string = `SELECT name, gameName, SUM(duration) AS duration
+                            FROM UserTimes
                             GROUP BY gameName ORDER BY duration DESC`;
 
     _runQueryNoParams(stmt, callback);

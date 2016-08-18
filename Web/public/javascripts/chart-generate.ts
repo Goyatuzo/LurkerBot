@@ -42,10 +42,10 @@
             $('#container').highcharts({
                 chart: {
                     type: 'bar',
-                    height: uniqueGames.length * 30
+                    height: uniqueGames.length * 30 + 150
                 },
                 title: {
-                    text: 'Complete Summary of LurkerBot'
+                    text: `Complete Summary of ${response[0].name ? response[0].name : 'LurkerBot'}`
                 },
                 xAxis: {
                     categories: uniqueGames
