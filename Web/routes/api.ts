@@ -4,9 +4,17 @@
 import express = require('express');
 
 import * as Times from '../api/times';
+import ITime from '../classes/i-times';
+
+var summaryCache: Array<ITime>;
 
 export function getSummaryByUser(req: express.Request, res: express.Response) {
+    if (summaryCache) {
+        res.json(JSON.stringify(summaryCache));
+    }
+
     Times.getTimesByUser(result => {
+        summaryCache = result;
         res.json(JSON.stringify(result));
     });
 };
