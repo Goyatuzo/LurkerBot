@@ -37,6 +37,7 @@ export default function (message: Message) {
         
         getDurationSumTimeSorted(userIds, results => {
             client.sendMessage(message.channel, _formatResults(results));
+            client.sendMessage(message.channel, `Visit http://lurkerbot.azurewebsites.net/query?serverId=${message.server.id} for a graphical summary.`);
         });
     }
 }
