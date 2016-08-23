@@ -26,12 +26,15 @@ export function writeNewTimeRow(user: User, duration: number) {
     const stmt = `INSERT INTO Times (id, gameName, duration) VALUES (${user.id}, ?, ${duration})`;
     const prepared = mysql.format(stmt, [game]);
 
+    const begin = +(new Date());
+
     connection.query(prepared, (err, results) => {
         if (err) {
             console.log(err);
             return;
         }
 
+        console.log(`TIME INSERT query took: ${(+(new Date()) - begin) / 1000} seconds`);
         console.log(`Saving stats for ${UserMethods.getUniqueUsername(user)} playing ${game} for ${duration}`);
     });
 }
@@ -46,12 +49,15 @@ export function getDurationSum(users: Array<User>, callback: (results: any) => a
 
     const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Times WHERE id in (${idString}) GROUP BY gameName`;
 
+    const begin = +(new Date());
+
     connection.query(stmt, (err, results) => {
         if (err) {
             console.log(err);
             return;
         }
 
+        console.log(`TOTAL SUM query took: ${(+(new Date()) - begin) / 1000} seconds`);
         callback(results);
     });
 }
@@ -67,12 +73,14 @@ export function getDurationSumTimeSorted(users: Array<User>, callback: (results:
 
     const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Times WHERE id in (${idString}) GROUP BY gameName ORDER BY duration DESC`;
 
+    const begin = +(new Date());
+
     connection.query(stmt, (err, results) => {
         if (err) {
             console.log(err);
             return;
         }
-
+        console.log(`TOTAL SUM SORTED BY TIME query took: ${(+(new Date()) - begin) / 1000} seconds`);
         callback(results);
     });
 }
