@@ -19,7 +19,7 @@ function _formatResults(results) {
     let summary = "";
 
     results.map(row => {
-        summary += `${row.name}\n - ${_stringifyTime(row.duration) }\n`;
+        summary += `${row.name}\n - ${_stringifyTime(row.duration)}\n`;
     });
     return summary;
 }
@@ -32,11 +32,17 @@ export default function (message: Message) {
     if (tokens.length === 0) {
         const users = (message.channel as TextChannel).server.members;
         const userIds = users.map(user => user);
-        
+
         getDurationSumTimeSorted(userIds, results => {
-            client.sendMessage(message.channel, `Visit http://lurkerbot.azurewebsites.net/query?serverId=${message.server.id} for a graphical summary.`);
+            client.sendMessage(message.channel, `Visit http://lurkerbot.azurewebsites.net/query?serverId=${message.server.id} for a graphical summary.`, (error: Error) => {
+                console.log("Error sending a message:");
+                console.log(error);
+            });
         });
     } else if (tokens[0] === "me") {
-        client.sendMessage(message.channel, `Visit http://lurkerbot.azurewebsites.net/query?userId=${message.author.id} for a graphical summary.`);
+        client.sendMessage(message.channel, `Visit http://lurkerbot.azurewebsites.net/query?userId=${message.author.id} for a graphical summary.`, (error: Error) => {
+            console.log("Error sending a message:");
+            console.log(error);
+        });
     }
 }
