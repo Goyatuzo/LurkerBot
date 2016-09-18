@@ -8,7 +8,7 @@ export default function (message: Message) {
     let msg = message.cleanContent;
 
     if (_.startsWith(msg, "stats")) {
-        console.log(`Stats summary requested on ${(message.channel as TextChannel).server.name}`);
+        console.log(`Stats summary requested on ${(message.channel as TextChannel).guild.name}`);
         statsMessageHandler(message);
     }
 }

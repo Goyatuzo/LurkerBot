@@ -30,17 +30,12 @@ export default function (message: Message) {
 
     // If the user only requests stats, then print out the server's stats.
     if (tokens.length === 0) {
-        const users = (message.channel as TextChannel).server.members;
-        const userIds = users.map(user => user);
-
-        getDurationSumTimeSorted(userIds, results => {
-            client.sendMessage(message.channel, `Visit http://lurkerbot.azurewebsites.net/query?serverId=${message.server.id} for a graphical summary.`, (error: Error) => {
-                console.log("Error sending a message:");
-                console.log(error);
-            });
+        message.channel.sendMessage(`Visit http://lurkerbot.azurewebsites.net/query?serverId=${message.guild.id} for a graphical summary.`, (error: Error) => {
+            console.log("Error sending a message:");
+            console.log(error);
         });
     } else if (tokens[0] === "me") {
-        client.sendMessage(message.channel, `Visit http://lurkerbot.azurewebsites.net/query?userId=${message.author.id} for a graphical summary.`, (error: Error) => {
+        message.channel.sendMessage(`Visit http://lurkerbot.azurewebsites.net/query?userId=${message.author.id} for a graphical summary.`, (error: Error) => {
             console.log("Error sending a message:");
             console.log(error);
         });

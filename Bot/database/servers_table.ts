@@ -1,4 +1,4 @@
-﻿import {Server} from "discord.js";
+﻿import {Guild} from "discord.js";
 import * as mysql from "mysql";
 
 import connection from "../database/connection";
@@ -29,7 +29,7 @@ connection.query(`
  * Update or push in a new server object to the SQL database.
  * @param server
  */
-export function updateServer(server: Server) {
+export function updateServer(server: Guild) {
     const stmt = `INSERT INTO Servers (id, name, region, icon) VALUES (?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
                         name=?, region=?, icon=?`;
@@ -46,8 +46,8 @@ export function updateServer(server: Server) {
  * Update the mapping for the users list on a server.
  * @param server
  */
-export function updateServerUserMap(server: Server) {
-    const userIds = _.map(server.members, user => user.id);
+export function updateServerUserMap(server: Guild) {
+    const userIds = _.map(server.members.array(), user => user.id);
     const serverId = server.id;
 
     const stmt = `INSERT INTO ServersToUsers (id, serverId, userId) VALUES (?, ?, ?)

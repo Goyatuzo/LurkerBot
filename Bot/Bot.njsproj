@@ -47,6 +47,7 @@
     <TypeScriptCompile Include="tools\bots.ts" />
     <TypeScriptCompile Include="tools\stats\game_timer.ts" />
     <TypeScriptCompile Include="tools\user_methods.ts" />
+    <TypeScriptCompile Include="typings\globals\discord.js\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
     <TypeScriptCompile Include="handlers\events\message.ts" />
     <TypeScriptCompile Include="handlers\events\presence.ts" />
@@ -54,7 +55,6 @@
     <TypeScriptCompile Include="tools\stats\game_tracker.ts" />
     <TypeScriptCompile Include="tools\stats\stats.ts" />
     <Content Include="typings\globals\discord.js\typings.json" />
-    <TypeScriptCompile Include="typings\globals\discord.js\index.d.ts" />
     <Content Include="typings\globals\mocha\typings.json" />
     <TypeScriptCompile Include="typings\globals\mocha\index.d.ts" />
     <Content Include="typings\globals\mysql\typings.json" />
@@ -80,7 +80,7 @@
     <Folder Include="tools\stats" />
     <Folder Include="typings" />
     <Folder Include="typings\globals" />
-    <Folder Include="typings\globals\discord.js" />
+    <Folder Include="typings\globals\discord.js\" />
     <Folder Include="typings\globals\mocha" />
     <Folder Include="typings\globals\mysql" />
     <Folder Include="typings\globals\node-4" />
