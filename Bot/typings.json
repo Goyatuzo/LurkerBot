@@ -8,6 +8,7 @@
   "dependencies": {
     "chai": "registry:npm/chai#3.5.0+20160723033700",
     "lodash": "registry:npm/lodash#4.0.0+20160723033700",
-    "mkdirp": "registry:npm/mkdirp#0.5.0+20160723033700"
+    "mkdirp": "registry:npm/mkdirp#0.5.0+20160723033700",
+    "universal-analytics": "registry:npm/universal-analytics#0.3.10+20160723033700"
   }
 }

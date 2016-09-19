@@ -5,3 +5,4 @@
 /// <reference path="modules/chai/index.d.ts" />
 /// <reference path="modules/lodash/index.d.ts" />
 /// <reference path="modules/mkdirp/index.d.ts" />
+/// <reference path="modules/universal-analytics/index.d.ts" />

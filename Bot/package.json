@@ -16,7 +16,8 @@
     "gulp-typescript": "^2.13.6",
     "lodash": "^4.15.0",
     "mkdirp": "*",
-    "mysql": "2.11.1"
+    "mysql": "2.11.1",
+    "universal-analytics": "^0.4.6"
   },
   "devDependencies": {
     "chai": "^3.5.0",
