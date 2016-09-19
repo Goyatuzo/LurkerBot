@@ -2,6 +2,9 @@
   "name": "lurkerbot",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "6.6.0"
+  },
   "scripts": {
     "start": "npm install && node build/app.js",
     "test": "npm install && mocha build/test",
