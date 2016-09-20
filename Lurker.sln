@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Web", "Web\Web.njsproj", "{C65CD4D1-D3D6-44FD-A4A0-60479B7122D9}"
-EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Bot", "Bot\Bot.njsproj", "{C10E0B7A-5BC7-4DEA-93D1-C5F2617B7598}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Web", "Web\Web.njsproj", "{C65CD4D1-D3D6-44FD-A4A0-60479B7122D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C65CD4D1-D3D6-44FD-A4A0-60479B7122D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C65CD4D1-D3D6-44FD-A4A0-60479B7122D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C65CD4D1-D3D6-44FD-A4A0-60479B7122D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C65CD4D1-D3D6-44FD-A4A0-60479B7122D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C10E0B7A-5BC7-4DEA-93D1-C5F2617B7598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C10E0B7A-5BC7-4DEA-93D1-C5F2617B7598}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C10E0B7A-5BC7-4DEA-93D1-C5F2617B7598}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C10E0B7A-5BC7-4DEA-93D1-C5F2617B7598}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C65CD4D1-D3D6-44FD-A4A0-60479B7122D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C65CD4D1-D3D6-44FD-A4A0-60479B7122D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C65CD4D1-D3D6-44FD-A4A0-60479B7122D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C65CD4D1-D3D6-44FD-A4A0-60479B7122D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -74,7 +74,6 @@
     <Folder Include="handlers" />
     <Folder Include="handlers\events" />
     <Folder Include="handlers\messages" />
-    <Folder Include="analytics\" />
     <Folder Include="resources" />
     <Folder Include="test" />
     <Folder Include="test\database" />

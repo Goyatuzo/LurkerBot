@@ -4,7 +4,6 @@ import * as mysql from "mysql";
 import connection from "../database/connection";
 import * as UserMethods from "../tools/user_methods";
 import * as _ from "lodash";
-import visitor from '../analytics/analytics';
 
 // The Times table to store the times.
 connection.query(`
@@ -36,8 +35,6 @@ export function writeNewTimeRow(user: User, duration: number) {
                 return;
             }
 
-            visitor.event("Database", "Insert TIME", "TIME INSERT query execution time", (+(new Date()) - begin) / 1000).send();
-
             console.log(`TIME INSERT query took: ${(+(new Date()) - begin) / 1000} seconds`);
             console.log(`Saving stats for ${UserMethods.getUniqueUsername(user)} playing ${game} for ${duration}`);
         });
@@ -63,7 +60,6 @@ export function getDurationSum(users: Array<User>, callback: (results: any) => a
             console.log(err);
             return;
         }
-        visitor.event("Database", "SUM TIMES", "TOTAL SUM query execution time", (+(new Date()) - begin) / 1000).send();
 
         console.log(`TOTAL SUM query took: ${(+(new Date()) - begin) / 1000} seconds`);
         callback(results);
@@ -88,7 +84,6 @@ export function getDurationSumTimeSorted(users: Array<User>, callback: (results:
             console.log(err);
             return;
         }
-        visitor.event("Database", "SUM TIMES SORTED", "TOTAL SUM SORTED query execution time", (+(new Date()) - begin) / 1000).send();
 
         console.log(`TOTAL SUM SORTED BY TIME query took: ${(+(new Date()) - begin) / 1000} seconds`);
         callback(results);
