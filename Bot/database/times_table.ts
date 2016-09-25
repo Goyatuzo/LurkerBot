@@ -28,7 +28,7 @@ export function writeNewTimeRow(user: User, duration: number) {
 
     const begin = +(new Date());
 
-    if (duration > 0) {
+    if (duration > 0 || game.match(/[^\x00-\x7F]*/g) > 0) {
         connection.query(prepared, (err, results) => {
             if (err) {
                 console.log(err);
@@ -39,7 +39,7 @@ export function writeNewTimeRow(user: User, duration: number) {
             console.log(`Saving stats for ${UserMethods.getUniqueUsername(user)} playing ${game} for ${duration}`);
         });
     } else {
-        console.log(`Time was 0 seconds, not adding to database.`);
+        console.log(`Error adding the time. ${game} was played for ${duration} seconds`);
     }
 }
 

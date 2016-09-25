@@ -19,17 +19,19 @@ var connection: mysql.IConnection;
 function _disconnectHandler() {
     connection = mysql.createConnection(connectionDetails);
 
+    console.log("Creating connection to SQL.");
+
     connection.connect(err => {
         if (err) {
             console.log("Error on trying to connect to DB.");
-            console.log(err);
+            console.error(err);
             _disconnectHandler();
         }
     });
 
     connection.on('error', err => {
         console.log("SQL server error.");
-        console.log(err);
+        console.error(err);
         _disconnectHandler();
     });
 }

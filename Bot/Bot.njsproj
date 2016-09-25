@@ -70,6 +70,7 @@
     <TypeScriptCompile Include="typings\modules\mkdirp\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="analytics\" />
     <Folder Include="database" />
     <Folder Include="handlers" />
     <Folder Include="handlers\events" />
