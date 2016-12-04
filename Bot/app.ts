@@ -20,14 +20,15 @@ import messageEvent from "./handlers/events/message";
 var bot = new Discord.Client();
 bot.login(process.env.DISCORD_TOKEN);
 
-const sixHours = 100 * 60 * 60 * 6;
+// 30 minutes
+const deleteInterval = 100 * 60 * 30;
 
 bot.on('ready', event => {
 
     clearDatabase();
     setInterval(() => {
         clearDatabase();
-    }, sixHours);
+    }, deleteInterval);
 
     // We want the name of the servers, but while we're at it, populate the table.
     const serverNames = _.map(bot.guilds.array(), guild => {
