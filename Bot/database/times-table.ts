@@ -4,10 +4,14 @@ import * as mysql from "mysql";
 import connection from "../database/connection";
 import * as UserMethods from "../tools/user_methods";
 import * as _ from "lodash";
+import * as fs from 'fs';
+import { EOL } from 'os';
+
+const tableName = 'Times';
 
 // The Times table to store the times.
 connection.query(`
-    CREATE TABLE IF NOT EXISTS Times (
+    CREATE TABLE IF NOT EXISTS ${tableName} (
         id          VARCHAR(25) NOT NULL,
         endTime     DATETIME    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
         gameName    VARCHAR(45) NOT NULL,
@@ -23,7 +27,7 @@ connection.query(`
 export function writeNewTimeRow(user: User, duration: number) {
     const game = UserMethods.getGameName(user);
 
-    const stmt = `INSERT INTO Times (id, gameName, duration) VALUES (${user.id}, ?, ${duration})`;
+    const stmt = `INSERT INTO ${tableName} (id, gameName, duration) VALUES (${user.id}, ?, ${duration})`;
     const prepared = mysql.format(stmt, [game]);
 
     const begin = +(new Date());
@@ -51,7 +55,7 @@ export function getDurationSum(users: Array<User>, callback: (results: any) => a
     const userIds = users.map(user => user.id);
     const idString = _.join(userIds, ", ");
 
-    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Times WHERE id in (${idString}) GROUP BY gameName`;
+    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM ${tableName} WHERE id in (${idString}) GROUP BY gameName`;
 
     const begin = +(new Date());
 
@@ -75,7 +79,7 @@ export function getDurationSumTimeSorted(users: Array<User>, callback: (results:
     const userIds = users.map(user => user.id);
     const idString = _.join(userIds, ", ");
 
-    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM Times WHERE id in (${idString}) GROUP BY gameName ORDER BY duration DESC`;
+    const stmt = `SELECT gameName AS name, SUM(duration) AS duration FROM ${tableName} WHERE id in (${idString}) GROUP BY gameName ORDER BY duration DESC`;
 
     const begin = +(new Date());
 
@@ -87,5 +91,39 @@ export function getDurationSumTimeSorted(users: Array<User>, callback: (results:
 
         console.log(`TOTAL SUM SORTED BY TIME query took: ${(+(new Date()) - begin) / 1000} seconds`);
         callback(results);
+    });
+}
+
+function generatePreparedTemplateToClearGames(listOfGames: Array<string>): string {
+    let questionMarks = new Array(listOfGames.length + 1).join("?,");
+    questionMarks = questionMarks.slice(0, -1);
+
+    return `(${questionMarks})`;
+}
+
+/**
+ * Clear all database entries that have any of the games listed in the array.
+ * @param listOfGames
+ */
+export function clearDatabase() {
+    fs.readFile('./resources/games-ignored.txt', 'utf8', (err, data) => {
+        if (err) {
+            return (console.log(err));
+        }
+
+        const games = data.split(EOL).map(game => game.trim());
+
+        const stmt = `DELETE FROM ${tableName} WHERE gameName IN ${generatePreparedTemplateToClearGames(games)}`;
+        const prepared = mysql.format(stmt, games);
+        const begin = +(new Date());
+
+        connection.query(prepared, (err, data) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+
+            console.log(`DELETE IGNORED GAMES took: ${(+(new Date()) - begin) / 1000} seconds`);
+        });
     });
 }

@@ -3,8 +3,9 @@ import * as _ from "lodash";
 
 import presenceEvent from "./handlers/events/presence";
 
-import {updateServer, updateServerUserMap} from "./database/servers_table";
-import {updateUser} from "./database/users_table";
+import {updateServer, updateServerUserMap} from "./database/servers-table";
+import {updateUser} from "./database/users-table";
+import {clearDatabase} from "./database/times-table";
 
 import messageEvent from "./handlers/events/message";
 
@@ -19,7 +20,14 @@ import messageEvent from "./handlers/events/message";
 var bot = new Discord.Client();
 bot.login(process.env.DISCORD_TOKEN);
 
+const sixHours = 60 * 60 * 6;
+
 bot.on('ready', event => {
+
+    clearDatabase();
+    setInterval(() => {
+        clearDatabase();
+    }, sixHours);
 
     // We want the name of the servers, but while we're at it, populate the table.
     const serverNames = _.map(bot.guilds.array(), guild => {

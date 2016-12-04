@@ -3,7 +3,7 @@ import * as UserMethods from "../user_methods";
 
 import stats from "../stats/stats";
 
-import {writeNewTimeRow} from "../../database/times_table";
+import {writeNewTimeRow} from "../../database/times-table";
 
 /**
  * When the user starts playing a game, call this function.

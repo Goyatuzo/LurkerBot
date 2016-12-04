@@ -33,15 +33,16 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
+    <Content Include="resources\games-ignored.txt" />
     <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
     <TypeScriptCompile Include="analytics\analytics.ts" />
     <TypeScriptCompile Include="app.ts" />
     <Compile Include="gulpfile.js" />
     <TypeScriptCompile Include="database\connection.ts" />
-    <TypeScriptCompile Include="database\servers_table.ts" />
-    <TypeScriptCompile Include="database\times_table.ts" />
-    <TypeScriptCompile Include="database\users_table.ts" />
+    <TypeScriptCompile Include="database\servers-table.ts" />
+    <TypeScriptCompile Include="database\times-table.ts" />
+    <TypeScriptCompile Include="database\users-table.ts" />
     <Content Include="resources\bots.txt" />
     <TypeScriptCompile Include="test\game-timer.test.ts" />
     <TypeScriptCompile Include="test\stats.test.ts" />
