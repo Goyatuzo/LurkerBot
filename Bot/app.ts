@@ -20,7 +20,7 @@ import messageEvent from "./handlers/events/message";
 var bot = new Discord.Client();
 bot.login(process.env.DISCORD_TOKEN);
 
-const sixHours = 60 * 60 * 6;
+const sixHours = 100 * 60 * 60 * 6;
 
 bot.on('ready', event => {
 
