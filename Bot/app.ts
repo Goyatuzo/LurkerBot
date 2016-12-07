@@ -21,7 +21,7 @@ var bot = new Discord.Client();
 bot.login(process.env.DISCORD_TOKEN);
 
 // 30 minutes
-const deleteInterval = 100 * 60 * 30;
+const deleteInterval = 1000 * 60 * 30;
 
 bot.on('ready', event => {
 
