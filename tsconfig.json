@@ -10,7 +10,8 @@
   },
   "exclude": [
     "node_modules",
-    "wwwroot"
+    "wwwroot",
+    "models"
   ],
   "compileOnSave": true
 }

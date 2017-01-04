@@ -8,12 +8,13 @@
   "scripts": {
     "start": "node ./node_modules/typescript/bin/tsc && node ./app.js",
     "test": "npm install && mocha test",
-    "postinstall": "node ./node_modules/typescript/bin/tsc"
+    "postinstall": "cd models && npm install && cd .. && node ./node_modules/typescript/bin/tsc"
   },
   "dependencies": {
     "discord.js": "^9.2.0",
     "lodash": "^4.15.0",
-    "mkdirp": "*"
+    "mkdirp": "*",
+    "typescript": "^2.1.4"
   },
   "devDependencies": {
     "chai": "^3.5.0",
