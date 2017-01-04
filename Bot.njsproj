@@ -35,10 +35,8 @@
     <Content Include="package.json" />
     <Content Include="resources\games-ignored.txt" />
     <Content Include="tsconfig.json" />
-    <Content Include="typings.json" />
     <TypeScriptCompile Include="analytics\analytics.ts" />
     <TypeScriptCompile Include="app.ts" />
-    <Compile Include="gulpfile.js" />
     <TypeScriptCompile Include="database\connection.ts" />
     <TypeScriptCompile Include="database\servers-table.ts" />
     <TypeScriptCompile Include="database\times-table.ts" />
@@ -49,7 +47,6 @@
     <TypeScriptCompile Include="tools\bots.ts" />
     <TypeScriptCompile Include="tools\stats\game_timer.ts" />
     <TypeScriptCompile Include="tools\user_methods.ts" />
-    <TypeScriptCompile Include="typings\globals\discord.js\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
     <TypeScriptCompile Include="handlers\events\message.ts" />
     <TypeScriptCompile Include="handlers\events\presence.ts" />
@@ -81,9 +78,6 @@
     <Folder Include="test\database" />
     <Folder Include="tools" />
     <Folder Include="tools\stats" />
-    <Folder Include="typings" />
-    <Folder Include="typings\globals" />
-    <Folder Include="typings\globals\discord.js\" />
     <Folder Include="typings\globals\mocha" />
     <Folder Include="typings\globals\mysql" />
     <Folder Include="typings\globals\node-4" />
