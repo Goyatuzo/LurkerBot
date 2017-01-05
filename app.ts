@@ -1,12 +1,10 @@
 ﻿import * as Discord from "discord.js";
 import * as _ from "lodash";
 
+import { createConnection } from './models';
+
+import readyEvent from './handlers/events/ready';
 import presenceEvent from "./handlers/events/presence";
-
-import {updateServer, updateServerUserMap} from "./database/servers-table";
-import {updateUser} from "./database/users-table";
-import {clearDatabase} from "./database/times-table";
-
 import messageEvent from "./handlers/events/message";
 
 /**
@@ -18,34 +16,17 @@ import messageEvent from "./handlers/events/message";
  */
 
 var bot = new Discord.Client();
-bot.login(process.env.DISCORD_TOKEN);
 
-// 30 minutes
-const deleteInterval = 1000 * 60 * 30;
+createConnection().then(connection => {
+    console.log("DB synced.");
 
-bot.on('ready', event => {
+    bot.login(process.env.DISCORD_TOKEN);
 
-    clearDatabase();
-    setInterval(() => {
-        clearDatabase();
-    }, deleteInterval);
+    // 30 minutes
+    const deleteInterval = 1000 * 60 * 30;
 
-    // We want the name of the servers, but while we're at it, populate the table.
-    const serverNames = _.map(bot.guilds.array(), guild => {
-        // Iterate through the list of servers, and add each one to the database.
-        updateServer(guild);
+    bot.on('ready', readyEvent(bot));
 
-        // Update the server to user mappings.
-        updateServerUserMap(guild);
-
-        const users = guild.members.array().map(member => member.user);
-        // Add all the users to the database.
-        _.map(users, user => updateUser(user));
-        
-        return guild.name;
-    });
-    console.log("Servers: " + _.join(serverNames, ", "));
-});
-
-bot.on('presenceUpdate', presenceEvent);
-bot.on('message', messageEvent);
+    bot.on('presenceUpdate', presenceEvent);
+    bot.on('message', messageEvent);
+}).catch(err => console.error(err));
