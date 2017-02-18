@@ -1,0 +1,8 @@
+{
+  "globalDependencies": {
+    "highcharts": "registry:dt/highcharts#4.2.5+20160728213258",
+    "jquery": "registry:dt/jquery#1.10.0+20160704162008",
+    "lodash": "registry:dt/lodash#4.14.0+20160802150749",
+    "mysql": "registry:dt/mysql#0.0.0+20160316155526"
+  }
+}
