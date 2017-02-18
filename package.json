@@ -16,7 +16,7 @@
     "@types/mkdirp": "^0.3.29",
     "@types/mocha": "^2.2.35",
     "@types/node": "^6.0.56",
-    "discord.js": "^11.0.0",
+    "discord.js": "^9.2.0",
     "lodash": "^4.15.0",
     "mkdirp": "*",
     "typescript": "^2.1.4"

@@ -15,7 +15,7 @@ export function getUniqueUsername(user: User) {
  * @param user
  */
 export function getGameName(user: User) {
-    const game = user.presence.game;
+    const game = user.game;
 
     if (game) {
         return game.name;

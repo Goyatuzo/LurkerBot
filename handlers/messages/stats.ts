@@ -1,6 +1,8 @@
 ﻿import {Message, Client, TextChannel} from "discord.js";
 import * as _ from "lodash";
 
+import {getDurationSumTimeSorted} from "../../database/times-table";
+
 function _stringifyTime(seconds) {
     const m = Math.floor(seconds / 60);
     const secs = seconds % 60;

@@ -32,23 +32,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
-    <Content Include="models\.gitignore" />
-    <Content Include="models\LICENSE" />
-    <Content Include="models\LurkerDb.njsproj" />
-    <Content Include="models\package.json" />
-    <Content Include="models\tsconfig.json" />
     <Content Include="package.json" />
     <Content Include="resources\games-ignored.txt" />
     <Content Include="tsconfig.json" />
+    <TypeScriptCompile Include="analytics\analytics.ts" />
     <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="database\connection.ts" />
+    <TypeScriptCompile Include="database\servers-table.ts" />
     <TypeScriptCompile Include="database\times-table.ts" />
     <TypeScriptCompile Include="database\users-table.ts" />
     <Content Include="resources\bots.txt" />
-    <TypeScriptCompile Include="handlers\events\ready.ts" />
-    <TypeScriptCompile Include="models\index.ts" />
-    <TypeScriptCompile Include="models\models\server.ts" />
-    <TypeScriptCompile Include="models\models\time.ts" />
-    <TypeScriptCompile Include="models\models\user.ts" />
     <TypeScriptCompile Include="test\game-timer.test.ts" />
     <TypeScriptCompile Include="test\stats.test.ts" />
     <TypeScriptCompile Include="tools\bots.ts" />
@@ -60,6 +53,7 @@
     <TypeScriptCompile Include="handlers\messages\stats.ts" />
     <TypeScriptCompile Include="tools\stats\game_tracker.ts" />
     <TypeScriptCompile Include="tools\stats\stats.ts" />
+    <Content Include="typings\globals\discord.js\typings.json" />
     <Content Include="typings\globals\mocha\typings.json" />
     <TypeScriptCompile Include="typings\globals\mocha\index.d.ts" />
     <Content Include="typings\globals\mysql\typings.json" />
@@ -74,18 +68,16 @@
     <TypeScriptCompile Include="typings\modules\mkdirp\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="analytics\" />
+    <Folder Include="database" />
     <Folder Include="handlers" />
     <Folder Include="handlers\events" />
     <Folder Include="handlers\messages" />
-    <Folder Include="models\" />
-    <Folder Include="models\models\" />
     <Folder Include="resources" />
     <Folder Include="test" />
     <Folder Include="test\database" />
     <Folder Include="tools" />
     <Folder Include="tools\stats" />
-    <Folder Include="typings\" />
-    <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\mocha" />
     <Folder Include="typings\globals\mysql" />
     <Folder Include="typings\globals\node-4" />

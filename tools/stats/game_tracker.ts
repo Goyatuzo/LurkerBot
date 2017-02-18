@@ -3,6 +3,7 @@ import * as UserMethods from "../user_methods";
 
 import stats from "../stats/stats";
 
+import {writeNewTimeRow} from "../../database/times-table";
 
 /**
  * When the user starts playing a game, call this function.
@@ -30,7 +31,7 @@ function endLogging(user: User, game: string) {
     }
 
     // If a valid number of seconds, be sure to add it to the database.
-    //writeNewTimeRow(user, seconds);
+    writeNewTimeRow(user, seconds);
 }
 
 export default function (before: User, after: User) {
