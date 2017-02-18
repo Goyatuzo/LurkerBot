@@ -6,14 +6,17 @@
     "node": "6.6.0"
   },
   "scripts": {
-    "start": "node ./node_modules/typescript/bin/tsc && node ./app.js",
-    "test": "npm install && mocha test",
-    "postinstall": "node ./node_modules/typescript/bin/tsc"
+    "start": "npm install && node build/app.js",
+    "test": "npm install && mocha build/test",
+    "postinstall": "gulp default"
   },
   "dependencies": {
     "discord.js": "^9.2.0",
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^2.13.6",
     "lodash": "^4.15.0",
-    "mkdirp": "*"
+    "mkdirp": "*",
+    "mysql": "2.11.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
