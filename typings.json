@@ -1,0 +1,13 @@
+{
+  "globalDependencies": {
+    "discord.js": "https://gist.githubusercontent.com/oorooroot/091e392cdc45a995b2fade876980c0cd/raw/32440654ff766612dfcbdb1e01b9b9ee4d43a267/discord.js.d.ts",
+    "mocha": "registry:env/mocha#2.2.5+20160723033700",
+    "mysql": "registry:dt/mysql#0.0.0+20160316155526",
+    "node-4": "registry:dt/node-4#4.0.0+20160720000508"
+  },
+  "dependencies": {
+    "chai": "registry:npm/chai#3.5.0+20160723033700",
+    "lodash": "registry:npm/lodash#4.0.0+20160723033700",
+    "mkdirp": "registry:npm/mkdirp#0.5.0+20160723033700"
+  }
+}
