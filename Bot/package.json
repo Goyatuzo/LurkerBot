@@ -6,7 +6,7 @@
     "node": "6.6.0"
   },
   "scripts": {
-    "start": "tsc && node app.js",
+    "start": "npm install && tsc && node app.js",
     "test": "tsc && mocha --recursive"
   },
   "dependencies": {
