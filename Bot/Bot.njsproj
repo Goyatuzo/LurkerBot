@@ -52,6 +52,8 @@
     <TypeScriptCompile Include="tools\bots.ts" />
     <TypeScriptCompile Include="tools\ftp\connect.ts" />
     <TypeScriptCompile Include="tools\interfaces\IStorage.ts" />
+    <TypeScriptCompile Include="tools\minecraft\causes-of-death.ts" />
+    <TypeScriptCompile Include="tools\minecraft\ftp-connect.ts" />
     <TypeScriptCompile Include="tools\minecraft\storage.ts" />
     <TypeScriptCompile Include="tools\stats\game_timer.ts" />
     <TypeScriptCompile Include="tools\user_methods.ts" />

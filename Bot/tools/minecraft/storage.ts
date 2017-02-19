@@ -1,129 +1,84 @@
-﻿const causesOfDeath = [
-    // Arrows
-    /was show by arrow/,
-    /was shot by \w*/,
-    /was shot by \w* using \w*/,
-    // Cactus
-    /was pricked to death/,
-    /walked into a cactus while trying to escape \w*/,
-    // Drowning
-    /drowned/,
-    /drowned whilst trying to escape \w*/,
-    // Eleytra
-    /experienced kinetic energy/,
-    // Explosion,
-    /blew up/,
-    /was blown up by \w*/,
-    // Falling
-    /hit the ground too hard/,
-    /fell from a high place/,
-    /fell from a ladder/,
-    /fell off some vines/,
-    /fell out of the water/,
-    /fell into a patch of fire/,
-    /fell into a patch of cacti/,
-    /was doomed to fall by \w*/,
-    /was shot off some vines by \w*/,
-    /was shot off a ladder by \w*/,
-    /was blown from a high place by \w*/,
-    // Falling blocks,
-    /was squashed by a falling \w*/,
-    // Fire
-    /went up in flames/,
-    /burned to death/,
-    /was burnt to a crisp whilst fighting \w*/,
-    /walked into a fire whilst fighting \w*/,
-    // Lava
-    /tried to swim in lava/,
-    /tried to swim in lava while trying to escape \w*/,
-    // Lightning,
-    /was struck by lightning/,
-    // Magma Block,
-    /discovered floor was lava/,
-    // Players and mobs
-    /was slain by \w*/,
-    /was slain \w* using \*/,
-    /got finished off by \w*/,
-    /got finished off by \w* using \w*/,
-    /was fireballed by \w*/,
-    // Potions of harming
-    /was killed by magic/,
-    /was killed by \w* using magic/,
-    // Starvation
-    /starved to death/,
-    // Suffocation
-    /suffocated in a wall/,
-    /was squished too much/,
-    // Thorns enchantment
-    /was killed while trying to hurt \w*/,
-    // Void
-    /fell out of the world/,
-    /fell from a high place and fell out of the world/,
-    // Wither
-    /withered away/,
-    // Other
-    /was pummeled by \w*/,
-    /died/
-];
+﻿import * as moment from 'moment';
+import causesOfDeath from './causes-of-death';
+
 
 export interface DeathDTO {
     playerName: string;
-    causes: Array<string>;
+    entries: Array<ILogLine>;
+}
+
+export interface ILogLine {
+    time: moment.Moment,
+    type: string,
+    text: string
 }
 
 class McDataStore {
-    private deaths: { [player: string]: Array<string> };
+    private deaths: { [player: string]: Array<ILogLine> };
 
     constructor() {
         this.deaths = {};
     }
 
-    private separateTimeFromMessage(line: string): Array<string> {
+    private getLineComponents(line: string): ILogLine {
+        const split = line.split(/\s*\[INFO\] | \[SEVERE\] | \[WARNING\]\s*/g);
+        const type = line.match(/\s*\[INFO\] | \[SEVERE\] | \[WARNING\]\s*/g)[0].toString();
+
+        const time = moment(split[0]);
+        const text = split[1].toString();
+
         // Fix this, because if someone types [INFO], everything will break.
-        return line.split(/\s*\[INFO\] | \[SEVERE\] | \[WARNING\]\s*/g);
+        return {
+            time: time,
+            type: type,
+            text: text
+        };
     }
 
-    private addDeath(player: string, cause: string): void {
+    private addDeath(player: string, lineData: ILogLine): void {
         if (player in this.deaths) {
-            this.deaths[player].push(cause);
+            this.deaths[player].push(lineData);
         } else {
-            this.deaths[player] = [cause];
+            this.deaths[player] = [lineData];
         }
     }
 
-    private processDeath(line: string) {
-        const player = line.match(/^\w*/);
-        const cause = line.replace(/^\w*\s/, '');
+    private processDeath(line: ILogLine) {
+        const player = line.text.match(/^\w*/);
+        const cause = line.text.replace(/^\w*\s/, '');
 
         causesOfDeath.forEach(causeRegEx => {
             if (cause.match(causeRegEx)) {
-                this.addDeath(player[0], cause);
+                this.addDeath(player[0], line);
             }
         });
     }
 
     public processLine(line: string) {
-        const tokens = this.separateTimeFromMessage(line);
+        const components = this.getLineComponents(line);
 
         // Message string.
-        if (tokens[1].match(/^<\w*>/)) {
+        if (components.text.match(/^<\w*>/)) {
 
-        } else if (tokens[1].match(/^\w*/)) {
-            this.processDeath(tokens[1]);
+        } else if (components.text.match(/^\w*/)) {
+            this.processDeath(components);
         } else {
-            console.error(`Cannot process: ${tokens[1]}`);
+            console.error(`Cannot process: ${components.text}`);
         }
     }
 
-    public getDeathsFor(player: string): Array<string> {
-        return this.deaths[player];
+    public getDeathsFor(player: string): DeathDTO {
+        return {
+            playerName: player,
+            entries: this.deaths[player]
+        };
     }
 
     get deathsArray(): Array<DeathDTO> {
         return Object.keys(this.deaths).map(player => {
             return {
                 playerName: player,
-                causes: this.deaths[player]
+                entries: this.deaths[player]
             };
         });
     }

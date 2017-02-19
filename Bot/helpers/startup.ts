@@ -1,4 +1,4 @@
-﻿import McFtp from '../tools/ftp/connect';
+﻿import McFtp from '../tools/minecraft/ftp-connect';
 
 export default class Startup {
     private static checkEnv(name: string): void {
