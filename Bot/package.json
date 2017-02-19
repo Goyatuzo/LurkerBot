@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "npm install && tsc && node app.js",
-    "test": "tsc && mocha --recursive"
+    "test": "npm install && tsc && mocha --recursive"
   },
   "dependencies": {
     "@types/chai": "^3.4.35",
