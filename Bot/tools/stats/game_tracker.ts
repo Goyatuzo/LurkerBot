@@ -1,4 +1,4 @@
-﻿import {User} from "discord.js";
+﻿import { GuildMember} from "discord.js";
 import * as UserMethods from "../user_methods";
 
 import stats from "../stats/stats";
@@ -9,7 +9,7 @@ import {writeNewTimeRow} from "../../database/times-table";
  * When the user starts playing a game, call this function.
  * @param user
  */
-function beginLogging(user: User, game: string) {
+function beginLogging(user: GuildMember, game: string) {
     console.log(`${UserMethods.getUniqueUsername(user)} is now playing ${game}`);
 
     stats.addGame(user, game);
@@ -19,7 +19,7 @@ function beginLogging(user: User, game: string) {
  * When the user stops playing a game, call this function.
  * @param user
  */
-function endLogging(user: User, game: string) {
+function endLogging(user: GuildMember, game: string) {
     console.log(`${UserMethods.getUniqueUsername(user)} stopped playing ${game}`);
 
     const seconds: number = stats.timePlayed(user, game);
@@ -34,7 +34,7 @@ function endLogging(user: User, game: string) {
     writeNewTimeRow(user, seconds);
 }
 
-export default function (before: User, after: User) {
+export default function (before: GuildMember, after: GuildMember) {
     let game: string;
 
     // If the user has a game on before, that means they quit that game.

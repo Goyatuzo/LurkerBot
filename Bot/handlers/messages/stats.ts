@@ -25,16 +25,19 @@ function _formatResults(results) {
 }
 
 export default function (message: Message) {
-    const tokens = _.drop(message.cleanContent.split(" "));
+    const args = message.cleanContent.split(" ");
     const client = message.client;
 
+    // Remove !lurkerbot stats to just parse the args.
+    args.splice(0, 2)
+
     // If the user only requests stats, then print out the server's stats.
-    if (tokens.length === 0) {
+    if (args.length === 0) {
         message.channel.sendMessage(`Visit http://lurkerbot.azurewebsites.net/query?serverId=${message.guild.id} for a graphical summary.`, (error: Error) => {
             console.log("Error sending a message:");
             console.log(error);
         });
-    } else if (tokens[0] === "me") {
+    } else if (args[0] === "me") {
         message.channel.sendMessage(`Visit http://lurkerbot.azurewebsites.net/query?userId=${message.author.id} for a graphical summary.`, (error: Error) => {
             console.log("Error sending a message:");
             console.log(error);

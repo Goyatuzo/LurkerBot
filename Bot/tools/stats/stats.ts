@@ -1,5 +1,5 @@
 ﻿import Timer from "./game_timer";
-import {User} from "discord.js";
+import { GuildMember } from "discord.js";
 import * as UserMethods from "../user_methods";
 
 export interface GameList {
@@ -9,7 +9,7 @@ export interface GameList {
 export class Stats {
     stats: { [userId: string]: GameList } = {};
 
-    private _addUser(user: User) {
+    private _addUser(user: GuildMember) {
         const userId = user.id;
 
         // If the id is not already in stats, create it and give it empty dictionary.
@@ -23,7 +23,7 @@ export class Stats {
      * @param user
      * @param game
      */
-    addGame(user: User, game: string) {
+    addGame(user: GuildMember, game: string) {
         const userId = user.id;
 
         this._addUser(user);
@@ -43,7 +43,7 @@ export class Stats {
      * @param user
      * @param game
      */
-    timePlayed(user: User, game: string) {
+    timePlayed(user: GuildMember, game: string) {
         const userId = user.id;
 
         // If the user is in the stats array, then check to see if the game is as well.
@@ -64,7 +64,7 @@ export class Stats {
      * @param user
      * @param game
      */
-    exists(user: User, game: string) {
+    exists(user: GuildMember, game: string) {
         // If the ID is already being tracked.
         if (user.id in this.stats) {
             const gameList: GameList = this.stats[user.id];
@@ -83,7 +83,7 @@ export class Stats {
      * @param user
      * @param game
      */
-    removeGame(user: User, game: string) {
+    removeGame(user: GuildMember, game: string) {
         if (this.exists(user, game)) {
             delete this.stats[user.id][game];
         }

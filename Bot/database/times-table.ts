@@ -1,4 +1,4 @@
-﻿import {User} from "discord.js";
+﻿import { GuildMember } from "discord.js";
 import * as mysql from "mysql";
 
 import connection from "../database/connection";
@@ -24,7 +24,7 @@ connection.query(`
  * @param user
  * @param duration
  */
-export function writeNewTimeRow(user: User, duration: number) {
+export function writeNewTimeRow(user: GuildMember, duration: number) {
     const game = UserMethods.getGameName(user);
 
     const stmt = `INSERT INTO ${tableName} (id, gameName, duration) VALUES (${user.id}, ?, ${duration})`;
@@ -32,7 +32,7 @@ export function writeNewTimeRow(user: User, duration: number) {
 
     const begin = +(new Date());
 
-    if (duration > 0 || game.match(/[^\x00-\x7F]*/g) > 0) {
+    if (duration > 0 || game.match(/[^\x00-\x7F]*/g).length > 0) {
         connection.query(prepared, (err, results) => {
             if (err) {
                 console.log(err);
@@ -51,7 +51,7 @@ export function writeNewTimeRow(user: User, duration: number) {
  * Get the sum of the duration of all the users passed into the function.
  * @param users
  */
-export function getDurationSum(users: Array<User>, callback: (results: any) => any) {
+export function getDurationSum(users: Array<GuildMember>, callback: (results: any) => any) {
     const userIds = users.map(user => user.id);
     const idString = _.join(userIds, ", ");
 
@@ -75,7 +75,7 @@ export function getDurationSum(users: Array<User>, callback: (results: any) => a
  * @param users
  * @param callback
  */
-export function getDurationSumTimeSorted(users: Array<User>, callback: (results: any) => any) {
+export function getDurationSumTimeSorted(users: Array<GuildMember>, callback: (results: any) => any) {
     const userIds = users.map(user => user.id);
     const idString = _.join(userIds, ", ");
 

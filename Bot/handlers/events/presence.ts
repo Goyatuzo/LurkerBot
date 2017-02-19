@@ -1,4 +1,4 @@
-﻿import {User} from "discord.js";
+﻿import { GuildMember } from "discord.js";
 
 import * as mkdirp from "mkdirp";
 import * as path from "path";
@@ -8,9 +8,9 @@ import gameTracker from "../../tools/stats/game_tracker";
 import * as UserMethods from "../../tools/user_methods";
 import {isBot} from "../../tools/bots";
 
-export default function (before: User, after: User) {
+export default function (before: GuildMember, after: GuildMember) {
     // If either is a bot, then do not process it at all.
-    if (isBot(before) || isBot(after)) {
+    if (isBot(before.user) || isBot(after.user)) {
         console.log(`${UserMethods.getUniqueUsername(before)} is a bot.`);
         return;
     }

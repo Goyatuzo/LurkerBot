@@ -1,4 +1,4 @@
-﻿import {User} from "discord.js";
+﻿import {GuildMember, User} from "discord.js";
 import * as _ from "lodash";
 
 /**
@@ -6,7 +6,11 @@ import * as _ from "lodash";
  * like how the username is dispalyed on Discord.
  * @param user
  */
-export function getUniqueUsername(user: User) {
+export function getUniqueUsername(user: GuildMember | User) {
+    if (user instanceof GuildMember) {
+        user = user.user;
+    }
+
     return user.username + '#' + user.discriminator.toString();
 }
 
@@ -14,8 +18,8 @@ export function getUniqueUsername(user: User) {
  * Get the name of the game the user is playing. Undefined if none exists.
  * @param user
  */
-export function getGameName(user: User) {
-    const game = user.game;
+export function getGameName(user: GuildMember) {
+    const game = user.presence.game;
 
     if (game) {
         return game.name;
