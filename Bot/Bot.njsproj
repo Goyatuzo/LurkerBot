@@ -86,8 +86,11 @@
     <Folder Include="test\minecraft\" />
     <Folder Include="tools" />
     <Folder Include="tools\ftp\" />
+    <Folder Include="tools\interfaces\" />
     <Folder Include="tools\minecraft\" />
     <Folder Include="tools\stats" />
+    <Folder Include="typings\" />
+    <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\mocha" />
     <Folder Include="typings\globals\mysql" />
     <Folder Include="typings\globals\node-4" />
