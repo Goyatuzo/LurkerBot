@@ -26,6 +26,8 @@ export default function (message: Message): void {
                 deathString += `${death.playerName} has died ${death.causes.length} times\n`;
             });
 
+            mcData.clearCache();
+
             message.channel.sendMessage(deathString).catch(error => {
                 console.error(error);
             });

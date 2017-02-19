@@ -131,6 +131,10 @@ class McDataStore {
     get playerList(): Array<string> {
         return Object.keys(this.deaths);
     }
+
+    clearCache(): void {
+        this.deaths = {};
+    }
 }
 
 let mcData = new McDataStore();
