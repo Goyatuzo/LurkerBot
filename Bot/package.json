@@ -10,9 +10,11 @@
     "test": "tsc && mocha --recursive"
   },
   "dependencies": {
+    "@types/chai": "^3.4.35",
     "@types/ftp": "^0.3.29",
     "@types/lodash": "^4.14.52",
     "@types/mkdirp": "^0.3.29",
+    "@types/mocha": "^2.2.39",
     "@types/mysql": "0.0.31",
     "discord.js": "^11.0.0",
     "ftp": "^0.3.10",
