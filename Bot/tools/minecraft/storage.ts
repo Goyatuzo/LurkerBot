@@ -49,6 +49,7 @@ class McDataStore {
 
         causesOfDeath.forEach(causeRegEx => {
             if (cause.match(causeRegEx)) {
+                line.text = cause;
                 this.addDeath(player[0], line);
             }
         });
