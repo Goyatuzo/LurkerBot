@@ -3,7 +3,7 @@ import * as Client from 'ftp';
 
 const options: Client.Options = {
     host: process.env["MC_FTP_HOST"],
-    port: process.env["MC_FTP_PORT"],
+    port: parseInt(process.env["MC_FTP_PORT"]),
     user: process.env["MC_FTP_USERNAME"],
     password: process.env["MC_FTP_PASSWORD"]
 }
