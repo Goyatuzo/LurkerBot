@@ -15,7 +15,7 @@ import Startup from './helpers/startup';
  * DB Default = process.env.LURKER_SCHEMA
  */
 Startup.runInitialCheck();
-Startup.init();
+//Startup.init();
 
 var bot = new Discord.Client();
 

@@ -16,7 +16,11 @@ class MinecraftFtp implements FtpConnection {
     }
 
     connect(): void {
-        this.connection.connect(options);
+        try {
+            this.connection.connect(options);
+        } finally {
+            console.error("Cannot connect to FTP for MC logging.");
+        }
     }
 
     get connection(): Client {
