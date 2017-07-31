@@ -1,7 +1,7 @@
 language: node_js
 node_js:
     - "7.2.0"
-before_install: npm install -g mocha; cd Bot
+before_install: npm install -g mocha;
 script: npm test
 os:
     - linux
