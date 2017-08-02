@@ -12,7 +12,9 @@ import {writeNewTimeRow} from "../../database/times-table";
 function beginLogging(user: GuildMember, game: string) {
     console.log(`${UserMethods.getUniqueUsername(user)} is now playing ${game}`);
 
-    stats.addGame(user, game);
+    if (!user.presence.game.streaming) {
+        stats.addGame(user, game);
+    }
 }
 
 /**

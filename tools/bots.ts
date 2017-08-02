@@ -11,5 +11,5 @@ import {EOL} from "os";
 const botIds = fs.readFileSync(path.join(__dirname, "../resources/bots.txt"), "utf-8").split(EOL);
 
 export function isBot(user: User) {
-    return botIds.some(id => id === user.id);
+    return user.bot || botIds.some(id => id === user.id);
 }
