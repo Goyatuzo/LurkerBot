@@ -3,7 +3,6 @@ import * as mysql from "mysql";
 
 import connection from "../database/connection";
 import * as UserMethods from "../tools/user_methods";
-import * as _ from "lodash";
 
 // The Servers table to store the server information.
 connection.query(`
@@ -54,7 +53,7 @@ export function updateServerUserMap(server: Guild) {
                     ON DUPLICATE KEY UPDATE
                         serverId=?, userId=?`;
 
-    _.map(userIds, userId => {
+    userIds.map(userId => {
         let prepared = mysql.format(stmt, [serverId + userId, serverId, userId, serverId, userId]);
 
         connection.query(prepared, err => {
