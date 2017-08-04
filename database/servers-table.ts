@@ -1,5 +1,6 @@
 ﻿import {Guild} from "discord.js";
 import * as mysql from "mysql";
+import * as _ from 'lodash';
 
 import connection from "../database/connection";
 import * as UserMethods from "../tools/user_methods";
