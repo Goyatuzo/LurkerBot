@@ -1,8 +1,6 @@
 ﻿import {Message, Client, TextChannel} from "discord.js";
 import * as _ from "lodash";
 
-import {getDurationSumTimeSorted} from "../../database/times-table";
-
 function _stringifyTime(seconds) {
     const m = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -32,15 +30,15 @@ export default function (message: Message) {
     args.splice(0, 2)
 
     // If the user only requests stats, then print out the server's stats.
-    if (args.length === 0) {
-        message.channel.sendMessage(`Visit http://lurkerbot.azurewebsites.net/query?serverId=${message.guild.id} for a graphical summary.`, (error: Error) => {
-            console.log("Error sending a message:");
-            console.log(error);
-        });
-    } else if (args[0] === "me") {
-        message.channel.sendMessage(`Visit http://lurkerbot.azurewebsites.net/query?userId=${message.author.id} for a graphical summary.`, (error: Error) => {
-            console.log("Error sending a message:");
-            console.log(error);
-        });
-    }
+    // if (args.length === 0) {
+    //     message.channel.sendMessage(`Visit http://lurkerbot.azurewebsites.net/query?serverId=${message.guild.id} for a graphical summary.`, (error: Error) => {
+    //         console.log("Error sending a message:");
+    //         console.log(error);
+    //     });
+    // } else if (args[0] === "me") {
+    //     message.channel.sendMessage(`Visit http://lurkerbot.azurewebsites.net/query?userId=${message.author.id} for a graphical summary.`, (error: Error) => {
+    //         console.log("Error sending a message:");
+    //         console.log(error);
+    //     });
+    // }
 }

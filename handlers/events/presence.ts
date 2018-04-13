@@ -6,11 +6,10 @@ import * as path from "path";
 import gameTracker from "../../tools/stats/game_tracker";
 
 import * as UserMethods from "../../tools/user_methods";
-import {isBot} from "../../tools/bots";
 
 export default function (before: GuildMember, after: GuildMember) {
     // If either is a bot, then do not process it at all.
-    if (isBot(before.user) || isBot(after.user)) {
+    if (before.user.bot|| after.user.bot) {
         console.log(`${UserMethods.getUniqueUsername(before)} is a bot.`);
         return;
     }

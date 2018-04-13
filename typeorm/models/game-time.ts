@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, Generated, ManyToOne } from "typeorm";
-import { DiscordDBUser } from "./DiscordDBUser";
+import { DiscordDBUser } from "./discord-db-user";
 
 @Entity()
 export class GameTime {

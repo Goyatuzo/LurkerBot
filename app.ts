@@ -5,6 +5,9 @@ import messageEvent from "./handlers/events/message";
 import readyEvent from './handlers/events/ready';
 
 import { Configuration } from "./helpers/environment";
+import { connectionOptions } from './typeorm'
+
+import { createConnection } from 'typeorm';
 
 /**
  * BOT token = process.env.DISCORD_TOKEN
@@ -14,11 +17,16 @@ import { Configuration } from "./helpers/environment";
  * DB Default = process.env.LURKER_SCHEMA
  */
 //Startup.init();
+createConnection(connectionOptions).then(conn => {
+    console.log("Typeorm connected to database.");
 
-var bot = new Discord.Client();
+    var bot = new Discord.Client();
 
-bot.on('ready', () => readyEvent(bot));
-bot.on('presenceUpdate', presenceEvent);
-bot.on('message', messageEvent);
+    bot.on('ready', () => readyEvent(bot));
+    bot.on('presenceUpdate', presenceEvent);
+    bot.on('message', messageEvent);
 
-bot.login(Configuration.DISCORD_TOKEN);
+    bot.login(Configuration.DISCORD_TOKEN);
+}).catch(err => {
+    console.error(err);
+})

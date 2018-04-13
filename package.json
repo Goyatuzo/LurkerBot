@@ -6,7 +6,7 @@
     "node": "8.2.1"
   },
   "scripts": {
-    "start": "tsc && node app.js",
+    "start": "ts-node app.ts",
     "test": "npm install && tsc && mocha --recursive",
     "add-migration": "ts-node node_modules/typeorm/cli.js migrations:generate -n",
     "update-database": "ts-node node_modules/typeorm/cli.js migrations:run",
@@ -15,13 +15,13 @@
   "dependencies": {
     "@types/chai": "^3.4.35",
     "@types/ftp": "^0.3.29",
-    "@types/lodash": "^4.14.52",
+    "@types/lodash": "^4.14.106",
     "@types/mkdirp": "^0.3.29",
     "@types/mocha": "^2.2.39",
     "@types/mysql": "0.0.31",
     "discord.js": "11.3.2",
     "ftp": "^0.3.10",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "mkdirp": "^0.5.1",
     "moment": "^2.18.1",
     "mysql": "^2.13.0",

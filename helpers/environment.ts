@@ -1,6 +1,6 @@
 export class Configuration {
     private static getVar(key: string) {
-        return process.env.key;
+        return process.env[key];
     }
 
     public static get DISCORD_TOKEN() {
@@ -16,7 +16,7 @@ export class Configuration {
     }
 
     public static get DB_PASSWORD() {
-        return this.getVar("DB_PASSWORD");
+        return this.getVar("DB_PW");
     }
 
     public static get DB_SCHEMA() {

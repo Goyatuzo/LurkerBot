@@ -5,9 +5,12 @@
     "removeComments": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "lib": [
+      "es2015"
+    ]
   },
   "exclude": [
     "node_modules"
