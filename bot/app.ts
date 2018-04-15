@@ -18,6 +18,7 @@ import { createConnection } from 'typeorm';
  */
 //Startup.init();
 createConnection(connectionOptions).then(conn => {
+    try {
     console.log("Typeorm connected to database.");
 
     var bot = new Discord.Client();
@@ -27,6 +28,9 @@ createConnection(connectionOptions).then(conn => {
     // bot.on('message', messageEvent);
 
     bot.login(Configuration.DISCORD_TOKEN);
+    } catch (ex) {
+        console.error(ex);
+    }
 }).catch(err => {
     console.error(err);
 })

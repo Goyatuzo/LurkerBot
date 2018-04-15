@@ -6,9 +6,6 @@ import { getRepository } from 'typeorm';
 import { DiscordDBServer } from '../../../typeorm/models/discord-db-server';
 import { DiscordDBUser } from '../../../typeorm/models/discord-db-user';
 
-// 30 minutes
-const deleteInterval = 1000 * 60 * 30;
-
 export default async function (bot: Client) {
     const serverRepository = getRepository(DiscordDBServer);
     const userRepository = getRepository(DiscordDBUser);
