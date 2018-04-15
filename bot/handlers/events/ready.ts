@@ -10,24 +10,33 @@ export default async function (bot: Client) {
     const serverRepository = getRepository(DiscordDBServer);
     const userRepository = getRepository(DiscordDBUser);
 
+    const storedServers = await serverRepository.find({ relations: ['users'] });
+    const storedUsers = await userRepository.find();
+
+    let localServers: DiscordDBServer[] = [];
+    let localUsers: DiscordDBUser[] = [];
+
     // We want the name of the servers, but while we're at it, populate the table.
-    const guildNames = await Promise.all(bot.guilds.array().map(async guild => {
-        let serverMatch = await serverRepository.findOneById(guild.id, { relations: ['users'] });
+    const guildNames = bot.guilds.array().map(guild => {
+        let serverMatch = storedServers.find(dbServer => guild.id === dbServer.id);
 
         if (!serverMatch) {
-            serverMatch = serverRepository.create();
-            serverMatch.id = guild.id;
+            serverMatch = serverRepository.create({
+                id: guild.id
+            });
         }
 
         serverMatch.name = guild.name;
-        serverRepository.save(serverMatch);
 
-        const users = await Promise.all(guild.members.array().map(async guildMember => {
-            let userMatch = await userRepository.findOneById(guildMember.id);
+        localServers.push(serverMatch);
+
+        const users = guild.members.array().map(guildMember => {
+            let userMatch = storedUsers.find(dbUser => dbUser.id === guildMember.id) || localUsers.find(userArr => userArr.id === guildMember.id);
 
             if (!userMatch) {
-                userMatch = userRepository.create();
-                userMatch.id = guildMember.id;
+                userMatch = userRepository.create({
+                    id: guildMember.id
+                });
             }
 
             userMatch.username = `${guildMember.displayName}`;
@@ -40,14 +49,16 @@ export default async function (bot: Client) {
             }
 
             return userMatch;
-        }));
+        });
 
-        await userRepository.save(users);
 
         console.log(`Saved ${guild.name}`);
 
         return guild.name;
-    }));
+    });
+
+    await serverRepository.save(localServers);
+    await userRepository.save(localUsers);
 
     console.log(`Connected to all servers.`);
 }

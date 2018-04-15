@@ -1,4 +1,6 @@
-﻿import * as Discord from "discord.js";
+﻿#! usr/bin/env node
+
+import * as Discord from "discord.js";
 
 import presenceEvent from "./handlers/events/presence";
 import messageEvent from "./handlers/events/message";
