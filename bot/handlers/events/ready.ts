@@ -42,7 +42,7 @@ export default async function (bot: Client) {
             return userMatch;
         }));
 
-        userRepository.save(users);
+        await userRepository.save(users);
 
         return guild.name;
     }));
