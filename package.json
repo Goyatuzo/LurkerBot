@@ -6,7 +6,7 @@
     "node": "8.2.1"
   },
   "scripts": {
-    "start": "ts-node app.ts",
+    "start": "ts-node ./bot/app.ts",
     "test": "npm install && tsc && mocha --recursive",
     "add-migration": "ts-node node_modules/typeorm/cli.js migrations:generate -n",
     "update-database": "ts-node node_modules/typeorm/cli.js migrations:run",
