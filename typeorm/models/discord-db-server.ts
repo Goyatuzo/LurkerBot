@@ -4,7 +4,7 @@ import { DiscordDBUser } from "./discord-db-user";
 
 @Entity()
 export class DiscordDBServer {
-    @PrimaryColumn({ type: "char" })
+    @PrimaryColumn({ type: "char", length: 18 })
     id: string;
 
     @Column("varchar")

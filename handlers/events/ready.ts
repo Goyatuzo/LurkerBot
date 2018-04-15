@@ -2,14 +2,29 @@
 
 import { Client } from "discord.js";
 
+import { getRepository } from 'typeorm';
+import { DiscordDBServer } from '../../typeorm/models/discord-db-server';
+import { DiscordDBUser } from '../../typeorm/models/discord-db-user';
+
 // 30 minutes
 const deleteInterval = 1000 * 60 * 30;
 
 export default function (bot: Client) {
     // We want the name of the servers, but while we're at it, populate the table.
-    const serverNames = _.map(bot.guilds.array(), guild => {
-        // Iterate through the list of servers, and add each one to the database.
-        // updateServer(guild);
+    const serverNames = bot.guilds.array().map(async guild => {
+        const serverRepository = getRepository(DiscordDBServer);
+        const userRepository = getRepository(DiscordDBUser);
+
+        let match = await serverRepository.findOneById(guild.id);
+
+        if (!match) {
+            match = serverRepository.create();
+            match.id = guild.id;
+        }
+
+        match.name = guild.name;
+
+        await serverRepository.save(match);
 
         // // Update the server to user mappings.
         // updateServerUserMap(guild);
@@ -20,5 +35,5 @@ export default function (bot: Client) {
 
         return guild.name;
     });
-    console.log("Servers: " + _.join(serverNames, ", "));
+    console.log("Servers: " + serverNames.join(","));
 }
