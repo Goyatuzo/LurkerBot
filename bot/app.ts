@@ -26,7 +26,7 @@ createConnection(connectionOptions).then(conn => {
     var bot = new Discord.Client();
 
     bot.on('ready', () => readyEvent(bot));
-    // bot.on('presenceUpdate', presenceEvent);
+    bot.on('presenceUpdate', presenceEvent);
     // bot.on('message', messageEvent);
 
     bot.login(Configuration.DISCORD_TOKEN);

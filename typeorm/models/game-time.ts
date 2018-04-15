@@ -9,6 +9,12 @@ export class GameTime {
     @Column("int")
     secondsPlayed: number;
 
+    @Column("datetime")
+    sessionEndDate: Date;
+
+    @Column("varchar")
+    gameName: string;
+
     @ManyToOne(type => DiscordDBUser, discordUser => discordUser.gameTimes)
     discordUser: DiscordDBUser;
 }
