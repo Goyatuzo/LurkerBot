@@ -5,7 +5,7 @@ import messageEvent from "./handlers/events/message";
 import readyEvent from './handlers/events/ready';
 
 import { Configuration } from "./helpers/environment";
-import { connectionOptions } from './typeorm'
+import { connectionOptions } from '../typeorm'
 
 import { createConnection } from 'typeorm';
 
