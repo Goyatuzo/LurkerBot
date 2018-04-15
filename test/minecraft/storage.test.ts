@@ -1,5 +1,5 @@
 ﻿import { expect } from 'chai';
-import mcData from '../../tools/minecraft/storage';
+import mcData from '../../bot/tools/minecraft/storage';
 
 describe("Minecraft data storage", () => {
     describe("death counter", () => {

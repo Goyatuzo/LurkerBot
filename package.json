@@ -7,11 +7,11 @@
   },
   "scripts": {
     "start": "ts-node ./bot/app.ts",
-    "test": "npm install && tsc && mocha --recursive",
+    "test": "mocha --require ts-node/register --recursive",
     "add-migration": "ts-node node_modules/typeorm/cli.js migrations:generate -n",
     "update-database": "ts-node node_modules/typeorm/cli.js migrations:run",
     "revert-database": "ts-node node_modules/typeorm/cli.js migrations:revert",
-    "clean": "rm -f ./bot/**/*.js ./bot/**/*.js.map && rm -f ./helpers/**/*.js ./helpers/**/*.js.map && rm -f ./typeorm/**/*.js ./typeorm/**/*.js.map"
+    "clean": "rm -f ./bot/**/*.js ./bot/**/*.js.map && rm -f ./helpers/**/*.js ./helpers/**/*.js.map && rm -f ./typeorm/**/*.js ./typeorm/**/*.js.map && rm -f ./test/**/*.js ./test/**/*.js.map"
   },
   "dependencies": {
     "@types/chai": "^3.4.35",

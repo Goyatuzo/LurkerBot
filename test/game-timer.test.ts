@@ -1,4 +1,4 @@
-﻿import Timer from "../tools/stats/game_timer";
+﻿import Timer from "../bot/tools/stats/game_timer";
 import {expect} from "chai";
 
 describe("Initialize timer,", () => {
