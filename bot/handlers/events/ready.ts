@@ -39,7 +39,6 @@ export default async function (bot: Client) {
                 userMatch.servers = [serverMatch];
             }
             else if (!serverMatch.users.some(dbUser => dbUser.id === userMatch.id)) {
-                console.log("NO MATCH");
                 userMatch.servers.push(serverMatch);
             }
 
