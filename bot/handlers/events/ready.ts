@@ -44,8 +44,10 @@ export default async function (bot: Client) {
 
         await userRepository.save(users);
 
+        console.log(`Saved ${guild.name}`);
+
         return guild.name;
     }));
 
-    console.log(`Connected to: ${guildNames.join(",")}`);
+    console.log(`Connected to all servers.`);
 }
