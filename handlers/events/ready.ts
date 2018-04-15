@@ -9,31 +9,47 @@ import { DiscordDBUser } from '../../typeorm/models/discord-db-user';
 // 30 minutes
 const deleteInterval = 1000 * 60 * 30;
 
-export default function (bot: Client) {
+export default async function (bot: Client) {
+    const serverRepository = getRepository(DiscordDBServer);
+    const userRepository = getRepository(DiscordDBUser);
+
     // We want the name of the servers, but while we're at it, populate the table.
-    const serverNames = bot.guilds.array().map(async guild => {
-        const serverRepository = getRepository(DiscordDBServer);
-        const userRepository = getRepository(DiscordDBUser);
+    const guildNames = await Promise.all(bot.guilds.array().map(async guild => {
+        let serverMatch = await serverRepository.findOneById(guild.id, { relations: ['users'] });
 
-        let match = await serverRepository.findOneById(guild.id);
-
-        if (!match) {
-            match = serverRepository.create();
-            match.id = guild.id;
+        if (!serverMatch) {
+            serverMatch = serverRepository.create();
+            serverMatch.id = guild.id;
         }
 
-        match.name = guild.name;
+        serverMatch.name = guild.name;
+        serverRepository.save(serverMatch);
 
-        await serverRepository.save(match);
+        const users = await Promise.all(guild.members.array().map(async guildMember => {
+            let userMatch = await userRepository.findOneById(guildMember.id);
 
-        // // Update the server to user mappings.
-        // updateServerUserMap(guild);
+            if (!userMatch) {
+                userMatch = userRepository.create();
+                userMatch.id = guildMember.id;
+            }
 
-        // const users = guild.members.array().map(member => member.user);
-        // // Add all the users to the database.
-        // _.map(users, user => updateUser(user));
+            userMatch.username = `${guildMember.displayName}`;
+
+            if (!userMatch.servers) {
+                userMatch.servers = [serverMatch];
+            }
+            else if (!serverMatch.users.some(dbUser => dbUser.id === userMatch.id)) {
+                console.log("NO MATCH");
+                userMatch.servers.push(serverMatch);
+            }
+
+            return userMatch;
+        }));
+
+        userRepository.save(users);
 
         return guild.name;
-    });
-    console.log("Servers: " + serverNames.join(","));
+    }));
+
+    console.log(`Connected to: ${guildNames.join(",")}`);
 }
