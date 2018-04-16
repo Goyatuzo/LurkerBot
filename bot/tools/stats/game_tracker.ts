@@ -13,6 +13,8 @@ import { GameType } from "../../../helpers/discord-js-enums";
  */
 function beginLogging(user: GuildMember, game: string) {
     console.log(`${UserMethods.getUniqueUsername(user)} is now playing ${game}`);
+
+    console.log(user.presence.game.type);
     if (!user.presence.game.streaming && user.presence.game.type === GameType.PLAYING) {
         stats.addGame(user, game);
     }
@@ -50,18 +52,17 @@ async function endLogging(user: GuildMember, game: string) {
 }
 
 export default function (before: GuildMember, after: GuildMember) {
-    const beforeGame = before.user.presence.game;
-    const afterGame = after.user.presence.game;
-    // If the user has a game on before, that means they quit that game, unless it's the same for both.
-    if (beforeGame) {
-        console.log(`${beforeGame.name} type ${beforeGame.type} is now ${afterGame.name} type ${afterGame.type}`)
-    }
-    if (beforeGame && !(beforeGame.equals(afterGame))) {
-        endLogging(before, beforeGame.name);
+    let game: string;
+
+    // If the user has a game on before, that means they quit that game.
+    game = UserMethods.getGameName(before);
+    if (game) {
+        endLogging(before, game);
     }
 
     // If the user has a game on after, that means they began playing the game.
-    if (afterGame) {
-        beginLogging(after, afterGame.name);
+    game = UserMethods.getGameName(after);
+    if (game) {
+        beginLogging(after, game);
     }
 }

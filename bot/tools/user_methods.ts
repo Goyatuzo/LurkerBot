@@ -22,7 +22,7 @@ export function getGameName(user: GuildMember) {
     const game = user.presence.game;
 
     if (game) {
-        return game;
+        return game.name;
     }
 
     return undefined;
