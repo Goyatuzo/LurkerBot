@@ -31,13 +31,18 @@ async function endLogging(user: GuildMember, game: string) {
     stats.removeGame(user, game);
 
     if (seconds === null) {
-        console.log("Invalid seconds, skipping this log.");
+        console.error("Invalid seconds, skipping this log.");
         return;
     }
 
     const gameTimeRepository = getRepository(GameTime);
     const userRepository = getRepository(DiscordDBUser);
     const match = await userRepository.findOneById(user.id);
+
+    if (!match) {
+        console.error("No user was found when adding gametime.");
+        return;
+    }
 
     let newEntry = await gameTimeRepository.create();
     newEntry.secondsPlayed = seconds;
