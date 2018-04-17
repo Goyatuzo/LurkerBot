@@ -14,7 +14,6 @@ import { GameType } from "../../../helpers/discord-js-enums";
 function beginLogging(user: GuildMember, game: string) {
     console.log(`${UserMethods.getUniqueUsername(user)} is now playing ${game}`);
 
-    console.log(user.presence.game.type);
     if (!user.presence.game.streaming && user.presence.game.type === GameType.PLAYING) {
         stats.addGame(user, game);
     }
