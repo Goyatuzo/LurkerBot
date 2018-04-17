@@ -39,7 +39,7 @@ async function endLogging(user: GuildMember, game: string) {
     const match = await userRepository.findOneById(user.id);
 
     if (!match) {
-        console.error("No user was found when adding gametime.");
+        console.error(`No user with id ${user.id} and username ${user.displayName} was found when adding gametime.`);
         return;
     }
 
