@@ -1,17 +1,14 @@
-﻿import {Message, TextChannel} from "discord.js";
+﻿import { Message, TextChannel, Client } from "discord.js";
 import * as _ from "lodash";
 
 import messageRouter from "../messages";
 
-export default function (message: Message): void {
-    const client = message.client;
-    const msgTokens = message.cleanContent.split(' ');
+export default function (bot: Client) {
+    return function(message: Message): void {
+        // If the message dosen't begin with an at mention at lurkerbot, just ignore it.
+        if (!message.cleanContent.startsWith(`!${bot.user.username.toLocaleLowerCase()}`))
+            return;
 
-    if (msgTokens.length === 0) {
-        return;
-    }
-
-    if (msgTokens[0].toLowerCase() === "!lurkerbot") {
         messageRouter(message);
     }
-}
+} 

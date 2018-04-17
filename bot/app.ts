@@ -27,7 +27,7 @@ createConnection(connectionOptions).then(conn => {
 
     bot.on('ready', () => readyEvent(bot));
     bot.on('presenceUpdate', presenceEvent);
-    // bot.on('message', messageEvent);
+    bot.on('message', messageEvent(bot));
 
     bot.login(Configuration.DISCORD_TOKEN);
     } catch (ex) {
