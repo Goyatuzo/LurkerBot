@@ -29,7 +29,7 @@ async function endLogging(user: GuildMember, game: string) {
     const seconds: number = stats.timePlayed(user, game);
     stats.removeGame(user, game);
 
-    if (seconds === null) {
+    if (seconds === null || seconds === 0) {
         console.error("Invalid seconds, skipping this log.");
         return;
     }
