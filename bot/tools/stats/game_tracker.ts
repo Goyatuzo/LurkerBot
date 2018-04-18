@@ -58,15 +58,16 @@ async function endLogging(user: GuildMember, game: string) {
 export default function (before: GuildMember, after: GuildMember) {
     let game: string;
 
+    const beforeGame = UserMethods.getGameName(before);
+    const afterGame = UserMethods.getGameName(after)
+
     // If the user has a game on before, that means they quit that game.
-    game = UserMethods.getGameName(before);
-    if (game) {
+    if (beforeGame && beforeGame !== afterGame) {
         endLogging(before, game);
     }
 
-    // If the user has a game on after, that means they began playing the game.
-    game = UserMethods.getGameName(after);
-    if (game) {
+    // If the user has a game on after, that means they began playing the game
+    if (afterGame) {
         beginLogging(after, game);
     }
 }
