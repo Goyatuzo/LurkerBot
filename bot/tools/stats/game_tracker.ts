@@ -63,11 +63,11 @@ export default function (before: GuildMember, after: GuildMember) {
 
     // If the user has a game on before, that means they quit that game.
     if (beforeGame && beforeGame !== afterGame) {
-        endLogging(before, game);
+        endLogging(before, beforeGame);
     }
 
     // If the user has a game on after, that means they began playing the game
     if (afterGame) {
-        beginLogging(after, game);
+        beginLogging(after, afterGame);
     }
 }
