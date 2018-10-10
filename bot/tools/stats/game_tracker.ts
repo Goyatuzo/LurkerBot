@@ -12,8 +12,6 @@ import { GameType } from "../../../helpers/discord-js-enums";
  * @param user
  */
 function beginLogging(user: GuildMember, game: string) {
-    console.log(`${UserMethods.getUniqueUsername(user)} is now playing ${game}`);
-
     if (!user.presence.game.streaming && user.presence.game.type === GameType.PLAYING) {
         stats.addGame(user, game);
     }
@@ -24,8 +22,6 @@ function beginLogging(user: GuildMember, game: string) {
  * @param user
  */
 async function endLogging(user: GuildMember, game: string) {
-    console.log(`${UserMethods.getUniqueUsername(user)} stopped playing ${game}`);
-
     const seconds: number = stats.timePlayed(user, game);
     stats.removeGame(user, game);
 
