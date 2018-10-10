@@ -31,15 +31,18 @@ export default async function (bot: Client) {
         localServers.push(serverMatch);
 
         const users = guild.members.array().map(guildMember => {
-            let userMatch = storedUsers.find(dbUser => dbUser.id === guildMember.id) || localUsers.find(userArr => userArr.id === guildMember.id);
+            const queryId = guildMember.user.id;
+
+            let userMatch = storedUsers.find(dbUser => dbUser.id === queryId) || localUsers.find(userArr => userArr.id === queryId);
 
             if (!userMatch) {
                 userMatch = userRepository.create({
-                    id: guildMember.id
+                    id: queryId
                 });
             }
 
-            userMatch.username = `${guildMember.displayName}`;
+            userMatch.username = guildMember.user.username;
+            userMatch.discriminator = guildMember.user.discriminator
 
             if (!userMatch.servers) {
                 userMatch.servers = [serverMatch];
