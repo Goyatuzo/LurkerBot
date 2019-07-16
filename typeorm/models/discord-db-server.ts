@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, Generated, ManyToMany, JoinTabl
 import { GameTime } from "./game-time";
 import { DiscordDBUser } from "./discord-db-user";
 
-@Entity()
+@Entity({ name: "discord_d_b_server" })
 export class DiscordDBServer {
     @PrimaryColumn({ type: "char", length: 19 })
     id: string;
