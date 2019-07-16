@@ -15,6 +15,15 @@ export class GameTime {
     @Column("varchar")
     gameName: string;
 
+    @Column("varchar")
+    gameType: string;
+
+    @Column("varchar")
+    gameState: string;
+
+    @Column("varchar")
+    gameDetail: string;
+
     @ManyToOne(type => DiscordDBUser, discordUser => discordUser.gameTimes)
     discordUser: DiscordDBUser;
 }
