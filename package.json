@@ -8,9 +8,9 @@
   "scripts": {
     "start": "npm run clean && ts-node ./bot/app.ts",
     "test": "tsc && mocha --recursive",
-    "add-migration": "npm run clean && ts-node node_modules/typeorm/cli.js migrations:generate -n",
-    "update-database": "npm run clean && ts-node node_modules/typeorm/cli.js migrations:run",
-    "revert-database": "npm run clean && ts-node node_modules/typeorm/cli.js migrations:revert",
+    "add-migration": "npm run clean && ts-node node_modules/typeorm/cli.js migration:generate -n",
+    "update-database": "npm run clean && ts-node node_modules/typeorm/cli.js migration:run",
+    "revert-database": "npm run clean && ts-node node_modules/typeorm/cli.js migration:revert",
     "clean": "rm -f ./bot/**/*.js ./bot/**/*.js.map && rm -f ./helpers/**/*.js ./helpers/**/*.js.map && rm -f ./typeorm/**/*.js ./typeorm/**/*.js.map && rm -f ./test/**/*.js ./test/**/*.js.map"
   },
   "dependencies": {

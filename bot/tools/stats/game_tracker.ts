@@ -32,7 +32,7 @@ async function endLogging(user: GuildMember, game: string) {
 
     const gameTimeRepository = getRepository(GameTime);
     const userRepository = getRepository(DiscordDBUser);
-    const match = await userRepository.findOneById(user.id);
+    const match = await userRepository.findOne(user.id);
 
     if (!match) {
         console.error(`No user with id ${user.id} and username ${user.displayName} was found when adding gametime.`);
