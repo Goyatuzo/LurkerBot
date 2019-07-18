@@ -53,8 +53,11 @@ async function endLogging(user: GuildMember, game: string) {
         });
     }
 
-    gameTimeRepository.save(newEntry);
 
+    
+    gameTimeRepository.save(newEntry);
+    
+    console.log(`Logged ${newEntry.secondsPlayed} seconds for ${newEntry.discordUser.username} playing ${newEntry.gameName}`);
     // If a valid number of seconds, be sure to add it to the database.
     // writeNewTimeRow(user, seconds);
 }
@@ -65,6 +68,8 @@ export default function (before: GuildMember, after: GuildMember) {
 
     const userQuitGame = beforeGameName && beforeGameName !== afterGameName;
     const presenceChanged = beforeGameName === afterGameName && JSON.stringify(before.presence.game) !== JSON.stringify(after.presence.game);
+
+    console.log(userQuitGame || presenceChanged);
 
     // If the user has a game on before, that means they quit that game.
     if (userQuitGame || presenceChanged) {

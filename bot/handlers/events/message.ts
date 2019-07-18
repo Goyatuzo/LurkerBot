@@ -2,6 +2,7 @@
 import * as _ from "lodash";
 
 import messageRouter from "../messages/text";
+import dm from "../messages/dm";
 
 export default function (bot: Client) {
     return function (message: Message): void {
@@ -12,7 +13,7 @@ export default function (bot: Client) {
 
             messageRouter(message);
         } else if (message.channel instanceof DMChannel) {
-            console.log("DM");
+            dm(message);
         }
     }
 } 
