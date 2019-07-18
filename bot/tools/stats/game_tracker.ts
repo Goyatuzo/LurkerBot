@@ -51,8 +51,6 @@ async function endLogging(user: GuildMember, game: string) {
         newEntry.gameType = JSON.stringify({
             champion: user.presence.game.details ? user.presence.game.details : null
         });
-
-        console.log(`${user.displayName} League presence saved ${user.presence.game.state}`);
     }
 
     gameTimeRepository.save(newEntry);

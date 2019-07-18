@@ -10,14 +10,11 @@ import * as UserMethods from "../../tools/user_methods";
 export default function (before: GuildMember, after: GuildMember) {
     // If either is a bot, then do not process it at all.
     if (before.user.bot|| after.user.bot) {
-        console.log(`${UserMethods.getUniqueUsername(before)} is a bot.`);
         return;
     }
 
     // If the two users are identical, process it further.
     if (before.id === after.id) {
         gameTracker(before, after);
-    } else {
-        console.log(`${UserMethods.getUniqueUsername(before)} and ${UserMethods.getUniqueUsername(after)}`);
     }
 }

@@ -33,8 +33,6 @@ export class Stats {
         // Only create a new timer if one doesn't already exist.
         if (!(game in games)) {
             games[game] = new Timer();
-        } else {
-            console.log(`${UserMethods.getUniqueUsername(user)} is already playing ${game}`);
         }
     }
 
