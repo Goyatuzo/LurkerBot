@@ -6,8 +6,9 @@
     "node": "8.2.1"
   },
   "scripts": {
-    "start": "npm run clean && ts-node ./bot/app.ts",
-    "test": "tsc && mocha --recursive",
+    "start": "ts-node ./bot/app.ts",
+    "test": "",
+    "compile": "tsc",
     "add-migration": "npm run clean && ts-node node_modules/typeorm/cli.js migration:generate -n",
     "update-database": "npm run clean && ts-node node_modules/typeorm/cli.js migration:run",
     "revert-database": "npm run clean && ts-node node_modules/typeorm/cli.js migration:revert",
@@ -20,7 +21,6 @@
     "mkdirp": "0.5.1",
     "moment": "2.24.0",
     "mysql": "2.17.1",
-    "ts-node": "8.3.0",
     "typeorm": "0.2.18"
   },
   "devDependencies": {
@@ -32,6 +32,7 @@
     "@types/mysql": "2.15.6",
     "chai": "4.2.0",
     "mocha": "6.1.4",
+    "ts-node": "8.3.0",
     "typescript": "3.5.3"
   }
 }

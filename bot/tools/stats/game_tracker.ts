@@ -45,6 +45,16 @@ async function endLogging(user: GuildMember, game: string) {
     newEntry.discordUser = match;
     newEntry.gameName = game;
 
+    if (game === "League of Legends") {
+        newEntry.gameState = user.presence.game.state;
+        newEntry.gameDetail = user.presence.game.assets ? user.presence.game.assets.largeText : null;
+        newEntry.gameType = JSON.stringify({
+            champion: user.presence.game.details ? user.presence.game.details : null
+        });
+
+        console.log(`${user.displayName} League presence saved ${user.presence.game.state}`);
+    }
+
     gameTimeRepository.save(newEntry);
 
     // If a valid number of seconds, be sure to add it to the database.
@@ -52,18 +62,19 @@ async function endLogging(user: GuildMember, game: string) {
 }
 
 export default function (before: GuildMember, after: GuildMember) {
-    let game: string;
+    const beforeGameName = UserMethods.getGameName(before);
+    const afterGameName = UserMethods.getGameName(after);
 
-    const beforeGame = UserMethods.getGameName(before);
-    const afterGame = UserMethods.getGameName(after)
+    const userQuitGame = beforeGameName && beforeGameName !== afterGameName;
+    const presenceChanged = beforeGameName === afterGameName && JSON.stringify(before.presence.game) !== JSON.stringify(after.presence.game);
 
     // If the user has a game on before, that means they quit that game.
-    if (beforeGame && beforeGame !== afterGame) {
-        endLogging(before, beforeGame);
+    if (userQuitGame || presenceChanged) {
+        endLogging(before, beforeGameName);
     }
 
     // If the user has a game on after, that means they began playing the game
-    if (afterGame) {
-        beginLogging(after, afterGame);
+    if (afterGameName) {
+        beginLogging(after, afterGameName);
     }
 }
