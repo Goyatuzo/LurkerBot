@@ -1,10 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, Generated, ManyToOne } from "typeorm";
+import { Entity, Column, ManyToOne, ObjectIdColumn, ObjectID } from "typeorm";
 import { DiscordDBUser } from "./discord-db-user";
 
 @Entity()
 export class GameTime {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+    @ObjectIdColumn()
+    id: ObjectID;
 
     @Column("int")
     secondsPlayed: number;

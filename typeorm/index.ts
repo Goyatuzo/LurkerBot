@@ -2,14 +2,14 @@ import { ConnectionOptions } from 'typeorm';
 import * as fs from 'fs';
 import { Configuration } from '../helpers/environment';
 
+console.log(Configuration.DB_HOST)
+
 export const connectionOptions: ConnectionOptions = {
-    type: "mysql",
-    host:  Configuration.DB_HOST,
-    username: Configuration.DB_USERNAME,
-    password: Configuration.DB_PASSWORD,
-    database: Configuration.DB_SCHEMA,
-    synchronize: false,
+    type: "mongodb",
+    url: Configuration.DB_HOST,
+    synchronize: true,
     logging: false,
+    useNewUrlParser: true,
     entities: [
         "typeorm/models/**/*.ts"
     ],

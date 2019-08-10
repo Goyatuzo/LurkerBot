@@ -8,7 +8,7 @@ export class Configuration {
     }
 
     public static get DB_HOST() {
-        return this.getVar("DB_HOST");
+        return this.getVar("LURKER_DB");
     }
 
     public static get DB_USERNAME() {
