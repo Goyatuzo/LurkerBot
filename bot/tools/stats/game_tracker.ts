@@ -66,16 +66,7 @@ export default function (before: GuildMember, after: GuildMember) {
     const afterGameName = UserMethods.getGameName(after);
 
     const userQuitGame = beforeGameName && beforeGameName !== afterGameName;
-
-    const beforePresence = before.presence.game;
-    const afterPresence = after.presence.game;
-    
-    
-    const onePresenceIsNull = !beforePresence || !afterPresence;
-
-    let presenceChanged = beforeGameName === afterGameName && !onePresenceIsNull &&
-        (beforePresence.details !== afterPresence.details ||
-            beforePresence.state !== afterPresence.state);
+    const presenceChanged = beforeGameName === afterGameName && JSON.stringify(before.presence.game) !== JSON.stringify(after.presence.game);
 
     // If the user has a game on before, that means they quit that game.
     if (userQuitGame || presenceChanged) {
