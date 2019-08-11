@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, ObjectIdColumn, ObjectID } from "typeorm";
+import { Entity, Column, ManyToOne, ObjectIdColumn, ObjectID, Index } from "typeorm";
 
 @Entity()
 export class GameTime {
@@ -6,6 +6,7 @@ export class GameTime {
     _id: ObjectID;
 
     @Column({ type: "char", length: 19 })
+    @Index()
     userId: string;
 
     @Column("datetime")
@@ -15,6 +16,7 @@ export class GameTime {
     sessionEnd: Date;
 
     @Column("varchar")
+    @Index()
     gameName: string;
 
     @Column({ type: "varchar", nullable: true })
