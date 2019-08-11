@@ -31,6 +31,7 @@ async function endLogging(user: GuildMember, game: string) {
         return;
     }
 
+
     const userRepository = getMongoRepository(DiscordDBUser);
     const match = await userRepository.findOne({ userId: user.id });
 
@@ -38,6 +39,7 @@ async function endLogging(user: GuildMember, game: string) {
         console.error(`No user with id ${user.id} and username ${user.displayName} was found when adding gametime.`);
         return;
     }
+    console.log(`${user.displayName} for ${game}`);
 
     let newEntry = new GameTime();
     newEntry.sessionBegin = timeBegan;
@@ -45,10 +47,11 @@ async function endLogging(user: GuildMember, game: string) {
     newEntry.gameName = game;
     newEntry.userId = match.userId;
 
+    newEntry.gameDetail = user.presence.game.details ? user.presence.game.details : null;
+    newEntry.gameState = user.presence.game.state;
+
     if (game === "League of Legends") {
-        newEntry.gameState = user.presence.game.state;
-        newEntry.gameDetail = user.presence.game.assets ? user.presence.game.assets.largeText : null;
-        newEntry.gameType = user.presence.game.details ? user.presence.game.details : null;
+        newEntry.gameType = user.presence.game.assets ? user.presence.game.assets.largeText : null;
     }
 
     const gameTimeRepository = getMongoRepository(GameTime);
@@ -66,7 +69,7 @@ export default function (before: GuildMember, after: GuildMember) {
 
     const userQuitGame = beforeGameName && beforeGameName !== afterGameName;
     const presenceChanged = beforeGameName === afterGameName && JSON.stringify(before.presence.game) !== JSON.stringify(after.presence.game);
-    
+
     // If the user has a game on before, that means they quit that game.
     if (userQuitGame || presenceChanged) {
         endLogging(before, beforeGameName);
