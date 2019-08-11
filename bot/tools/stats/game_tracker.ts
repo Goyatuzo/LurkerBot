@@ -39,7 +39,7 @@ async function endLogging(user: GuildMember, game: string) {
         console.error(`No user with id ${user.id} and username ${user.displayName} was found when adding gametime.`);
         return;
     }
-    console.log(`${user.displayName} for ${game}`);
+    console.log(`Processing gametime ${user.displayName} for ${game}`);
 
     let newEntry = new GameTime();
     newEntry.sessionBegin = timeBegan;
