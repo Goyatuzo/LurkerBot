@@ -22,11 +22,12 @@ function beginLogging(user: GuildMember, game: string) {
  * @param user
  */
 async function endLogging(user: GuildMember, game: string) {
-    const seconds: number = stats.timePlayed(user, game);
+    const timeBegan: Date = stats.startedAt(user, game);
+    const timeEnded: Date = new Date();
     stats.removeGame(user, game);
 
-    if (seconds === null || seconds === 0) {
-        console.error("Invalid seconds, skipping this log.");
+    if (timeBegan === null) {
+        console.error("Invalid time, skipping this log.");
         return;
     }
 
@@ -39,24 +40,22 @@ async function endLogging(user: GuildMember, game: string) {
     }
 
     let newEntry = new GameTime();
-    newEntry.secondsPlayed = seconds;
-    newEntry.sessionEndDate = new Date(Date.now());
+    newEntry.sessionBegin = timeBegan;
+    newEntry.sessionEnd = timeEnded;
     newEntry.gameName = game;
     newEntry.userId = match.userId;
 
     if (game === "League of Legends") {
         newEntry.gameState = user.presence.game.state;
         newEntry.gameDetail = user.presence.game.assets ? user.presence.game.assets.largeText : null;
-        newEntry.gameType = JSON.stringify({
-            map: user.presence.game.details ? user.presence.game.details : null
-        });
+        newEntry.gameType = user.presence.game.details ? user.presence.game.details : null;
     }
 
     const gameTimeRepository = getMongoRepository(GameTime);
 
     gameTimeRepository.insertOne(newEntry);
 
-    console.log(`Logged ${newEntry.secondsPlayed} seconds for ${match.username} playing ${newEntry.gameName}`);
+    console.log(`Logged ${(timeEnded.getTime() - timeBegan.getTime()) / 1000} seconds for ${match.username} playing ${newEntry.gameName}`);
     // If a valid number of seconds, be sure to add it to the database.
     // writeNewTimeRow(user, seconds);
 }

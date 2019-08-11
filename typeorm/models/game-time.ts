@@ -8,11 +8,11 @@ export class GameTime {
     @Column({ type: "char", length: 19 })
     userId: string;
 
-    @Column("int")
-    secondsPlayed: number;
+    @Column("datetime")
+    sessionBegin: Date;
 
     @Column("datetime")
-    sessionEndDate: Date;
+    sessionEnd: Date;
 
     @Column("varchar")
     gameName: string;
@@ -25,4 +25,7 @@ export class GameTime {
 
     @Column({ type: "varchar", nullable: true })
     gameDetail: string;
+
+    @Column({ type: "varchar", nullable: true })
+    otherDetails: string;
 }

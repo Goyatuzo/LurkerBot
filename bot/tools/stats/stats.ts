@@ -1,9 +1,7 @@
-﻿import Timer from "./game_timer";
-import { GuildMember } from "discord.js";
-import * as UserMethods from "../user_methods";
+﻿import { GuildMember } from "discord.js";
 
 export interface GameList {
-    [gameName: string]: Timer;
+    [gameName: string]: Date;
 }
 
 export class Stats {
@@ -32,16 +30,16 @@ export class Stats {
 
         // Only create a new timer if one doesn't already exist.
         if (!(game in games)) {
-            games[game] = new Timer();
+            games[game] = new Date();
         }
     }
 
     /**
-     * Query the time played for that user playing the specified game.
+     * Query the time where the track began for that user playing the specified game.
      * @param user
      * @param game
      */
-    timePlayed(user: GuildMember, game: string) {
+    startedAt(user: GuildMember, game: string) {
         const userId = user.id;
 
         // If the user is in the stats array, then check to see if the game is as well.
@@ -50,7 +48,7 @@ export class Stats {
 
             // Check to see if the game is in the game array.
             if (game in games) {
-                return games[game].timeElapsed();
+                return games[game];
             }
         }
 
