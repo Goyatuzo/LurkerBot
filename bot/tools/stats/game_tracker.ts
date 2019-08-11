@@ -27,7 +27,6 @@ async function endLogging(user: GuildMember, game: string) {
     stats.removeGame(user, game);
 
     if (timeBegan === null) {
-        console.error("Invalid time, skipping this log.");
         return;
     }
 
