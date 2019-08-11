@@ -8,7 +8,7 @@ export default async function renmoveMeHandler(message: Message) {
         const userRepository = getMongoRepository(DiscordDBUser);
 
         const users = await userRepository.find({ userId: discordUser.id });
-        users.forEach(user => userRepository.deleteMany(users));
+        users.forEach(user => userRepository.delete(user));
 
         console.log(`Removed ${discordUser.username}#${discordUser.discriminator}`);
         message.reply(`${discordUser.username}#${discordUser.discriminator} has been removed. All your game stats are gone.`);
