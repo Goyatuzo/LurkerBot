@@ -4,7 +4,7 @@ import { GameTime } from "./game-time";
 @Entity()
 export class DiscordDBUser {
     @ObjectIdColumn()
-    id: ObjectID;
+    _id: ObjectID;
 
     @Column({ type: "char", length: 19 })
     userId: string;
@@ -14,7 +14,4 @@ export class DiscordDBUser {
 
     @Column({ type: "char", length: 4 })
     discriminator: string;
-
-    @OneToMany(type => GameTime, gameTime => gameTime.discordUser)
-    gameTimes: GameTime[];
 }

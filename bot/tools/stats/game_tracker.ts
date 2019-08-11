@@ -2,7 +2,7 @@
 import * as UserMethods from "../user_methods";
 
 import stats from "../stats/stats";
-import { getRepository } from "typeorm";
+import { getMongoRepository } from "typeorm";
 import { GameTime } from "../../../typeorm/models/game-time";
 import { DiscordDBUser } from "../../../typeorm/models/discord-db-user";
 import { GameType } from "../../../helpers/discord-js-enums";
@@ -30,34 +30,33 @@ async function endLogging(user: GuildMember, game: string) {
         return;
     }
 
-    const gameTimeRepository = getRepository(GameTime);
-    const userRepository = getRepository(DiscordDBUser);
-    const match = await userRepository.findOne(user.id);
+    const userRepository = getMongoRepository(DiscordDBUser);
+    const match = await userRepository.findOne({ userId: user.id });
 
     if (!match) {
         console.error(`No user with id ${user.id} and username ${user.displayName} was found when adding gametime.`);
         return;
     }
 
-    let newEntry = await gameTimeRepository.create();
+    let newEntry = new GameTime();
     newEntry.secondsPlayed = seconds;
     newEntry.sessionEndDate = new Date(Date.now());
-    newEntry.discordUser = match;
     newEntry.gameName = game;
+    newEntry.userId = match.userId;
 
     if (game === "League of Legends") {
         newEntry.gameState = user.presence.game.state;
         newEntry.gameDetail = user.presence.game.assets ? user.presence.game.assets.largeText : null;
         newEntry.gameType = JSON.stringify({
-            champion: user.presence.game.details ? user.presence.game.details : null
+            map: user.presence.game.details ? user.presence.game.details : null
         });
     }
 
+    const gameTimeRepository = getMongoRepository(GameTime);
 
-    
-    gameTimeRepository.save(newEntry);
-    
-    console.log(`Logged ${newEntry.secondsPlayed} seconds for ${newEntry.discordUser.username} playing ${newEntry.gameName}`);
+    gameTimeRepository.insertOne(newEntry);
+
+    console.log(`Logged ${newEntry.secondsPlayed} seconds for ${match.username} playing ${newEntry.gameName}`);
     // If a valid number of seconds, be sure to add it to the database.
     // writeNewTimeRow(user, seconds);
 }

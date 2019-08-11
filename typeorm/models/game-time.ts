@@ -1,10 +1,12 @@
 import { Entity, Column, ManyToOne, ObjectIdColumn, ObjectID } from "typeorm";
-import { DiscordDBUser } from "./discord-db-user";
 
 @Entity()
 export class GameTime {
     @ObjectIdColumn()
-    id: ObjectID;
+    _id: ObjectID;
+
+    @Column({ type: "char", length: 19 })
+    userId: string;
 
     @Column("int")
     secondsPlayed: number;
@@ -23,7 +25,4 @@ export class GameTime {
 
     @Column({ type: "varchar", nullable: true })
     gameDetail: string;
-
-    @ManyToOne(type => DiscordDBUser, discordUser => discordUser.gameTimes)
-    discordUser: DiscordDBUser;
 }
