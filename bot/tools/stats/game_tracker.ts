@@ -70,7 +70,10 @@ export default function (before: GuildMember, after: GuildMember) {
     const beforePresence = before.presence.game;
     const afterPresence = after.presence.game;
     
-    let presenceChanged = beforeGameName === afterGameName && before.presence &&
+    
+    const onePresenceIsNull = !beforePresence || !afterPresence;
+
+    let presenceChanged = beforeGameName === afterGameName && !onePresenceIsNull &&
         (beforePresence.details !== afterPresence.details ||
             beforePresence.state !== afterPresence.state);
 
