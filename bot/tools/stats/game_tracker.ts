@@ -26,7 +26,7 @@ async function endLogging(user: GuildMember, game: string) {
     const timeEnded: Date = new Date();
     stats.removeGame(user, game);
 
-    if (timeBegan === null) {
+    if (timeBegan === null || timeEnded.getTime() - timeEnded.getTime() / 1000 < 1) {
         return;
     }
 
