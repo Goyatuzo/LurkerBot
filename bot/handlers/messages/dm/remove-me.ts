@@ -11,7 +11,9 @@ export default async function renmoveMeHandler(message: Message) {
         const timeRepository = getMongoRepository(GameTime);
 
         const gameTimes = await timeRepository.find({ userId: discordUser.id });
-        timeRepository.delete(gameTimes.map(time => time._id));
+
+        // Doing it the right way caused some unintended casualties.
+        gameTimes.forEach(time => timeRepository.delete(time));
 
         const users = await userRepository.find({ userId: discordUser.id });
         users.forEach(user => DiscordDBUserHelper.removeUser(user));
