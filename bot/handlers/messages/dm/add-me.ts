@@ -1,6 +1,7 @@
 import { DiscordDBUser } from "../../../../typeorm/models/discord-db-user";
 import { Message, User } from "discord.js";
 import { getMongoRepository } from "typeorm";
+import { DiscordDBUserHelper } from "../../../../typeorm/helpers/discord-db-user-helper";
 
 export default function addMeHandler(message: Message) {
     const discordUser = message.author;
@@ -15,7 +16,7 @@ export default function addMeHandler(message: Message) {
         newUser.discriminator = discordUser.discriminator;
         newUser.username = discordUser.username;
     
-        userRepository.save(newUser);
+        DiscordDBUserHelper.addUser(newUser);
     
         console.log(`Added ${discordUser.username}#${discordUser.discriminator}`);
         message.reply(`${discordUser.username}#${discordUser.discriminator} has been added to the user list. Your game time stats are now being recorded.`);

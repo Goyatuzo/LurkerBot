@@ -6,6 +6,7 @@ import { getMongoRepository } from "typeorm";
 import { GameTime } from "../../../typeorm/models/game-time";
 import { DiscordDBUser } from "../../../typeorm/models/discord-db-user";
 import { GameType } from "../../../helpers/discord-js-enums";
+import { DiscordDBUserHelper } from "../../../typeorm/helpers/discord-db-user-helper";
 
 /**
  * When the user starts playing a game, call this function.
@@ -30,8 +31,7 @@ async function endLogging(user: GuildMember, game: string) {
         return;
     }
 
-    const userRepository = getMongoRepository(DiscordDBUser);
-    const match = await userRepository.findOne({ userId: user.id });
+    const match = await DiscordDBUserHelper.getUser(user.id);
 
     if (!match) {
         return;
