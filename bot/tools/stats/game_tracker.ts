@@ -26,10 +26,9 @@ async function endLogging(user: GuildMember, game: string) {
     const timeEnded: Date = new Date();
     stats.removeGame(user, game);
 
-    if (timeBegan === null || (timeEnded.getTime() - timeEnded.getTime()) / 1000 < 1) {
+    if (timeBegan === null || ((timeEnded.getTime() - timeBegan.getTime()) / 1000) < 1) {
         return;
     }
-
 
     const userRepository = getMongoRepository(DiscordDBUser);
     const match = await userRepository.findOne({ userId: user.id });
