@@ -2,7 +2,7 @@ import { DiscordDBUser } from "../models/discord-db-user";
 import { getMongoRepository, MongoRepository } from "typeorm";
 
 export class DiscordDBUserHelper {
-    private static _users: { [id: string]: DiscordDBUser };
+    private static _users: { [id: string]: DiscordDBUser } = {};
 
     public static async getUser(id: string): Promise<DiscordDBUser> {
         const userRepository = getMongoRepository(DiscordDBUser);
@@ -30,5 +30,8 @@ export class DiscordDBUserHelper {
 
     public static removeUser(user: DiscordDBUser) {
         this._users[user.userId] = null;
+
+        const userRepository = getMongoRepository(DiscordDBUser);
+        userRepository.delete(user);
     }
 }
