@@ -25,13 +25,13 @@
     "typeorm": "0.2.18"
   },
   "devDependencies": {
-    "@types/chai": "4.1.7",
+    "@types/chai": "4.2.0",
     "@types/ftp": "0.3.29",
     "@types/lodash": "4.14.136",
     "@types/mkdirp": "0.5.2",
     "@types/mocha": "5.2.7",
     "chai": "4.2.0",
-    "mocha": "6.1.4",
+    "mocha": "6.2.0",
     "typescript": "3.5.3"
   }
 }
