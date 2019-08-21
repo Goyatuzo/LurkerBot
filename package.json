@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "ts-node ./bot/app.ts",
-    "test": "",
+    "test": "mocha -r ts-node/register test/**/*.test.ts",
     "compile": "tsc",
     "add-migration": "npm run clean && ts-node node_modules/typeorm/cli.js migration:generate -n",
     "update-database": "npm run clean && ts-node node_modules/typeorm/cli.js migration:run",
