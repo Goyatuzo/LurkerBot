@@ -1,6 +1,4 @@
-﻿import * as _ from 'lodash';
-
-import { Client } from "discord.js";
+﻿import { Client } from "discord.js";
 
 export default async function (bot: Client) {
     console.log(`Connected to all servers.`);

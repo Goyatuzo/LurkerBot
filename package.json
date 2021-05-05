@@ -17,21 +17,17 @@
   "dependencies": {
     "discord.js": "11.5.1",
     "ftp": "0.3.10",
-    "lodash": "4.17.14",
-    "mkdirp": "0.5.1",
+    "mkdirp": "1.0.4",
     "moment": "2.24.0",
-    "mongodb": "3.2.7",
+    "mongodb": "3.6.6",
     "ts-node": "8.3.0",
-    "typeorm": "0.2.18"
+    "typeorm": "0.2.32"
   },
   "devDependencies": {
-    "@types/chai": "4.2.0",
     "@types/ftp": "0.3.29",
-    "@types/lodash": "4.14.136",
     "@types/mkdirp": "0.5.2",
     "@types/mocha": "5.2.7",
     "chai": "4.2.0",
-    "mocha": "6.2.0",
     "typescript": "3.5.3"
   }
 }

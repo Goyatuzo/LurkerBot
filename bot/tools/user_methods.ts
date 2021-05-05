@@ -1,5 +1,4 @@
 ﻿import {GuildMember, User} from "discord.js";
-import * as _ from "lodash";
 
 /**
  * Return a string of the username with its discriminator added
