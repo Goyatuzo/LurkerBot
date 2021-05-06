@@ -1,5 +1,4 @@
 ﻿import { Message, TextChannel, Client, DMChannel } from "discord.js";
-import * as _ from "lodash";
 
 import messageRouter from "../messages/text";
 import dm from "../messages/dm";

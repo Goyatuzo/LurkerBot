@@ -7,31 +7,21 @@
   },
   "scripts": {
     "start": "ts-node ./bot/app.ts",
+    "prod": "npm run compile && node ./build/bot/app.js",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "compile": "tsc",
-    "add-migration": "npm run clean && ts-node node_modules/typeorm/cli.js migration:generate -n",
-    "update-database": "npm run clean && ts-node node_modules/typeorm/cli.js migration:run",
-    "revert-database": "npm run clean && ts-node node_modules/typeorm/cli.js migration:revert",
     "clean": "rm -f ./bot/**/*.js ./bot/**/*.js.map && rm -f ./helpers/**/*.js ./helpers/**/*.js.map && rm -f ./typeorm/**/*.js ./typeorm/**/*.js.map && rm -f ./test/**/*.js ./test/**/*.js.map"
   },
   "dependencies": {
     "discord.js": "11.5.1",
-    "ftp": "0.3.10",
-    "lodash": "4.17.14",
-    "mkdirp": "0.5.1",
+    "mkdirp": "1.0.4",
     "moment": "2.24.0",
-    "mongodb": "3.2.7",
-    "ts-node": "8.3.0",
-    "typeorm": "0.2.18"
+    "mongodb": "3.6.6",
+    "ts-node": "8.3.0"
   },
   "devDependencies": {
-    "@types/chai": "4.2.0",
-    "@types/ftp": "0.3.29",
-    "@types/lodash": "4.14.136",
     "@types/mkdirp": "0.5.2",
-    "@types/mocha": "5.2.7",
-    "chai": "4.2.0",
-    "mocha": "6.2.0",
+    "@types/mongodb": "^3.6.12",
     "typescript": "3.5.3"
   }
 }
