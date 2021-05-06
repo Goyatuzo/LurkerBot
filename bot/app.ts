@@ -5,7 +5,7 @@ import messageEvent from "./handlers/events/message";
 import readyEvent from './handlers/events/ready';
 
 import { Configuration } from "../helpers/environment";
-import {connect} from './tools/mongo'
+import { connect } from './tools/mongo'
 
 /**
  * BOT token = process.env.DISCORD_TOKEN
@@ -17,15 +17,13 @@ import {connect} from './tools/mongo'
 //Startup.init();
 connect(_ => {
     try {
-    console.log("Typeorm connected to database.");
+        var bot = new Discord.Client();
 
-    var bot = new Discord.Client();
+        bot.on('ready', () => readyEvent(bot));
+        bot.on('presenceUpdate', presenceEvent);
+        bot.on('message', messageEvent(bot));
 
-    bot.on('ready', () => readyEvent(bot));
-    bot.on('presenceUpdate', presenceEvent);
-    bot.on('message', messageEvent(bot));
-
-    bot.login(Configuration.DISCORD_TOKEN);
+        bot.login(Configuration.DISCORD_TOKEN);
     } catch (ex) {
         console.error(ex);
     }

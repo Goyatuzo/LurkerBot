@@ -28,7 +28,7 @@ async function endLogging(user: GuildMember, game: string) {
         return;
     }
 
-    const match = await connectedDb.collection('discord_db_user').findOne({ id: user.id });
+    const match = await connectedDb.collection('discord_db_user').findOne({ userId: user.id });
 
     if (!match) {
         return;
@@ -49,7 +49,10 @@ async function endLogging(user: GuildMember, game: string) {
         newEntry["gameType"] = user.presence.game.assets ? user.presence.game.assets.largeText : null;
     }
 
-    connectedDb.collection('game_time').insertOne(newEntry);
+    const gametimeCollection = connectedDb.collection('game_time');
+    gametimeCollection.insertOne(newEntry).catch(err => {
+        console.error(err);
+    });
 
     console.log(`Logged ${(timeEnded.getTime() - timeBegan.getTime()) / 1000} seconds for ${match.username} playing ${newEntry.gameName}`);
     // If a valid number of seconds, be sure to add it to the database.

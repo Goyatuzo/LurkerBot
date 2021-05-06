@@ -4,7 +4,7 @@ import { Configuration } from '../../helpers/environment'
 let connectedDb: Db;
 
 export function connect(callback) {
-    MongoClient.connect(Configuration.DB_HOST).then(cl => {
+    MongoClient.connect(Configuration.DB_HOST, { useUnifiedTopology: true }).then(cl => {
         connectedDb = cl.db('lurker-bot');
 
         callback(cl);
