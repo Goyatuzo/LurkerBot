@@ -5,9 +5,7 @@ import messageEvent from "./handlers/events/message";
 import readyEvent from './handlers/events/ready';
 
 import { Configuration } from "../helpers/environment";
-import { connectionOptions } from '../typeorm'
-
-import { createConnection } from 'typeorm';
+import {connect} from './tools/mongo'
 
 /**
  * BOT token = process.env.DISCORD_TOKEN
@@ -17,7 +15,7 @@ import { createConnection } from 'typeorm';
  * DB Default = process.env.LURKER_SCHEMA
  */
 //Startup.init();
-createConnection(connectionOptions).then(conn => {
+connect(_ => {
     try {
     console.log("Typeorm connected to database.");
 
@@ -31,6 +29,4 @@ createConnection(connectionOptions).then(conn => {
     } catch (ex) {
         console.error(ex);
     }
-}).catch(err => {
-    console.error(err);
-})
+});

@@ -2,11 +2,8 @@
 import * as UserMethods from "../user_methods";
 
 import stats from "../stats/stats";
-import { getMongoRepository } from "typeorm";
-import { GameTime } from "../../../typeorm/models/game-time";
-import { DiscordDBUser } from "../../../typeorm/models/discord-db-user";
 import { GameType } from "../../../helpers/discord-js-enums";
-import { DiscordDBUserHelper } from "../../../typeorm/helpers/discord-db-user-helper";
+import { connectedDb } from '../../tools/mongo';
 
 /**
  * When the user starts playing a game, call this function.
@@ -31,29 +28,28 @@ async function endLogging(user: GuildMember, game: string) {
         return;
     }
 
-    const match = await DiscordDBUserHelper.getUser(user.id);
+    const match = await connectedDb.collection('discord_db_user').findOne({ id: user.id });
 
     if (!match) {
         return;
     }
+
     console.log(`Processing gametime ${user.displayName} for ${game}`);
 
-    let newEntry = new GameTime();
-    newEntry.sessionBegin = timeBegan;
-    newEntry.sessionEnd = timeEnded;
-    newEntry.gameName = game;
-    newEntry.userId = match.userId;
-
-    newEntry.gameDetail = user.presence.game.details ? user.presence.game.details : null;
-    newEntry.gameState = user.presence.game.state;
-
-    if (game === "League of Legends") {
-        newEntry.gameType = user.presence.game.assets ? user.presence.game.assets.largeText : null;
+    let newEntry = {
+        "sessionBegin": timeBegan,
+        "sessionEnd": timeEnded,
+        "gameName": game,
+        "userId": match.userId,
+        "gameDetail": user.presence.game.details ? user.presence.game.details : null,
+        "gameState": user.presence.game.state
     }
 
-    const gameTimeRepository = getMongoRepository(GameTime);
+    if (game === "League of Legends") {
+        newEntry["gameType"] = user.presence.game.assets ? user.presence.game.assets.largeText : null;
+    }
 
-    gameTimeRepository.insertOne(newEntry);
+    connectedDb.collection('game_time').insertOne(newEntry);
 
     console.log(`Logged ${(timeEnded.getTime() - timeBegan.getTime()) / 1000} seconds for ${match.username} playing ${newEntry.gameName}`);
     // If a valid number of seconds, be sure to add it to the database.
