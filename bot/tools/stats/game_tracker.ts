@@ -42,7 +42,9 @@ async function endLogging(user: GuildMember, game: string) {
         "gameName": game,
         "userId": match.userId,
         "gameDetail": user.presence.game.details ? user.presence.game.details : null,
-        "gameState": user.presence.game.state
+        "gameState": user.presence.game.state,
+        "largeAssetText": user.presence.game.assets.largeText,
+        "smallAssetText": user.presence.game.assets.smallText
     }
 
     if (game === "League of Legends") {
