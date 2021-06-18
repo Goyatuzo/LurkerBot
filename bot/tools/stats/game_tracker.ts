@@ -41,10 +41,10 @@ async function endLogging(user: GuildMember, game: string) {
         "sessionEnd": timeEnded,
         "gameName": game,
         "userId": match.userId,
-        "gameDetail": user.presence.game.details ? user.presence.game.details : null,
+        "gameDetail": user.presence.game.details,
         "gameState": user.presence.game.state,
-        "largeAssetText": user.presence.game.assets.largeText,
-        "smallAssetText": user.presence.game.assets.smallText
+        "largeAssetText": user.presence.game.assets?.largeText,
+        "smallAssetText": user.presence.game.assets?.smallText
     }
 
     if (game === "League of Legends") {
