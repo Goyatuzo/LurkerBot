@@ -14,9 +14,10 @@ suspend fun main() {
 
     val timerRepository = TimerRepository(mongoClient)
     val gameTimer = GameTimer(timerRepository)
+    val gameTimeTracker = GameTimeTracker(gameTimer)
 
     client.on<PresenceUpdateEvent> {
-        println(this)
+        gameTimeTracker.processEvent(this)
     }
 
     client.login {
