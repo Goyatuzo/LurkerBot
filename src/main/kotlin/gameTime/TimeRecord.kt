@@ -1,10 +1,10 @@
 package gameTime
 
-import java.time.LocalDate
+import java.time.LocalTime
 
 data class TimeRecord(
-    val sessionBegin: LocalDate,
-    val sessionEnd: LocalDate,
+    val sessionBegin: LocalTime,
+    val sessionEnd: LocalTime,
     val gameName: String,
     val userId: String,
     val gameDetail: String,

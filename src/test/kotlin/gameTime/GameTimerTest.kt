@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import org.junit.Test
-import java.time.LocalDate
+import java.time.LocalTime
 
 class GameTimerTest {
     private val timerRepository = mockk<TimerRepository>()
@@ -13,8 +13,8 @@ class GameTimerTest {
     private val gameTimer = GameTimer(timerRepository)
 
     private val basicTimeRecord = TimeRecord(
-        sessionBegin = LocalDate.now(),
-        sessionEnd = LocalDate.MAX,
+        sessionBegin = LocalTime.now(),
+        sessionEnd = LocalTime.MAX,
         gameName = "game",
         userId = "test",
         gameDetail = "Detail",
