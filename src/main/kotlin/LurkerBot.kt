@@ -1,15 +1,19 @@
 import dev.kord.core.Kord
-import dev.kord.core.entity.ReactionEmoji
-import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.event.user.PresenceUpdateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
-import kotlinx.coroutines.delay
+import gameTime.GameTimer
+import gameTime.TimerRepository
+import org.litote.kmongo.KMongo
 
 suspend fun main() {
     val client = Kord(System.getenv("LURKER_BOT_TOKEN"))
+    val mongoClient = KMongo.createClient()
+
+    val timerRepository = TimerRepository(mongoClient)
+    val gameTimer = GameTimer(timerRepository)
 
     client.on<PresenceUpdateEvent> {
         println(this)
