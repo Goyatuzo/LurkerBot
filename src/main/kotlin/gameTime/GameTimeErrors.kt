@@ -6,5 +6,6 @@ data class NeverStartedLogging(val userId: String, val gameName: String) : GameT
 data class GameIsAlreadyLogging(
     val userId: String,
     val gameName: String,
-    val record: TimeRecord
+    val alreadyLogging: TimeRecord,
+    val newRecord: TimeRecord
 ) : GameTimeError()

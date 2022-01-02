@@ -11,7 +11,7 @@ class GameTimer(private val timerRepository: TimerRepository) {
     fun beginLogging(userId: String, gameName: String, record: TimeRecord): Result<Unit, GameTimeError> {
         val key = generateKey(userId, gameName)
         if (beingTracked.containsKey(key)) {
-            return Err(GameIsAlreadyLogging(userId, gameName, record))
+            return Err(GameIsAlreadyLogging(userId, gameName, beingTracked[key]!!, record))
         }
         beingTracked[generateKey(userId, gameName)] = record
         return Ok(Unit)

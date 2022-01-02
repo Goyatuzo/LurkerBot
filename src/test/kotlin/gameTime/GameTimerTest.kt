@@ -41,6 +41,18 @@ class GameTimerTest {
     }
 
     @Test
+    fun `When duplicate user and game beings logging, error is retuend`() {
+        val toInsert = basicTimeRecord.copy()
+        val secondGame = basicTimeRecord.copy(gameState = "Updated State")
+        every { timerRepository.saveTimeRecord(any()) } returns Unit
+
+        gameTimer.beginLogging("test", "game", toInsert)
+        val error = gameTimer.beginLogging("test", "game", secondGame)
+
+        assertThat(error).isEqualTo(Err(GameIsAlreadyLogging("test", "game", toInsert, secondGame)))
+    }
+
+    @Test
     fun `Should not be be able to end logging that never started`() {
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
