@@ -20,8 +20,7 @@ class GameTimerTest {
         gameDetail = "Detail",
         gameState = "State",
         largeAssetText = "",
-        smallAssetText = "",
-        gameType = ""
+        smallAssetText = ""
     )
 
     @Test

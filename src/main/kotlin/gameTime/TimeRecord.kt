@@ -10,6 +10,5 @@ data class TimeRecord(
     val gameDetail: String,
     val gameState: String,
     val largeAssetText: String,
-    val smallAssetText: String,
-    val gameType: String
+    val smallAssetText: String
 )
