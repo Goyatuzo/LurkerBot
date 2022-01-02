@@ -1,5 +1,7 @@
 package gameTime
 
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import org.junit.Test
@@ -29,7 +31,7 @@ class GameTimerTest {
 
         gameTimer.beginLogging("test", "game", toInsert)
         val actual = gameTimer.endLogging("test", "game")
-        assertThat(actual).isEqualTo(toInsert)
+        assertThat(actual).isEqualTo(Ok(toInsert))
 
         verify {
             timerRepository.saveTimeRecord(toInsert)
@@ -43,7 +45,7 @@ class GameTimerTest {
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
         val actual = gameTimer.endLogging("test", "game")
-        assertThat(actual).isNull()
+        assertThat(actual).isEqualTo(Err(NeverStartedLogging("test", "game")))
 
         verify {
             timerRepository wasNot Called
