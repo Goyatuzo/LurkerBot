@@ -26,15 +26,16 @@ class GameTimerTest {
 
     @Test
     fun `Should be able to start logging a brand new game and end it`() {
+        val now = LocalTime.now()
         val toInsert = basicTimeRecord.copy()
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", "game", toInsert)
-        val actual = gameTimer.endLogging("test", "game")
-        assertThat(actual).isEqualTo(Ok(toInsert))
+        gameTimer.beginLogging("test", toInsert)
+        val actual = gameTimer.endLogging("test", now)
+        assertThat(actual).isEqualTo(Ok(toInsert.copy(sessionEnd = now)))
 
         verify {
-            timerRepository.saveTimeRecord(toInsert)
+            timerRepository.saveTimeRecord(toInsert.copy(sessionEnd = now))
         }
 
         confirmVerified(timerRepository)
@@ -46,18 +47,18 @@ class GameTimerTest {
         val secondGame = basicTimeRecord.copy(gameState = "Updated State")
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", "game", toInsert)
-        val error = gameTimer.beginLogging("test", "game", secondGame)
+        gameTimer.beginLogging("test", toInsert)
+        val error = gameTimer.beginLogging("test", secondGame)
 
-        assertThat(error).isEqualTo(Err(GameIsAlreadyLogging("test", "game", toInsert, secondGame)))
+        assertThat(error).isEqualTo(Err(GameIsAlreadyLogging("test", toInsert, secondGame)))
     }
 
     @Test
     fun `Should not be be able to save logging that never started`() {
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        val actual = gameTimer.endLogging("test", "game")
-        assertThat(actual).isEqualTo(Err(NeverStartedLogging("test", "game")))
+        val actual = gameTimer.endLogging("test")
+        assertThat(actual).isEqualTo(Err(NeverStartedLogging("test")))
 
         verify {
             timerRepository wasNot Called

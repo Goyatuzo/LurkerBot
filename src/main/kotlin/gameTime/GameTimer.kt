@@ -3,27 +3,28 @@ package gameTime
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import java.time.LocalTime
 
 class GameTimer(private val timerRepository: TimerRepository) {
     private val beingTracked: MutableMap<String, TimeRecord> = mutableMapOf()
-    private fun generateKey(userId: String, gameName: String) = userId + gameName
 
-    fun beginLogging(userId: String, gameName: String, record: TimeRecord): Result<Unit, GameTimeError> {
-        val key = generateKey(userId, gameName)
-        if (beingTracked.containsKey(key)) {
-            return Err(GameIsAlreadyLogging(userId, gameName, beingTracked[key]!!, record))
+    fun beginLogging(userId: String, record: TimeRecord): Result<Unit, GameTimeError> {
+        if (isBeingLogged(userId)) {
+            return Err(GameIsAlreadyLogging(userId, beingTracked[userId]!!, record))
         }
-        beingTracked[generateKey(userId, gameName)] = record
+        beingTracked[userId] = record
         return Ok(Unit)
     }
 
-    fun endLogging(userId: String, gameName: String): Result<TimeRecord, GameTimeError> {
-        val key = generateKey(userId, gameName)
-        beingTracked[key]?.let {
-            timerRepository.saveTimeRecord(it)
-            return Ok(it)
+    fun endLogging(userId: String, at: LocalTime = LocalTime.now()): Result<TimeRecord, GameTimeError> {
+        beingTracked[userId]?.let {
+            val updatedEnd = it.copy(sessionEnd = at)
+            timerRepository.saveTimeRecord(updatedEnd)
+            return Ok(updatedEnd)
         }
 
-        return Err(NeverStartedLogging(userId, gameName))
+        return Err(NeverStartedLogging(userId))
     }
+
+    fun isBeingLogged(userId: String): Boolean = beingTracked.containsKey(userId)
 }
