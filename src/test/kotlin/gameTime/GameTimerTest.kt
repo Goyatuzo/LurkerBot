@@ -1,19 +1,16 @@
 package gameTime
 
 import com.google.common.truth.Truth.assertThat
-import io.mockk.confirmVerified
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.*
 import org.junit.Test
 import java.time.LocalDate
 
 class GameTimerTest {
     private val timerRepository = mockk<TimerRepository>()
 
-    val gameTimer = GameTimer(timerRepository)
+    private val gameTimer = GameTimer(timerRepository)
 
-    val basicTimeRecord = TimeRecord(
+    private val basicTimeRecord = TimeRecord(
         sessionBegin = LocalDate.now(),
         sessionEnd = LocalDate.MAX,
         gameName = "game",
@@ -47,5 +44,11 @@ class GameTimerTest {
 
         val actual = gameTimer.endLogging("test", "game")
         assertThat(actual).isNull()
+
+        verify {
+            timerRepository wasNot Called
+        }
+
+        confirmVerified(timerRepository)
     }
 }

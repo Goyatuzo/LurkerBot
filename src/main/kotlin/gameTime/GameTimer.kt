@@ -2,7 +2,6 @@ package gameTime
 
 class GameTimer(private val timerRepository: TimerRepository) {
     private val beingTracked: MutableMap<String, TimeRecord> = mutableMapOf()
-
     private fun generateKey(userId: String, gameName: String) = userId + gameName
 
     fun beginLogging(userId: String, gameName: String, record: TimeRecord) {

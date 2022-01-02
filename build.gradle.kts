@@ -17,7 +17,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.12.2")
     implementation("dev.kord:kord-core:0.8.0-M8")
     implementation("org.litote.kmongo:kmongo:4.4.0")
-
+    implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.13")
 }
 
 tasks.test {
