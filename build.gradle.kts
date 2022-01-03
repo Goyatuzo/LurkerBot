@@ -34,6 +34,6 @@ tasks.withType<KotlinCompile>().configureEach {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "com.lurkerbot.LurkerBot"
+        attributes["Main-Class"] = "com.lurkerbot.LurkerBotKt"
     }
 }
