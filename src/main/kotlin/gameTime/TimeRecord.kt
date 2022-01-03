@@ -7,8 +7,8 @@ data class TimeRecord(
     val sessionEnd: LocalTime,
     val gameName: String,
     val userId: String,
-    val gameDetail: String,
-    val gameState: String,
-    val largeAssetText: String,
-    val smallAssetText: String
+    val gameDetail: String?,
+    val gameState: String?,
+    val largeAssetText: String?,
+    val smallAssetText: String?
 )

@@ -11,5 +11,6 @@ data class TimerRepository(
         val collection = database.getCollection<TimeRecord>("game_time")
 
         collection.insertOne(record)
+        println("Inserted: $record")
     }
 }
