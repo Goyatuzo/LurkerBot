@@ -65,4 +65,17 @@ class GameTimerTest {
 
         confirmVerified(timerRepository)
     }
+
+    @Test
+    fun `When logging ends, a new one should be able to start`() {
+        val now = LocalTime.now()
+        val toInsert = basicTimeRecord.copy()
+        every { timerRepository.saveTimeRecord(any()) } returns Unit
+
+        gameTimer.beginLogging("test", toInsert)
+        gameTimer.endLogging("test", now)
+        val begin = gameTimer.beginLogging("test", toInsert)
+        assertThat(begin).isEqualTo(Ok(Unit))
+
+    }
 }

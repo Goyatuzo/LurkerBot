@@ -1,14 +1,12 @@
+package gameTime
+
 import dev.kord.common.entity.ActivityType
 import dev.kord.core.event.user.PresenceUpdateEvent
-import gameTime.GameTimer
-import gameTime.TimeRecord
 import java.time.LocalTime
 
 class GameTimeTracker(private val gameTimer: GameTimer) {
     suspend fun processEvent(event: PresenceUpdateEvent) {
         val user = event.getUser()
-        println(user)
-        println(user.id.value.toString())
         if (!user.isBot) {
             when (event.presence.activities.size) {
                 0 -> {

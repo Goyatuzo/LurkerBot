@@ -4,13 +4,14 @@ import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
+import gameTime.GameTimeTracker
 import gameTime.GameTimer
 import gameTime.TimerRepository
 import org.litote.kmongo.KMongo
 
 suspend fun main() {
     val client = Kord(System.getenv("LURKER_BOT_TOKEN"))
-    val mongoClient = KMongo.createClient()
+    val mongoClient = KMongo.createClient(System.getenv("LURKER_BOT_DB"))
 
     val timerRepository = TimerRepository(mongoClient)
     val gameTimer = GameTimer(timerRepository)
