@@ -1,4 +1,4 @@
-package gameTime
+package com.lurkerbot.gameTime
 
 import dev.kord.common.entity.ActivityType
 import dev.kord.core.event.user.PresenceUpdateEvent

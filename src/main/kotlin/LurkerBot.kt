@@ -1,12 +1,14 @@
+package com.lurkerbot
+
+import com.lurkerbot.gameTime.GameTimeTracker
+import com.lurkerbot.gameTime.GameTimer
+import com.lurkerbot.gameTime.TimerRepository
 import dev.kord.core.Kord
 import dev.kord.core.event.user.PresenceUpdateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
-import gameTime.GameTimeTracker
-import gameTime.GameTimer
-import gameTime.TimerRepository
 import org.litote.kmongo.KMongo
 
 suspend fun main() {
