@@ -18,6 +18,7 @@ dependencies {
     implementation("dev.kord:kord-core:0.8.0-M8")
     implementation("org.litote.kmongo:kmongo:4.4.0")
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.13")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 }
 
 tasks.test {
