@@ -1,4 +1,4 @@
-package gameTime
+package com.lurkerbot.gameTime
 
 import java.time.LocalTime
 

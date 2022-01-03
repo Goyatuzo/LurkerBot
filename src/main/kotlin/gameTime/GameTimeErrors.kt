@@ -1,4 +1,4 @@
-package gameTime
+package com.lurkerbot.gameTime
 
 sealed class GameTimeError
 

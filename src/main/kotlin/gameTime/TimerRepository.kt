@@ -1,4 +1,4 @@
-package gameTime
+package com.lurkerbot.gameTime
 
 import org.litote.kmongo.*
 import com.mongodb.client.MongoClient

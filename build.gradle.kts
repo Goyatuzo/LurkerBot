@@ -31,3 +31,9 @@ tasks.withType<KotlinCompile>() {
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "com.lurkerbot.LurkerBot"
+    }
+}
