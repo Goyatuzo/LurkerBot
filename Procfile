@@ -1,1 +1,1 @@
-worker: npm run prod 
+worker: java -jar build/libs/LurkerBot-1.0-SNAPSHOT.jar
