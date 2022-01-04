@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import org.junit.Test
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 class GameTimerTest {
     private val timerRepository = mockk<TimerRepository>()
@@ -13,8 +13,8 @@ class GameTimerTest {
     private val gameTimer = GameTimer(timerRepository)
 
     private val basicTimeRecord = TimeRecord(
-        sessionBegin = LocalTime.now(),
-        sessionEnd = LocalTime.MAX,
+        sessionBegin = LocalDateTime.now(),
+        sessionEnd = LocalDateTime.MAX,
         gameName = "game",
         userId = "test",
         gameDetail = "Detail",
@@ -25,7 +25,7 @@ class GameTimerTest {
 
     @Test
     fun `Should be able to start logging a brand new game and end it`() {
-        val now = LocalTime.now()
+        val now = LocalDateTime.now()
         val toInsert = basicTimeRecord.copy()
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
@@ -68,7 +68,7 @@ class GameTimerTest {
 
     @Test
     fun `When logging ends, a new one should be able to start`() {
-        val now = LocalTime.now()
+        val now = LocalDateTime.now()
         val toInsert = basicTimeRecord.copy()
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 

@@ -1,10 +1,10 @@
 package com.lurkerbot.gameTime
 
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 data class TimeRecord(
-    val sessionBegin: LocalTime,
-    val sessionEnd: LocalTime,
+    val sessionBegin: LocalDateTime,
+    val sessionEnd: LocalDateTime,
     val gameName: String,
     val userId: String,
     val gameDetail: String?,

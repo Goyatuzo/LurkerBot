@@ -3,7 +3,7 @@ package com.lurkerbot.gameTime
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 class GameTimer(private val timerRepository: TimerRepository) {
     private val beingTracked: MutableMap<String, TimeRecord> = mutableMapOf()
@@ -16,7 +16,7 @@ class GameTimer(private val timerRepository: TimerRepository) {
         return Ok(Unit)
     }
 
-    fun endLogging(userId: String, at: LocalTime = LocalTime.now()): Result<TimeRecord, GameTimeError> {
+    fun endLogging(userId: String, at: LocalDateTime = LocalDateTime.now()): Result<TimeRecord, GameTimeError> {
         beingTracked[userId]?.let {
             val updatedEnd = it.copy(sessionEnd = at)
             timerRepository.saveTimeRecord(updatedEnd)
