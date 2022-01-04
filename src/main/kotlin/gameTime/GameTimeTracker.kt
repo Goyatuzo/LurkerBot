@@ -19,6 +19,7 @@ class GameTimeTracker(
 
         if (!userTracker.userIsBeingTracked(user.id.value.toString())) {
             logger.debug { "Not tracked: $user" }
+            println("Not tracked ${user.username}")
             return
         }
 
