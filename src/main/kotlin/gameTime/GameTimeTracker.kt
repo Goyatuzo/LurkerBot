@@ -3,6 +3,8 @@ package com.lurkerbot.gameTime
 import com.lurkerbot.discordUser.UserTracker
 import dev.kord.common.entity.ActivityType
 import dev.kord.core.event.user.PresenceUpdateEvent
+import dev.kord.core.kordLogger
+import mu.KotlinLogging
 import java.time.LocalDateTime
 import java.time.LocalTime
 
@@ -10,11 +12,13 @@ class GameTimeTracker(
     private val gameTimer: GameTimer,
     private val userTracker: UserTracker
 ) {
+    private val logger = KotlinLogging.logger {}
+
     suspend fun processEvent(event: PresenceUpdateEvent) {
         val user = event.getUser()
 
         if (!userTracker.userIsBeingTracked(user.id.value.toString())) {
-            println("Not tracked: $user")
+            logger.debug { "Not tracked: $user" }
             return
         }
 

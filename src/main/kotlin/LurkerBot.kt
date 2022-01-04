@@ -28,11 +28,6 @@ suspend fun main() {
         gameTimeTracker.processEvent(this)
     }
 
-    client.on<ReadyEvent> {
-        println("Ready")
-        println(this)
-    }
-
     client.login {
         @OptIn(PrivilegedIntent::class)
         intents = Intents.nonPrivileged + Intent.GuildPresences
