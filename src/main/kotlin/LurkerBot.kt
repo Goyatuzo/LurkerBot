@@ -1,5 +1,7 @@
 package com.lurkerbot
 
+import com.lurkerbot.discordUser.DiscordUserRepository
+import com.lurkerbot.discordUser.UserTracker
 import com.lurkerbot.gameTime.GameTimeTracker
 import com.lurkerbot.gameTime.GameTimer
 import com.lurkerbot.gameTime.TimerRepository
@@ -17,7 +19,9 @@ suspend fun main() {
 
     val timerRepository = TimerRepository(mongoClient)
     val gameTimer = GameTimer(timerRepository)
-    val gameTimeTracker = GameTimeTracker(gameTimer)
+    val userRepository = DiscordUserRepository(mongoClient)
+    val userTracker = UserTracker(userRepository)
+    val gameTimeTracker = GameTimeTracker(gameTimer, userTracker)
 
     client.on<PresenceUpdateEvent> {
         gameTimeTracker.processEvent(this)
