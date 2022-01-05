@@ -18,7 +18,7 @@ class GameTimeTracker(
         val user = event.getUser()
 
         if (!userTracker.userIsBeingTracked(user.id.value.toString())) {
-            logger.info { "Not tracked: $user" }
+//            logger.info { "Not tracked: $user" }
             return
         }
 
