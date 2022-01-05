@@ -9,18 +9,19 @@ class GameTimer(private val timerRepository: TimerRepository) {
     private val beingTracked: MutableMap<String, TimeRecord> = mutableMapOf()
     private val serverBeingTracked: MutableMap<String, String> = mutableMapOf()
 
-    private fun userIsBeingTracked(userId: String, guildId: String) =
-        beingTracked.containsKey(userId) && serverBeingTracked.containsKey(guildId)
+    private fun userIsBeingTracked(userId: String) =
+        beingTracked.containsKey(userId) && serverBeingTracked.containsKey(userId)
 
     fun beginLogging(
         userId: String,
         guildId: String,
         record: TimeRecord
     ): Result<Unit, GameTimeError> {
-        if (userIsBeingTracked(userId, guildId)) {
+        if (userIsBeingTracked(userId)) {
             return Err(GameIsAlreadyLogging(userId, beingTracked[userId]!!, record))
         }
         beingTracked[userId] = record
+        serverBeingTracked[userId] = guildId
         return Ok(Unit)
     }
 
@@ -29,7 +30,7 @@ class GameTimer(private val timerRepository: TimerRepository) {
         guildId: String,
         at: LocalDateTime = LocalDateTime.now()
     ): Result<TimeRecord, GameTimeError> {
-        if (userIsBeingTracked(userId, guildId)) {
+        if (userIsBeingTracked(userId)) {
             beingTracked[userId]?.let {
                 val updatedEnd = it.copy(sessionEnd = at)
                 timerRepository.saveTimeRecord(updatedEnd)
