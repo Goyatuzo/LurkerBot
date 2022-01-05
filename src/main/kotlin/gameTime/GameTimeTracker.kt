@@ -23,6 +23,7 @@ class GameTimeTracker(
         }
 
         if (!user.isBot) {
+            logger.info { event }
             when (event.presence.activities.size) {
                 0 -> {
                     gameTimer.endLogging(user.id.value.toString())
@@ -33,8 +34,8 @@ class GameTimeTracker(
                     if (activity != null) {
                         val oldActivity = event.old?.activities?.firstOrNull { it.type == ActivityType.Game }
                         if (oldActivity?.equals(activity) != true) {
-                            logger.info { "Current: $activity" }
-                            logger.info { "Before: $oldActivity"}
+//                            logger.info { "Current: $activity" }
+//                            logger.info { "Before: $oldActivity"}
                             gameTimer.endLogging(user.id.value.toString())
                         }
 
