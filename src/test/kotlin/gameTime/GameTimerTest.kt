@@ -30,8 +30,8 @@ class GameTimerTest {
         val toInsert = basicTimeRecord.copy()
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", toInsert)
-        val actual = gameTimer.endLogging("test", now)
+        gameTimer.beginLogging("test", "test server", toInsert)
+        val actual = gameTimer.endLogging("test", "test server", now)
         assertThat(actual).isEqualTo(Ok(toInsert.copy(sessionEnd = now)))
 
         verify { timerRepository.saveTimeRecord(toInsert.copy(sessionEnd = now)) }
@@ -45,8 +45,8 @@ class GameTimerTest {
         val secondGame = basicTimeRecord.copy(gameState = "Updated State")
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", toInsert)
-        val error = gameTimer.beginLogging("test", secondGame)
+        gameTimer.beginLogging("test", "test server", toInsert)
+        val error = gameTimer.beginLogging("test", "test server", secondGame)
 
         assertThat(error).isEqualTo(Err(GameIsAlreadyLogging("test", toInsert, secondGame)))
     }
@@ -55,8 +55,8 @@ class GameTimerTest {
     fun `Should not be be able to save logging that never started`() {
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        val actual = gameTimer.endLogging("test")
-        assertThat(actual).isEqualTo(Err(NeverStartedLogging("test")))
+        val actual = gameTimer.endLogging("test", "test server",)
+        assertThat(actual).isEqualTo(Err(NeverStartedLogging("test", "test server",)))
 
         verify { timerRepository wasNot Called }
 
@@ -69,9 +69,9 @@ class GameTimerTest {
         val toInsert = basicTimeRecord.copy()
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", toInsert)
-        gameTimer.endLogging("test", now)
-        val begin = gameTimer.beginLogging("test", toInsert)
+        gameTimer.beginLogging("test", "test server", toInsert)
+        gameTimer.endLogging("test", "test server", now)
+        val begin = gameTimer.beginLogging("test", "test server", toInsert)
         assertThat(begin).isEqualTo(Ok(Unit))
     }
 }
