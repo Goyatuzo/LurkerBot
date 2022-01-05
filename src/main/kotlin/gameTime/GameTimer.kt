@@ -34,6 +34,7 @@ class GameTimer(private val timerRepository: TimerRepository) {
                 val updatedEnd = it.copy(sessionEnd = at)
                 timerRepository.saveTimeRecord(updatedEnd)
                 beingTracked.remove(userId)
+                serverBeingTracked.remove(userId)
 
                 return Ok(updatedEnd)
             }
