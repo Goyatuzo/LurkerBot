@@ -2,6 +2,7 @@ package com.lurkerbot.gameTime
 
 import com.lurkerbot.discordUser.UserTracker
 import dev.kord.common.entity.ActivityType
+import dev.kord.core.entity.Activity
 import dev.kord.core.event.user.PresenceUpdateEvent
 import dev.kord.core.kordLogger
 import mu.KotlinLogging
@@ -14,6 +15,10 @@ class GameTimeTracker(
 ) {
     private val logger = KotlinLogging.logger {}
 
+    private fun printActivity(activity: Activity): String {
+        return "${activity.name}, ${activity.details}, ${activity.state}, ${activity.assets?.smallText}, ${activity.assets?.largeText}"
+    }
+
     suspend fun processEvent(event: PresenceUpdateEvent) {
         val user = event.getUser()
 
@@ -23,7 +28,6 @@ class GameTimeTracker(
         }
 
         if (!user.isBot) {
-            logger.info { event }
             when (event.presence.activities.size) {
                 0 -> {
                     gameTimer.endLogging(user.id.value.toString())
@@ -34,8 +38,7 @@ class GameTimeTracker(
                     if (activity != null) {
                         val oldActivity = event.old?.activities?.firstOrNull { it.type == ActivityType.Game }
                         if (oldActivity?.equals(activity) != true) {
-//                            logger.info { "Current: $activity" }
-//                            logger.info { "Before: $oldActivity"}
+                            logger.info { "Before: ${printActivity(oldActivity!!)}, After: ${printActivity(activity)}"}
                             gameTimer.endLogging(user.id.value.toString())
                         }
 
