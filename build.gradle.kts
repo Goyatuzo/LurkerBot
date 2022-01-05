@@ -11,6 +11,8 @@ repositories {
     mavenCentral()
 }
 
+val log4jVersion = "2.17.1"
+
 dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.6.0")
     testImplementation("com.google.truth:truth:1.1.3")
@@ -18,6 +20,9 @@ dependencies {
     implementation("dev.kord:kord-core:0.8.0-M8")
     implementation("org.litote.kmongo:kmongo:4.4.0")
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.13")
+    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
 }
 
 tasks.test {

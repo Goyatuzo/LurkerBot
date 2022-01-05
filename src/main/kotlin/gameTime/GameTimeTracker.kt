@@ -2,7 +2,10 @@ package com.lurkerbot.gameTime
 
 import com.lurkerbot.discordUser.UserTracker
 import dev.kord.common.entity.ActivityType
+import dev.kord.core.entity.Activity
 import dev.kord.core.event.user.PresenceUpdateEvent
+import dev.kord.core.kordLogger
+import mu.KotlinLogging
 import java.time.LocalDateTime
 import java.time.LocalTime
 
@@ -10,11 +13,17 @@ class GameTimeTracker(
     private val gameTimer: GameTimer,
     private val userTracker: UserTracker
 ) {
+    private val logger = KotlinLogging.logger {}
+
+    private fun printActivity(activity: Activity): String {
+        return "${activity.name}, ${activity.details}, ${activity.state}, ${activity.assets?.smallText}, ${activity.assets?.largeText}"
+    }
+
     suspend fun processEvent(event: PresenceUpdateEvent) {
         val user = event.getUser()
 
         if (!userTracker.userIsBeingTracked(user.id.value.toString())) {
-            println("Not tracked: $user")
+            logger.info { "Not tracked: $user" }
             return
         }
 
@@ -27,7 +36,8 @@ class GameTimeTracker(
                     val activity = event.presence.activities.firstOrNull { it.type == ActivityType.Game }
 
                     if (activity != null) {
-                        if (event.old?.activities?.firstOrNull { it.type == ActivityType.Game }?.equals(activity) != true) {
+                        val oldActivity = event.old?.activities?.firstOrNull { it.type == ActivityType.Game }
+                        if (oldActivity?.equals(activity) != true) {
                             gameTimer.endLogging(user.id.value.toString())
                         }
 
@@ -45,11 +55,9 @@ class GameTimeTracker(
                         gameTimer.beginLogging(user.id.value.toString(), toRecord)
                     }
 
-                    if (event.presence.activities.size > 1) println(event.presence.activities)
+                    if (event.presence.activities.size > 1) logger.info { (event.presence.activities) }
                 }
             }
         }
-
-        println()
     }
 }

@@ -13,7 +13,6 @@ data class DiscordUserRepository(
         val collection = database.getCollection<UserInDiscord>("discord_db_user")
 
         collection.insertOne(user)
-        println("Inserted: $user")
     }
 
     fun getUserInDiscord(userId: String): UserInDiscord? {

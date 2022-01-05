@@ -6,6 +6,7 @@ import com.lurkerbot.gameTime.GameTimeTracker
 import com.lurkerbot.gameTime.GameTimer
 import com.lurkerbot.gameTime.TimerRepository
 import dev.kord.core.Kord
+import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.user.PresenceUpdateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
