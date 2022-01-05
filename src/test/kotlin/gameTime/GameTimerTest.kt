@@ -4,24 +4,25 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
-import org.junit.Test
 import java.time.LocalDateTime
+import org.junit.Test
 
 class GameTimerTest {
     private val timerRepository = mockk<TimerRepository>()
 
     private val gameTimer = GameTimer(timerRepository)
 
-    private val basicTimeRecord = TimeRecord(
-        sessionBegin = LocalDateTime.now(),
-        sessionEnd = LocalDateTime.MAX,
-        gameName = "game",
-        userId = "test",
-        gameDetail = "Detail",
-        gameState = "State",
-        largeAssetText = "",
-        smallAssetText = ""
-    )
+    private val basicTimeRecord =
+        TimeRecord(
+            sessionBegin = LocalDateTime.now(),
+            sessionEnd = LocalDateTime.MAX,
+            gameName = "game",
+            userId = "test",
+            gameDetail = "Detail",
+            gameState = "State",
+            largeAssetText = "",
+            smallAssetText = ""
+        )
 
     @Test
     fun `Should be able to start logging a brand new game and end it`() {
@@ -33,9 +34,7 @@ class GameTimerTest {
         val actual = gameTimer.endLogging("test", now)
         assertThat(actual).isEqualTo(Ok(toInsert.copy(sessionEnd = now)))
 
-        verify {
-            timerRepository.saveTimeRecord(toInsert.copy(sessionEnd = now))
-        }
+        verify { timerRepository.saveTimeRecord(toInsert.copy(sessionEnd = now)) }
 
         confirmVerified(timerRepository)
     }
@@ -59,9 +58,7 @@ class GameTimerTest {
         val actual = gameTimer.endLogging("test")
         assertThat(actual).isEqualTo(Err(NeverStartedLogging("test")))
 
-        verify {
-            timerRepository wasNot Called
-        }
+        verify { timerRepository wasNot Called }
 
         confirmVerified(timerRepository)
     }
@@ -76,6 +73,5 @@ class GameTimerTest {
         gameTimer.endLogging("test", now)
         val begin = gameTimer.beginLogging("test", toInsert)
         assertThat(begin).isEqualTo(Ok(Unit))
-
     }
 }

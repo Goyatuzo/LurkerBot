@@ -16,7 +16,10 @@ class GameTimer(private val timerRepository: TimerRepository) {
         return Ok(Unit)
     }
 
-    fun endLogging(userId: String, at: LocalDateTime = LocalDateTime.now()): Result<TimeRecord, GameTimeError> {
+    fun endLogging(
+        userId: String,
+        at: LocalDateTime = LocalDateTime.now()
+    ): Result<TimeRecord, GameTimeError> {
         beingTracked[userId]?.let {
             val updatedEnd = it.copy(sessionEnd = at)
             timerRepository.saveTimeRecord(updatedEnd)

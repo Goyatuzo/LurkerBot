@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.6.10"
+    id("com.diffplug.spotless") version "6.1.0"
 }
 
 group = "me.yuto"
@@ -42,8 +43,22 @@ tasks.withType<Jar> {
     manifest {
         attributes("Main-Class" to "com.lurkerbot.LurkerBotKt")
     }
-    from(configurations.runtimeClasspath.get()
-        .map { if (it.isDirectory) it else zipTree(it) })
+    from(
+        configurations.runtimeClasspath.get()
+            .map { if (it.isDirectory) it else zipTree(it) }
+    )
     val sourcesMain = sourceSets.main.get()
     from(sourcesMain.output)
+}
+
+configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+    kotlin {
+        // by default the target is every '.kt' and '.kts` file in the java sourcesets
+        ktfmt().kotlinlangStyle()
+        targetExclude("src/main/kotlin/LurkerBot.kt")
+    }
+    kotlinGradle {
+        target("*.gradle.kts") // default target for kotlinGradle
+        ktlint() // or ktfmt() or prettier()
+    }
 }
