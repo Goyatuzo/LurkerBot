@@ -20,7 +20,7 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
         if (!user.isBot) {
             when (event.presence.activities.size) {
                 0 -> {
-                    gameTimer.endLogging(user.id.value.toString())
+                    gameTimer.endLogging(user.id.value.toString(), event.guildId.value.toString())
                 }
                 else -> {
                     val activity =
@@ -30,7 +30,10 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
                         val oldActivity =
                             event.old?.activities?.firstOrNull { it.type == ActivityType.Game }
                         if (oldActivity?.equals(activity) != true) {
-                            gameTimer.endLogging(user.id.value.toString())
+                            gameTimer.endLogging(
+                                user.id.value.toString(),
+                                event.guildId.value.toString()
+                            )
                         }
 
                         val toRecord =
@@ -45,7 +48,11 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
                                 smallAssetText = activity.assets?.smallText
                             )
 
-                        gameTimer.beginLogging(user.id.value.toString(), toRecord)
+                        gameTimer.beginLogging(
+                            user.id.value.toString(),
+                            event.guildId.value.toString(),
+                            toRecord
+                        )
                     }
 
                     if (event.presence.activities.size > 1)

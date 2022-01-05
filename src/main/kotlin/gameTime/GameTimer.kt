@@ -7,9 +7,17 @@ import java.time.LocalDateTime
 
 class GameTimer(private val timerRepository: TimerRepository) {
     private val beingTracked: MutableMap<String, TimeRecord> = mutableMapOf()
+    private val serverBeingTracked: MutableMap<String, String> = mutableMapOf()
 
-    fun beginLogging(userId: String, record: TimeRecord): Result<Unit, GameTimeError> {
-        if (beingTracked.containsKey(userId)) {
+    private fun userIsBeingTracked(userId: String, guildId: String) =
+        beingTracked.containsKey(userId) && serverBeingTracked.containsKey(guildId)
+
+    fun beginLogging(
+        userId: String,
+        guildId: String,
+        record: TimeRecord
+    ): Result<Unit, GameTimeError> {
+        if (userIsBeingTracked(userId, guildId)) {
             return Err(GameIsAlreadyLogging(userId, beingTracked[userId]!!, record))
         }
         beingTracked[userId] = record
@@ -18,15 +26,19 @@ class GameTimer(private val timerRepository: TimerRepository) {
 
     fun endLogging(
         userId: String,
+        guildId: String,
         at: LocalDateTime = LocalDateTime.now()
     ): Result<TimeRecord, GameTimeError> {
-        beingTracked[userId]?.let {
-            val updatedEnd = it.copy(sessionEnd = at)
-            timerRepository.saveTimeRecord(updatedEnd)
-            beingTracked.remove(userId)
-            return Ok(updatedEnd)
+        if (userIsBeingTracked(userId, guildId)) {
+            beingTracked[userId]?.let {
+                val updatedEnd = it.copy(sessionEnd = at)
+                timerRepository.saveTimeRecord(updatedEnd)
+                beingTracked.remove(userId)
+
+                return Ok(updatedEnd)
+            }
         }
 
-        return Err(NeverStartedLogging(userId))
+        return Err(NeverStartedLogging(userId, guildId))
     }
 }
