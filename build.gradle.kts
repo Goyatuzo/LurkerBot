@@ -54,11 +54,8 @@ tasks.withType<Jar> {
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
         // by default the target is every '.kt' and '.kts` file in the java sourcesets
-        ktfmt() // has its own section below
-        ktlint() // has its own section below
-        diktat() // has its own section below
-        prettier() // has its own section below
-        licenseHeader("/* (C)2022 */") // or licenseHeaderFile
+        ktfmt().kotlinlangStyle()
+        targetExclude("src/main/kotlin/LurkerBot.kt")
     }
     kotlinGradle {
         target("*.gradle.kts") // default target for kotlinGradle
