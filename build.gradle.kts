@@ -43,8 +43,25 @@ tasks.withType<Jar> {
     manifest {
         attributes("Main-Class" to "com.lurkerbot.LurkerBotKt")
     }
-    from(configurations.runtimeClasspath.get()
-        .map { if (it.isDirectory) it else zipTree(it) })
+    from(
+        configurations.runtimeClasspath.get()
+            .map { if (it.isDirectory) it else zipTree(it) }
+    )
     val sourcesMain = sourceSets.main.get()
     from(sourcesMain.output)
+}
+
+configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+    kotlin {
+        // by default the target is every '.kt' and '.kts` file in the java sourcesets
+        ktfmt() // has its own section below
+        ktlint() // has its own section below
+        diktat() // has its own section below
+        prettier() // has its own section below
+        licenseHeader("/* (C)2022 */") // or licenseHeaderFile
+    }
+    kotlinGradle {
+        target("*.gradle.kts") // default target for kotlinGradle
+        ktlint() // or ktfmt() or prettier()
+    }
 }
