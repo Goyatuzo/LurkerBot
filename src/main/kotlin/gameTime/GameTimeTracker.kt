@@ -33,9 +33,9 @@ class GameTimeTracker(
                     if (activity != null) {
                         val oldActivity = event.old?.activities?.firstOrNull { it.type == ActivityType.Game }
                         if (oldActivity?.equals(activity) != true) {
-                            gameTimer.endLogging(user.id.value.toString())
                             logger.debug { "Current: $activity" }
                             logger.debug { "Before: $oldActivity"}
+                            gameTimer.endLogging(user.id.value.toString())
                         }
 
                         val toRecord = TimeRecord(
