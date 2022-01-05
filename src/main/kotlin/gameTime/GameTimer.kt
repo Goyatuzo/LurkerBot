@@ -9,7 +9,7 @@ class GameTimer(private val timerRepository: TimerRepository) {
     private val beingTracked: MutableMap<String, TimeRecord> = mutableMapOf()
 
     fun beginLogging(userId: String, record: TimeRecord): Result<Unit, GameTimeError> {
-        if (isBeingLogged(userId)) {
+        if (beingTracked.containsKey(userId)) {
             return Err(GameIsAlreadyLogging(userId, beingTracked[userId]!!, record))
         }
         beingTracked[userId] = record
@@ -26,6 +26,4 @@ class GameTimer(private val timerRepository: TimerRepository) {
 
         return Err(NeverStartedLogging(userId))
     }
-
-    fun isBeingLogged(userId: String): Boolean = beingTracked.containsKey(userId)
 }
