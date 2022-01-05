@@ -52,7 +52,7 @@ class GameTimeTracker(
                         gameTimer.beginLogging(user.id.value.toString(), toRecord)
                     }
 
-                    if (event.presence.activities.size > 1) println(event.presence.activities)
+                    if (event.presence.activities.size > 1) logger.info { (event.presence.activities) }
                 }
             }
         }
