@@ -18,7 +18,7 @@ class GameTimeTracker(
         val user = event.getUser()
 
         if (!userTracker.userIsBeingTracked(user.id.value.toString())) {
-            logger.trace { "Not tracked: $user" }
+            logger.info { "Not tracked: $user" }
             return
         }
 
@@ -33,8 +33,8 @@ class GameTimeTracker(
                     if (activity != null) {
                         val oldActivity = event.old?.activities?.firstOrNull { it.type == ActivityType.Game }
                         if (oldActivity?.equals(activity) != true) {
-                            logger.debug { "Current: $activity" }
-                            logger.debug { "Before: $oldActivity"}
+                            logger.info { "Current: $activity" }
+                            logger.info { "Before: $oldActivity"}
                             gameTimer.endLogging(user.id.value.toString())
                         }
 
