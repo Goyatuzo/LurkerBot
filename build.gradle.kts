@@ -31,7 +31,7 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "1.17"
+    kotlinOptions.jvmTarget = "1.11"
 }
 
 tasks.withType<KotlinCompile>().configureEach {
