@@ -3,8 +3,8 @@ package com.lurkerbot.gameTime
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import mu.KotlinLogging
 import java.time.LocalDateTime
+import mu.KotlinLogging
 
 class GameTimer(private val timerRepository: TimerRepository) {
     private val logger = KotlinLogging.logger {}
