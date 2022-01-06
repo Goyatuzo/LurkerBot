@@ -13,7 +13,7 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
         val user = event.getUser()
 
         if (!userTracker.userIsBeingTracked(user.id.value.toString())) {
-            logger.info { "Not tracked: $user" }
+            logger.debug { "Not tracked: $user" }
             return
         }
 
@@ -56,7 +56,7 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
                     }
 
                     if (event.presence.activities.size > 1)
-                        logger.info { (event.presence.activities) }
+                        logger.info { "Multiple acitivites: ${event.presence.activities}" }
                 }
             }
         }
