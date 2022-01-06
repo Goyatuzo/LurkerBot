@@ -55,7 +55,7 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
                     }
 
                     if (event.presence.activities.size > 1)
-                        logger.info { "Multiple acitivites: ${event.presence.activities}" }
+                        logger.info { "Multiple activities: ${event.presence.activities}" }
                 }
             }
         }
