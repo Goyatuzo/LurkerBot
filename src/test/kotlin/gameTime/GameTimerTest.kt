@@ -79,7 +79,7 @@ class GameTimerTest {
         gameTimer.beginLogging("test", "test server 2", secondToInsert)
 
         gameTimer.endLogging("test", "test server", now)
-        gameTimer.endLogging("test", "test server", now)
+        gameTimer.endLogging("test", "test server 2", now)
 
         verify(exactly = 1) {
             timerRepository.saveTimeRecord(record = firstToInsert.copy(sessionEnd = now))
