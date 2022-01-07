@@ -23,23 +23,36 @@ class GameTimeTrackerTest {
 
     private val userA = mockkClass(User::class)
     private val userAEvent = mockkClass(PresenceUpdateEvent::class)
+    private val userAPostEvent = mockkClass(PresenceUpdateEvent::class)
 
     private val userAId = (1234).toULong()
     private val guildAId = (4321).toULong()
 
-    private fun mockActivity(type: ActivityType, gameName: String, gameDetails: String?): Activity {
+    private fun mockActivity(
+        type: ActivityType,
+        gameName: String,
+        gameDetails: String? = null,
+        gameState: String? = null,
+        smallTextAsset: String? = null,
+        largeTextAsset: String? = null
+    ): Activity {
         val mocked = mockkClass(Activity::class)
+        val mockedAssets = mockkClass(Activity.Assets::class)
+
+        every { mockedAssets.smallText } returns smallTextAsset
+        every { mockedAssets.largeText } returns largeTextAsset
 
         every { mocked.type } returns type
         every { mocked.name } returns gameName
         every { mocked.details } returns gameDetails
-        every { mocked.state } returns null
-        every { mocked.assets } returns null
+        every { mocked.state } returns gameState
+        every { mocked.assets } returns mockedAssets
 
         return mocked
     }
 
-    private val leagueOfLegendsActivity = mockActivity(ActivityType.Game, "League of Legends", null)
+    private val leagueOfLegendsActivity =
+        mockActivity(ActivityType.Game, "League of Legends", "SR", "In Game", "Caitlyn", "lv18")
     private val leagueOfLegendsActivityTwo =
         mockActivity(ActivityType.Game, "League of Legends", "In Lobby")
 
@@ -50,6 +63,9 @@ class GameTimeTrackerTest {
 
         every { userAEvent.guildId.value } returns guildAId
         coEvery { userAEvent.getUser() } returns userA
+
+        every { userAPostEvent.guildId.value } returns guildAId
+        coEvery { userAPostEvent.getUser() } returns userA
 
         every { userTracker.userIsBeingTracked(any()) } returns true
     }
@@ -80,7 +96,7 @@ class GameTimeTrackerTest {
 
     @Test
     fun `A user in a single server starts playing a game starts getting logged`() = runBlocking {
-        every { userAEvent.presence.activities } returns listOf(leagueOfLegendsActivityTwo)
+        every { userAEvent.presence.activities } returns listOf(leagueOfLegendsActivity)
         every { userAEvent.old?.activities } returns listOf()
         every { gameTimer.beginLogging(userAId.toString(), guildAId.toString(), any()) } returns
             Ok(Unit)
@@ -93,13 +109,61 @@ class GameTimeTrackerTest {
                 guildAId.toString(),
                 withArg {
                     assertThat(it.gameName).isEqualTo("League of Legends")
+                    assertThat(it.gameDetail).isEqualTo("SR")
+                    assertThat(it.gameState).isEqualTo("In Game")
+                    assertThat(it.smallAssetText).isEqualTo("Caitlyn")
+                    assertThat(it.largeAssetText).isEqualTo("lv18")
+                }
+            )
+            userTracker.userIsBeingTracked(userAId.toString())
+            gameTimer.endLogging(any(), any(), any()) wasNot called
+        }
+
+        confirmVerified(gameTimer, userTracker)
+    }
+
+    @Test
+    fun `A user in a single server plays 1 game that and its Presence updates`() = runBlocking {
+        every { userAEvent.presence.activities } returns listOf(leagueOfLegendsActivity)
+        every { userAEvent.old?.activities } returns listOf()
+        every { userAPostEvent.presence.activities } returns listOf(leagueOfLegendsActivityTwo)
+        every { userAPostEvent.old?.activities } returns listOf(leagueOfLegendsActivity)
+        every { gameTimer.beginLogging(userAId.toString(), guildAId.toString(), any()) } returns
+            Ok(Unit)
+        every { gameTimer.endLogging(userAId.toString(), guildAId.toString(), any()) } returns
+            Ok(Unit)
+
+        // User starts playing a game
+        gameTimerTracker.processEvent(userAEvent)
+        // The game's presence changes
+        gameTimerTracker.processEvent(userAPostEvent)
+
+        verify { userTracker.userIsBeingTracked(userAId.toString()) }
+
+        verifyOrder {
+            gameTimer.beginLogging(
+                userAId.toString(),
+                guildAId.toString(),
+                withArg {
+                    assertThat(it.gameName).isEqualTo("League of Legends")
+                    assertThat(it.gameDetail).isEqualTo("SR")
+                    assertThat(it.gameState).isEqualTo("In Game")
+                    assertThat(it.smallAssetText).isEqualTo("Caitlyn")
+                    assertThat(it.largeAssetText).isEqualTo("lv18")
+                }
+            )
+            gameTimer.endLogging(userAId.toString(), guildAId.toString(), any())
+            gameTimer.beginLogging(
+                userAId.toString(),
+                guildAId.toString(),
+                withArg {
+                    assertThat(it.gameName).isEqualTo("League of Legends")
                     assertThat(it.gameDetail).isEqualTo("In Lobby")
                     assertThat(it.gameState).isNull()
                     assertThat(it.smallAssetText).isNull()
                     assertThat(it.largeAssetText).isNull()
                 }
             )
-            userTracker.userIsBeingTracked(userAId.toString())
         }
 
         confirmVerified(gameTimer, userTracker)
