@@ -34,7 +34,7 @@ class GameTimer(private val timerRepository: TimerRepository) {
         userId: String,
         guildId: String,
         at: LocalDateTime = LocalDateTime.now()
-    ): Result<TimeRecord, GameTimeError> {
+    ): Result<Unit, GameTimeError> {
         if (userIsBeingTracked(userId, guildId)) {
             beingTracked[userId]?.let {
                 val updatedEnd = it.copy(sessionEnd = at)
@@ -44,7 +44,7 @@ class GameTimer(private val timerRepository: TimerRepository) {
                 serverBeingTracked.remove(userId)
                 timerRepository.saveTimeRecord(updatedEnd)
 
-                return Ok(updatedEnd)
+                return Ok(Unit)
             }
         }
 
