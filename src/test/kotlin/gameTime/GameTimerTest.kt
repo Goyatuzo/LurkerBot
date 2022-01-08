@@ -33,7 +33,7 @@ class GameTimerTest {
 
         gameTimer.beginLogging("test", "test server", toInsert)
         val actual = gameTimer.endLogging("test", "test server", now)
-        assertThat(actual).isEqualTo(Ok(toInsert.copy(sessionEnd = now)))
+        assertThat(actual).isEqualTo(Ok(Unit))
 
         verify { timerRepository.saveTimeRecord(toInsert.copy(sessionEnd = now)) }
 
