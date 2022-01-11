@@ -19,16 +19,15 @@ class GameTimer(private val timerRepository: TimerRepository) {
         userId: String,
         guildId: String,
         record: TimeRecord
-    ): Result<Unit, GameTimeError> {
+    ): Result<Unit, GameTimeError> =
         if (beingTracked.containsKey(userId) && !serverBeingTracked.containsKey(guildId)) {
-            return Err(GameIsAlreadyLogging(userId, beingTracked[userId]!!, record))
+            Err(GameIsAlreadyLogging(userId, beingTracked[userId]!!, record))
+        } else {
+            logger.info { "Began recording user: $userId in guild: $guildId" }
+            beingTracked[userId] = record
+            serverBeingTracked[userId] = guildId
+            Ok(Unit)
         }
-
-        logger.info { "Began recording user: $userId in guild: $guildId" }
-        beingTracked[userId] = record
-        serverBeingTracked[userId] = guildId
-        return Ok(Unit)
-    }
 
     fun endLogging(
         userId: String,
