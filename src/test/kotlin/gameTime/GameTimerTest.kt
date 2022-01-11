@@ -5,8 +5,8 @@ import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
 import com.lurkerbot.gameTime.*
 import io.mockk.*
-import org.junit.After
 import java.time.LocalDateTime
+import org.junit.After
 import org.junit.Test
 
 class GameTimerTest {
@@ -140,7 +140,8 @@ class GameTimerTest {
 
         gameTimer.beginLogging("test", "test server", toInsert)
         val actual = gameTimer.endLogging("test", "test server", now)
-        assertThat(actual).isEqualTo(Err(StateChangedTooFast("test", toInsert.copy(sessionEnd = now))))
+        assertThat(actual)
+            .isEqualTo(Err(StateChangedTooFast("test", toInsert.copy(sessionEnd = now))))
 
         verify { timerRepository wasNot called }
 

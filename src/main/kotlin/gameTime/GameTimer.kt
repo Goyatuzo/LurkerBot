@@ -4,8 +4,8 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import java.time.LocalDateTime
-import mu.KotlinLogging
 import java.time.temporal.ChronoUnit
+import mu.KotlinLogging
 
 class GameTimer(private val timerRepository: TimerRepository) {
     private val logger = KotlinLogging.logger {}
@@ -38,7 +38,8 @@ class GameTimer(private val timerRepository: TimerRepository) {
         if (userIsBeingTracked(userId, guildId)) {
             beingTracked[userId]?.let {
                 val updatedEnd = it.copy(sessionEnd = at)
-                val timeElapsed = ChronoUnit.MILLIS.between(updatedEnd.sessionBegin, updatedEnd.sessionEnd)
+                val timeElapsed =
+                    ChronoUnit.MILLIS.between(updatedEnd.sessionBegin, updatedEnd.sessionEnd)
                 return if (timeElapsed > 500) {
                     // Remove first to eliminate possibility of data being sent to db
                     beingTracked.remove(userId)
@@ -47,7 +48,9 @@ class GameTimer(private val timerRepository: TimerRepository) {
 
                     Ok(Unit)
                 } else {
-                    logger.warn { "Not logging for $userId. State change happened in $timeElapsed milliseconds" }
+                    logger.warn {
+                        "Not logging for $userId. State change happened in $timeElapsed milliseconds"
+                    }
                     Err(StateChangedTooFast(userId, updatedEnd))
                 }
             }
