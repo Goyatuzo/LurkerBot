@@ -5,6 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import java.time.LocalDateTime
 import mu.KotlinLogging
+import java.time.temporal.ChronoUnit
 
 class GameTimer(private val timerRepository: TimerRepository) {
     private val logger = KotlinLogging.logger {}
@@ -19,16 +20,15 @@ class GameTimer(private val timerRepository: TimerRepository) {
         userId: String,
         guildId: String,
         record: TimeRecord
-    ): Result<Unit, GameTimeError> {
+    ): Result<Unit, GameTimeError> =
         if (beingTracked.containsKey(userId) && !serverBeingTracked.containsKey(guildId)) {
-            return Err(GameIsAlreadyLogging(userId, beingTracked[userId]!!, record))
+            Err(GameIsAlreadyLogging(userId, beingTracked[userId]!!, record))
+        } else {
+            logger.info { "Began recording user: $userId in guild: $guildId" }
+            beingTracked[userId] = record
+            serverBeingTracked[userId] = guildId
+            Ok(Unit)
         }
-
-        logger.info { "Began recording user: $userId in guild: $guildId" }
-        beingTracked[userId] = record
-        serverBeingTracked[userId] = guildId
-        return Ok(Unit)
-    }
 
     fun endLogging(
         userId: String,
@@ -38,13 +38,18 @@ class GameTimer(private val timerRepository: TimerRepository) {
         if (userIsBeingTracked(userId, guildId)) {
             beingTracked[userId]?.let {
                 val updatedEnd = it.copy(sessionEnd = at)
+                val timeElapsed = ChronoUnit.MILLIS.between(updatedEnd.sessionBegin, updatedEnd.sessionEnd)
+                return if (timeElapsed > 500) {
+                    // Remove first to eliminate possibility of data being sent to db
+                    beingTracked.remove(userId)
+                    serverBeingTracked.remove(userId)
+                    timerRepository.saveTimeRecord(updatedEnd)
 
-                // Remove first to eliminate possibility of data being sent to db
-                beingTracked.remove(userId)
-                serverBeingTracked.remove(userId)
-                timerRepository.saveTimeRecord(updatedEnd)
-
-                return Ok(Unit)
+                    Ok(Unit)
+                } else {
+                    logger.warn { "Not logging for $userId. State change happened in $timeElapsed milliseconds" }
+                    Err(StateChangedTooFast(userId, updatedEnd))
+                }
             }
         }
 
