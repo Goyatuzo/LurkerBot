@@ -4,12 +4,10 @@ import com.lurkerbot.discordUser.UserTracker
 import dev.kord.common.entity.ActivityType
 import dev.kord.core.event.user.PresenceUpdateEvent
 import java.time.LocalDateTime
-import kotlinx.coroutines.sync.Mutex
 import mu.KotlinLogging
 
 class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker: UserTracker) {
     private val logger = KotlinLogging.logger {}
-    private val mutex = Mutex()
 
     suspend fun processEvent(event: PresenceUpdateEvent) {
         val user = event.getUser()
@@ -55,13 +53,11 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
                                 smallAssetText = activity.assets?.smallText
                             )
 
-                        mutex.lock {
-                            gameTimer.beginLogging(
-                                user.id.value.toString(),
-                                event.guildId.value.toString(),
-                                toRecord
-                            )
-                        }
+                        gameTimer.beginLogging(
+                            user.id.value.toString(),
+                            event.guildId.value.toString(),
+                            toRecord
+                        )
                     }
 
                     if (event.presence.activities.size > 1)
