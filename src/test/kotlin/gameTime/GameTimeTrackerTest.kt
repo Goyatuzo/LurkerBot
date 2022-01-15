@@ -109,12 +109,15 @@ class GameTimeTrackerTest {
     fun `A user in a single server starts playing a game starts getting logged`() = runBlocking {
         every { userAEvent.presence.activities } returns listOf(leagueOfLegendsActivity)
         every { userAEvent.old?.activities } returns listOf()
+        every { gameTimer.endLogging(any(), any(), any()) } returns Ok(Unit)
         every { gameTimer.beginLogging(userAId.toString(), guildAId.toString(), any()) } returns
             Ok(Unit)
 
         gameTimerTracker.processEvent(userAEvent)
 
-        verify {
+        verifyOrder {
+            userTracker.userIsBeingTracked(userAId.toString())
+            gameTimer.endLogging(any(), any(), any())
             gameTimer.beginLogging(
                 userAId.toString(),
                 guildAId.toString(),
@@ -126,8 +129,6 @@ class GameTimeTrackerTest {
                     assertThat(it.largeAssetText).isEqualTo("lv18")
                 }
             )
-            userTracker.userIsBeingTracked(userAId.toString())
-            gameTimer.endLogging(any(), any(), any()) wasNot called
         }
 
         confirmVerified(gameTimer, userTracker)
@@ -152,6 +153,7 @@ class GameTimeTrackerTest {
         verify { userTracker.userIsBeingTracked(userAId.toString()) }
 
         verifyOrder {
+            gameTimer.endLogging(userAId.toString(), guildAId.toString(), any())
             gameTimer.beginLogging(
                 userAId.toString(),
                 guildAId.toString(),
