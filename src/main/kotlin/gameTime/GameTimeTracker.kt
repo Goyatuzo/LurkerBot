@@ -3,7 +3,6 @@ package com.lurkerbot.gameTime
 import com.lurkerbot.discordUser.UserTracker
 import dev.kord.common.entity.ActivityType
 import dev.kord.core.event.user.PresenceUpdateEvent
-import java.time.LocalDateTime
 import mu.KotlinLogging
 
 class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker: UserTracker) {
@@ -25,17 +24,7 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
             }
 
             if (currentGame != null) {
-                val toRecord =
-                    TimeRecord(
-                        sessionBegin = LocalDateTime.now(),
-                        sessionEnd = LocalDateTime.now(),
-                        gameName = currentGame.name,
-                        userId = user.id.value.toString(),
-                        gameDetail = currentGame.details,
-                        gameState = currentGame.state,
-                        largeAssetText = currentGame.assets?.largeText,
-                        smallAssetText = currentGame.assets?.smallText
-                    )
+                val toRecord = TimeRecord.fromActivity(user.id.value.toString(), currentGame)
 
                 gameTimer.beginLogging(
                     user.id.value.toString(),
