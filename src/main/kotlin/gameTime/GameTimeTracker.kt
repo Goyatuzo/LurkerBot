@@ -27,14 +27,7 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
 
                     if (activity != null) {
                         event.old?.activities?.firstOrNull { it.type == ActivityType.Game }?.let {
-                            // Check some attributes for equality
-                            val sameActivity =
-                                it.name == activity.name &&
-                                    it.details == activity.details &&
-                                    it.assets?.smallText == activity.assets?.smallText &&
-                                    it.assets?.largeText == activity.assets?.largeText
-
-                            if (!sameActivity) {
+                            if (activity.sameActivityAs(it)) {
                                 gameTimer.endLogging(
                                     user.id.value.toString(),
                                     event.guildId.value.toString()
