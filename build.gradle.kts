@@ -19,12 +19,14 @@ dependencies {
     testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("io.mockk:mockk:1.12.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-    implementation("dev.kord:kord-core:0.8.0-M8")
+    implementation("me.jakejmattson:DiscordKt:0.22.0")
     implementation("org.litote.kmongo:kmongo:4.4.0")
-    implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.13")
-    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
+    implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.14")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
+    implementation("org.slf4j:slf4j-simple:1.7.33")
+//    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+//    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+//    implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
 }
 
 tasks.test {
@@ -56,7 +58,7 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
         // by default the target is every '.kt' and '.kts` file in the java sourcesets
         ktfmt().kotlinlangStyle()
-        targetExclude("src/main/kotlin/LurkerBot.kt")
+//        targetExclude("src/main/kotlin/LurkerBot.kt")
     }
     kotlinGradle {
         target("*.gradle.kts") // default target for kotlinGradle
