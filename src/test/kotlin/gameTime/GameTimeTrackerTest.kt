@@ -49,7 +49,7 @@ class GameTimeTrackerTest {
         coEvery { mockedEvent.getUser() } returns mockedUser
     }
 
-    private fun setupMockUser(mockedUser: User, isBot: Boolean) {
+    private fun setupMockUser(mockedUser: User, isBot: Boolean, userId: Long) {
         every { mockedUser.isBot } returns isBot
         every { mockedUser.id.value } returns userId
     }
