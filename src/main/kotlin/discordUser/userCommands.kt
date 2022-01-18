@@ -11,7 +11,7 @@ fun userCommands() =
         val userTracker = UserTracker(userRepository)
 
         globalSlash("add-me") {
-            description = "Start tracking your game time."
+            description = "Start tracking your game time, or update your username."
             execute {
                 userTracker.addUser(author)
 
@@ -23,7 +23,7 @@ fun userCommands() =
         }
 
         globalSlash("remove-me") {
-            description = "Stop tracking your game time."
+            description = "Stop tracking your future game sessions. Will not delete existing records."
             execute {
                 userTracker.removeUser(author)
                 respond("Future game sessions will not be recorded.", ephemeral = true)
