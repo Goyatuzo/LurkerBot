@@ -19,4 +19,8 @@ class UserTracker(private val discordUserRepository: DiscordUserRepository) {
     fun addUser(user: User) {
         discordUserRepository.saveUserInDiscord(user.toUserInDiscord())
     }
+
+    fun removeUser(user: User) {
+        discordUserRepository.removeUserInDiscord(user.toUserInDiscord())
+    }
 }

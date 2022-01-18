@@ -10,8 +10,13 @@ fun userCommands() =
         val userRepository = DiscordUserRepository(mongoClient)
         val userTracker = UserTracker(userRepository)
 
-        slash("addme") {
-            description = "Start tracking your gametime."
+        slash("add-me") {
+            description = "Start tracking your game time."
             execute { userTracker.addUser(author) }
+        }
+
+        slash("remove-me") {
+            description = "Stop tracking your game time."
+            execute { userTracker.removeUser(author) }
         }
     }
