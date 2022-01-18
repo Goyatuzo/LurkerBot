@@ -3,10 +3,7 @@ package com.lurkerbot.discordUser
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import mu.KotlinLogging
-import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
-import org.litote.kmongo.getCollection
-import org.litote.kmongo.save
+import org.litote.kmongo.*
 
 data class DiscordUserRepository(private val mongoClient: MongoClient) {
     private val logger = KotlinLogging.logger {}
@@ -24,8 +21,18 @@ data class DiscordUserRepository(private val mongoClient: MongoClient) {
 
     fun saveUserInDiscord(user: UserInDiscord) {
         val collection = getUserCollection()
-        collection.save(user)
-        logger.info { "Saved new user: ${user.username}#${user.discriminator}" }
+
+        if (getUserInDiscord(user.userId) == null) {
+            collection.save(user)
+            logger.info { "Saved new user: ${user.username}#${user.discriminator}" }
+        } else {
+            collection.updateOne(UserInDiscord::userId eq user.userId, set(
+                UserInDiscord::userId setTo user.userId,
+                UserInDiscord::username setTo user.username,
+                UserInDiscord::discriminator setTo user.discriminator
+            ))
+            logger.info { "Updated user: ${user.username}#${user.discriminator}" }
+        }
     }
 
     fun removeUserInDiscord(user: UserInDiscord) {
