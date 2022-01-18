@@ -16,7 +16,7 @@ fun userCommands() =
                 userTracker.addUser(author)
 
                 respond(
-                    "You are now tracked as ${author.username}#${author.discriminator}",
+                    "You are now tracked as **${author.username}#${author.discriminator}**",
                     ephemeral = true
                 )
             }
