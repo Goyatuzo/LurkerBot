@@ -29,7 +29,6 @@ data class DiscordUserRepository(private val mongoClient: MongoClient) {
             collection.updateOne(
                 UserInDiscord::userId eq user.userId,
                 set(
-                    UserInDiscord::userId setTo user.userId,
                     UserInDiscord::username setTo user.username,
                     UserInDiscord::discriminator setTo user.discriminator
                 )
