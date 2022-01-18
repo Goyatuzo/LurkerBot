@@ -1,5 +1,7 @@
 package com.lurkerbot.discordUser
 
+import dev.kord.core.entity.User
+
 class UserTracker(private val discordUserRepository: DiscordUserRepository) {
     private val beingTracked: MutableMap<String, UserInDiscord> = mutableMapOf()
 
@@ -12,5 +14,9 @@ class UserTracker(private val discordUserRepository: DiscordUserRepository) {
         }
 
         return false
+    }
+
+    fun addUser(user: User) {
+        discordUserRepository.saveUserInDiscord(user.toUserInDiscord())
     }
 }
