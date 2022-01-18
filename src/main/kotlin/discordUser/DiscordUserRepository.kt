@@ -26,11 +26,14 @@ data class DiscordUserRepository(private val mongoClient: MongoClient) {
             collection.save(user)
             logger.info { "Saved new user: ${user.username}#${user.discriminator}" }
         } else {
-            collection.updateOne(UserInDiscord::userId eq user.userId, set(
-                UserInDiscord::userId setTo user.userId,
-                UserInDiscord::username setTo user.username,
-                UserInDiscord::discriminator setTo user.discriminator
-            ))
+            collection.updateOne(
+                UserInDiscord::userId eq user.userId,
+                set(
+                    UserInDiscord::userId setTo user.userId,
+                    UserInDiscord::username setTo user.username,
+                    UserInDiscord::discriminator setTo user.discriminator
+                )
+            )
             logger.info { "Updated user: ${user.username}#${user.discriminator}" }
         }
     }

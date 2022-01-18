@@ -18,9 +18,11 @@ class UserTracker(private val discordUserRepository: DiscordUserRepository) {
 
     fun addUser(user: User) {
         discordUserRepository.saveUserInDiscord(user.toUserInDiscord())
+        beingTracked[user.id.asString] = user.toUserInDiscord()
     }
 
     fun removeUser(user: User) {
         discordUserRepository.removeUserInDiscord(user.toUserInDiscord())
+        beingTracked.remove(user.id.asString)
     }
 }

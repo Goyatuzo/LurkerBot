@@ -9,12 +9,11 @@ import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.user.PresenceUpdateEvent
 import me.jakejmattson.discordkt.api.dsl.listeners
 import mu.KotlinLogging
-import org.litote.kmongo.KMongo
 
 @Suppress("unused")
 fun botListeners() = listeners {
     val logger = KotlinLogging.logger {}
-    val mongoClient = KMongo.createClient(System.getenv("LURKER_BOT_DB"))
+    val mongoClient = MongoDatabase.client
 
     val timerRepository = TimerRepository(mongoClient)
     val gameTimer = GameTimer(timerRepository)

@@ -1,12 +1,12 @@
 package com.lurkerbot.discordUser
 
+import com.lurkerbot.internal.MongoDatabase
 import me.jakejmattson.discordkt.api.dsl.commands
-import org.litote.kmongo.KMongo
 
 @Suppress("unused")
 fun userCommands() =
     commands("DiscordUser") {
-        val mongoClient = KMongo.createClient(System.getenv("LURKER_BOT_DB"))
+        val mongoClient = MongoDatabase.client
         val userRepository = DiscordUserRepository(mongoClient)
         val userTracker = UserTracker(userRepository)
 
