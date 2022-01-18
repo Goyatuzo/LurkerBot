@@ -23,7 +23,8 @@ fun userCommands() =
         }
 
         globalSlash("remove-me") {
-            description = "Stop tracking your future game sessions. Will not delete existing records."
+            description =
+                "Stop tracking your future game sessions. Will not delete existing records."
             execute {
                 userTracker.removeUser(author)
                 respond("Future game sessions will not be recorded.", ephemeral = true)
