@@ -1,14 +1,12 @@
 package com.lurkerbot.discordUser
 
-import com.lurkerbot.internal.MongoDatabase
+import com.lurkerbot.internal.Dependencies
 import me.jakejmattson.discordkt.commands.commands
 
 @Suppress("unused")
 fun userCommands() =
     commands("DiscordUser") {
-        val mongoClient = MongoDatabase.client
-        val userRepository = DiscordUserRepository(mongoClient)
-        val userTracker = UserTracker(userRepository)
+        val userTracker = Dependencies.userTracker
 
         globalSlash("add-me") {
             description = "Start tracking your game time, or update your username."
