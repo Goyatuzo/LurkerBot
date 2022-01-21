@@ -49,7 +49,8 @@ class GameTimeTrackerTest {
 
     private fun setupMockEvent(mockedEvent: PresenceUpdateEvent, guildId: ULong, mockedUser: User) {
         every { mockedEvent.guildId.value } returns guildId
-        every { mockedEvent.user } returns DiscordPresenceUser(mockedUser.id, JsonObject(emptyMap()))
+        every { mockedEvent.user } returns
+            DiscordPresenceUser(mockedUser.id, JsonObject(emptyMap()))
         coEvery { mockedEvent.getUser() } returns mockedUser
     }
 

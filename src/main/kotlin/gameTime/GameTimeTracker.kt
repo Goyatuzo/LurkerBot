@@ -9,8 +9,6 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
     private val logger = KotlinLogging.logger {}
 
     suspend fun processEvent(event: PresenceUpdateEvent) {
-        logger.info { "${event.user} had their presence updated" }
-
         if (!userTracker.userIsBeingTracked(event.user.id.toString())) {
             return
         }
