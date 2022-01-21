@@ -11,7 +11,10 @@ fun botListeners() = listeners {
 
     val gameTimeTracker = Dependencies.gameTimeTracker
 
-    on<PresenceUpdateEvent> { gameTimeTracker.processEvent(this) }
+    on<PresenceUpdateEvent> {
+        logger.info { "Raw presence update: ${this.user}" }
+        gameTimeTracker.processEvent(this)
+    }
 
     on<ReadyEvent> {
         if (!logger.isInfoEnabled) {
