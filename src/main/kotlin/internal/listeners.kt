@@ -1,5 +1,6 @@
 package com.lurkerbot.internal
 
+import dev.kord.core.event.gateway.DisconnectEvent
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.user.PresenceUpdateEvent
 import me.jakejmattson.discordkt.dsl.listeners
@@ -18,4 +19,6 @@ fun botListeners() = listeners {
             println("Logger levels: WARN - ${logger.isWarnEnabled}, INFO - ${logger.isInfoEnabled}")
         }
     }
+
+    on<DisconnectEvent> { logger.info { "Disconnected" } }
 }
