@@ -20,5 +20,8 @@ fun botListeners() = listeners {
         }
     }
 
-    on<DisconnectEvent> { logger.info { "Disconnected" } }
+    on<DisconnectEvent> {
+        logger.info { "Disconnected" }
+        logger.warn { "$this" }
+    }
 }
