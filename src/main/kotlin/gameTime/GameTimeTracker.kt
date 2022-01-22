@@ -35,6 +35,8 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
 
             if (event.presence.activities.size > 1)
                 logger.info { "Multiple activities: ${event.presence.activities}" }
+        } else {
+            logger.warn { "A bot was about to get recorded" }
         }
     }
 }
