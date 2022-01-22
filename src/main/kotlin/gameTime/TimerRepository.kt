@@ -11,6 +11,7 @@ data class TimerRepository(private val mongoClient: MongoClient) {
         val database = mongoClient.getDatabase("lurker-bot")
         val collection = database.getCollection<TimeRecord>("game_time")
 
+        logger.info { "Attempting to save $record" }
         collection.insertOne(record)
         logger.info { "Inserted: $record" }
     }

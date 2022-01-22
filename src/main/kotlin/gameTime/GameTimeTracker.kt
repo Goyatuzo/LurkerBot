@@ -9,11 +9,11 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
     private val logger = KotlinLogging.logger {}
 
     suspend fun processEvent(event: PresenceUpdateEvent) {
-        val user = event.getUser()
-
-        if (!userTracker.userIsBeingTracked(user.id.value.toString())) {
+        if (!userTracker.userIsBeingTracked(event.user.id.toString())) {
             return
         }
+
+        val user = event.getUser()
 
         if (!user.isBot) {
             val currentGame = event.presence.activities.firstOrNull { it.type == ActivityType.Game }
@@ -35,6 +35,8 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
 
             if (event.presence.activities.size > 1)
                 logger.info { "Multiple activities: ${event.presence.activities}" }
+        } else {
+            logger.warn { "A bot was about to get recorded" }
         }
     }
 }

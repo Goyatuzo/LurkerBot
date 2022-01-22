@@ -6,11 +6,14 @@ import com.lurkerbot.discordUser.UserTracker
 import com.lurkerbot.gameTime.GameTimeTracker
 import com.lurkerbot.gameTime.GameTimer
 import dev.kord.common.entity.ActivityType
+import dev.kord.common.entity.DiscordPresenceUser
+import dev.kord.common.entity.Snowflake
 import dev.kord.core.entity.Activity
 import dev.kord.core.entity.User
 import dev.kord.core.event.user.PresenceUpdateEvent
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.JsonObject
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -46,12 +49,14 @@ class GameTimeTrackerTest {
 
     private fun setupMockEvent(mockedEvent: PresenceUpdateEvent, guildId: ULong, mockedUser: User) {
         every { mockedEvent.guildId.value } returns guildId
+        every { mockedEvent.user } returns
+            DiscordPresenceUser(mockedUser.id, JsonObject(emptyMap()))
         coEvery { mockedEvent.getUser() } returns mockedUser
     }
 
     private fun setupMockUser(mockedUser: User, isBot: Boolean, userId: ULong) {
         every { mockedUser.isBot } returns isBot
-        every { mockedUser.id.value } returns userId
+        every { mockedUser.id } returns Snowflake(userId)
     }
 
     private val userA = mockkClass(User::class)
@@ -93,6 +98,8 @@ class GameTimeTrackerTest {
         val botUserEvent = mockkClass(PresenceUpdateEvent::class)
 
         setupMockUser(botUser, true, userAId)
+
+        every { botUserEvent.user } returns DiscordPresenceUser(botUser.id, JsonObject(emptyMap()))
         coEvery { botUserEvent.getUser() } returns botUser
 
         gameTimerTracker.processEvent(botUserEvent)
