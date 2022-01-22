@@ -44,12 +44,12 @@ class GameTimeTrackerTest {
         return mocked
     }
 
-    private fun setupMockEvent(mockedEvent: PresenceUpdateEvent, guildId: ULong, mockedUser: User) {
+    private fun setupMockEvent(mockedEvent: PresenceUpdateEvent, guildId: Long, mockedUser: User) {
         every { mockedEvent.guildId.value } returns guildId
         coEvery { mockedEvent.getUser() } returns mockedUser
     }
 
-    private fun setupMockUser(mockedUser: User, isBot: Boolean, userId: ULong) {
+    private fun setupMockUser(mockedUser: User, isBot: Boolean, userId: Long) {
         every { mockedUser.isBot } returns isBot
         every { mockedUser.id.value } returns userId
     }
@@ -61,9 +61,9 @@ class GameTimeTrackerTest {
     private val userAGuildB = mockkClass(User::class)
     private val userAEventGuildB = mockkClass(PresenceUpdateEvent::class)
 
-    private val userAId = (1234).toULong()
-    private val guildAId = (4321).toULong()
-    private val guildBId = (7890).toULong()
+    private val userAId = (1234).toLong()
+    private val guildAId = (4321).toLong()
+    private val guildBId = (7890).toLong()
 
     private val leagueOfLegendsActivity =
         mockActivity(ActivityType.Game, "League of Legends", "SR", "In Game", "Caitlyn", "lv18")

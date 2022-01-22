@@ -10,7 +10,6 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven("https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
 val log4jVersion = "2.17.1"
@@ -20,7 +19,7 @@ dependencies {
     testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("io.mockk:mockk:1.12.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-    implementation("me.jakejmattson:DiscordKt:0.23.0-SNAPSHOT")
+    implementation("me.jakejmattson:DiscordKt:0.22.0")
     implementation("org.litote.kmongo:kmongo:4.4.0")
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.14")
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
