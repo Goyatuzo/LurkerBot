@@ -21,6 +21,7 @@ fun botListeners() = listeners {
         }
 
         userTracker.cacheTrackedUsers()
+        gameTimeTracker.onReady(this)
     }
 
     on<DisconnectEvent> {
