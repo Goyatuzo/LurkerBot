@@ -13,9 +13,6 @@ data class DiscordUserRepository(private val mongoClient: MongoClient) {
         return database.getCollection<UserInDiscord>("discord_db_user")
     }
 
-    fun getAllUsers(): Map<String, UserInDiscord> =
-        getUserCollection().find().associateBy { it.userId }
-
     fun getUserInDiscord(userId: String): UserInDiscord? {
         val collection = getUserCollection()
 
