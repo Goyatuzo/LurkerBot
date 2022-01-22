@@ -4,7 +4,6 @@ import dev.kord.common.annotation.KordPreview
 import dev.kord.core.event.user.PresenceUpdateEvent
 import dev.kord.gateway.Intents
 import me.jakejmattson.discordkt.dsl.bot
-import me.jakejmattson.discordkt.dsl.precondition
 import me.jakejmattson.discordkt.extensions.intentsOf
 
 @OptIn(KordPreview::class)
@@ -13,12 +12,6 @@ fun main() {
         configure {
             intents = Intents.nonPrivileged + intentsOf<PresenceUpdateEvent>()
             generateCommandDocs = false
-        }
-
-        precondition {
-            if (author.isBot) {
-                fail("Bot stats do not get recorded")
-            }
         }
     }
 }
