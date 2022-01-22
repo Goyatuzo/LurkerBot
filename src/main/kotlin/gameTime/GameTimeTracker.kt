@@ -16,22 +16,15 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
         guilds.collect { guild ->
             guild.members.collect { member ->
                 if (userTracker.userIsBeingTracked(member.id.toString())) {
-                    val presence = member.getPresenceOrNull()
-
-                    if (presence != null) {
-                        val gameActivity =
-                            presence.activities.firstOrNull { it.type == ActivityType.Game }
-
-                        if (gameActivity != null) {
-                            val toRecord =
-                                TimeRecord.fromActivity(member.id.toString(), gameActivity)
-
-                            gameTimer.beginLogging(
-                                member.id.toString(),
-                                guild.id.toString(),
-                                toRecord
-                            )
+                    val gameActivity =
+                        member.getPresenceOrNull()?.activities?.firstOrNull {
+                            it.type == ActivityType.Game
                         }
+
+                    if (gameActivity != null) {
+                        val toRecord = TimeRecord.fromActivity(member.id.toString(), gameActivity)
+
+                        gameTimer.beginLogging(member.id.toString(), guild.id.toString(), toRecord)
                     }
                 }
             }
