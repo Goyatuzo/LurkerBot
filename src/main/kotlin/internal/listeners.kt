@@ -11,6 +11,7 @@ fun botListeners() = listeners {
     val logger = KotlinLogging.logger {}
 
     val gameTimeTracker = Dependencies.gameTimeTracker
+    val userTracker = Dependencies.userTracker
 
     on<PresenceUpdateEvent> { gameTimeTracker.processEvent(this) }
 
@@ -18,6 +19,8 @@ fun botListeners() = listeners {
         if (!logger.isInfoEnabled) {
             println("Logger levels: WARN - ${logger.isWarnEnabled}, INFO - ${logger.isInfoEnabled}")
         }
+
+        userTracker.cacheTrackedUsers()
     }
 
     on<DisconnectEvent> {

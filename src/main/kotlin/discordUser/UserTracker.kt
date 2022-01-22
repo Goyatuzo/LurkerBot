@@ -6,6 +6,10 @@ class UserTracker(private val discordUserRepository: DiscordUserRepository) {
     private val beingTracked: MutableMap<String, UserInDiscord> = mutableMapOf()
     private val notBeingTracked: MutableSet<String> = mutableSetOf()
 
+    fun cacheTrackedUsers() {
+        beingTracked.putAll(discordUserRepository.getAllUsers().toMutableMap())
+    }
+
     fun userIsBeingTracked(userId: String): Boolean {
         if (beingTracked.containsKey(userId)) return true
         if (notBeingTracked.contains(userId)) return false
