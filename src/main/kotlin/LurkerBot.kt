@@ -24,12 +24,13 @@ suspend fun main() {
     val userTracker = UserTracker(userRepository)
     val gameTimeTracker = GameTimeTracker(gameTimer, userTracker)
 
-    client.on<PresenceUpdateEvent> {
-        gameTimeTracker.processEvent(this)
+    client.on<PresenceUpdateEvent> { gameTimeTracker.processEvent(this) }
+
+    client.on<ReadyEvent> {
+        userTracker.initialize()
+        gameTimeTracker.initialize(readyEvent = this)
     }
 
-    client.login {
-        @OptIn(PrivilegedIntent::class)
-        intents = Intents.nonPrivileged + Intent.GuildPresences
-    }
+    @OptIn(PrivilegedIntent::class)
+    client.login { intents = Intents.nonPrivileged + Intent.GuildPresences }
 }
