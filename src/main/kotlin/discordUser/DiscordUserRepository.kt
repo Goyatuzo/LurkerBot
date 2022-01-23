@@ -2,7 +2,6 @@ package com.lurkerbot.discordUser
 
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
-import mu.KotlinLogging
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollection
