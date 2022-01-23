@@ -26,7 +26,10 @@ suspend fun main() {
 
     client.on<PresenceUpdateEvent> { gameTimeTracker.processEvent(this) }
 
-    client.on<ReadyEvent> { userTracker.initialize() }
+    client.on<ReadyEvent> {
+        userTracker.initialize()
+        gameTimeTracker.initialize(readyEvent = this)
+    }
 
     @OptIn(PrivilegedIntent::class)
     client.login { intents = Intents.nonPrivileged + Intent.GuildPresences }
