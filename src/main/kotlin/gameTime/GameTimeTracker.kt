@@ -4,7 +4,7 @@ import com.lurkerbot.discordUser.UserTracker
 import dev.kord.common.entity.ActivityType
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.user.PresenceUpdateEvent
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collectIndexed
 import mu.KotlinLogging
 
 class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker: UserTracker) {
@@ -13,8 +13,8 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
     suspend fun initialize(readyEvent: ReadyEvent) {
         val guilds = readyEvent.getGuilds()
 
-        guilds.collectLatest { guild ->
-            guild.members.collectLatest { member ->
+        guilds.collectIndexed { _, guild ->
+            guild.members.collectIndexed { _, member ->
                 if (userTracker.userIsBeingTracked(member.id.toString())) {
                     val gameActivity =
                         member.getPresenceOrNull()?.activities?.firstOrNull {
