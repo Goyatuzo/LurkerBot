@@ -12,6 +12,7 @@ import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
+import kotlinx.coroutines.flow.collectIndexed
 import org.litote.kmongo.KMongo
 
 suspend fun main() {
@@ -23,6 +24,19 @@ suspend fun main() {
     val userRepository = DiscordUserRepository(mongoClient)
     val userTracker = UserTracker(userRepository)
     val gameTimeTracker = GameTimeTracker(gameTimer, userTracker)
+    
+    client.globalCommands.collectIndexed { _, command ->
+        println(command)
+        command.delete()
+    }
+
+    client.guilds.collectIndexed{ _, guild ->
+        guild.commands.collectIndexed { _, command ->
+            println("GUILD")
+            println(command)
+            command.delete()
+        }
+    }
 
     client.on<PresenceUpdateEvent> { gameTimeTracker.processEvent(this) }
 
