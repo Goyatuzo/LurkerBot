@@ -56,7 +56,6 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
         // by default the target is every '.kt' and '.kts` file in the java sourcesets
         ktfmt().kotlinlangStyle()
-        targetExclude("src/main/kotlin/LurkerBot.kt")
     }
     kotlinGradle {
         target("*.gradle.kts") // default target for kotlinGradle
