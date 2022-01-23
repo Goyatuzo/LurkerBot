@@ -13,9 +13,12 @@ import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import kotlinx.coroutines.flow.collectIndexed
+import mu.KotlinLogging
 import org.litote.kmongo.KMongo
 
 suspend fun main() {
+    val logger = KotlinLogging.logger {}
+
     val client = Kord(System.getenv("LURKER_BOT_TOKEN"))
     val mongoClient = KMongo.createClient(System.getenv("LURKER_BOT_DB"))
 
@@ -24,16 +27,15 @@ suspend fun main() {
     val userRepository = DiscordUserRepository(mongoClient)
     val userTracker = UserTracker(userRepository)
     val gameTimeTracker = GameTimeTracker(gameTimer, userTracker)
-    
+
     client.globalCommands.collectIndexed { _, command ->
-        println(command)
+        logger.warn("Deleting global command: ${command.name}")
         command.delete()
     }
 
-    client.guilds.collectIndexed{ _, guild ->
+    client.guilds.collectIndexed { _, guild ->
         guild.commands.collectIndexed { _, command ->
-            println("GUILD")
-            println(command)
+            logger.warn("Deleting guild command: ${command.name} from ${guild.name}")
             command.delete()
         }
     }
