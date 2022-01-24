@@ -6,6 +6,7 @@ import com.lurkerbot.gameTime.GameTimeTracker
 import com.lurkerbot.gameTime.GameTimer
 import com.lurkerbot.gameTime.TimerRepository
 import dev.kord.core.Kord
+import dev.kord.core.behavior.createApplicationCommands
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.user.PresenceUpdateEvent
 import dev.kord.core.on
@@ -37,6 +38,12 @@ suspend fun main() {
         guild.commands.collectIndexed { _, command ->
             logger.warn("Deleting guild command: ${command.name} from ${guild.name}")
             command.delete()
+        }
+    }
+
+    client.guilds.collectIndexed{ _, guild ->
+        guild.createApplicationCommands {
+            input("add-me", "testing")
         }
     }
 
