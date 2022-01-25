@@ -28,5 +28,4 @@ class UserTracker(private val discordUserRepository: DiscordUserRepository) {
         notBeingTracked.remove(user.id.toString())
         beingTracked[user.id.toString()] = user.toUserInDiscord()
     }
-
 }

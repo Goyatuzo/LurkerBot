@@ -1,13 +1,10 @@
 package com.lurkerbot.command
 
 import com.lurkerbot.discordUser.UserTracker
-import dev.kord.common.entity.optional.Optional
 import dev.kord.core.event.interaction.InteractionCreateEvent
 import mu.KotlinLogging
 
-class AddMeCommand(
-    private val userTracker: UserTracker
-) : BotCommand {
+class AddMeCommand(private val userTracker: UserTracker) : BotCommand {
     private val logger = KotlinLogging.logger {}
 
     override val name: String = "add-me"
