@@ -27,9 +27,21 @@ class RegisterCommands(private val client: Kord, userTracker: UserTracker) {
             }
         }
 
-        client.guilds.collectIndexed { _, guild ->
-            guild.createApplicationCommands {
-                listOfCommands.forEach { input(it.name, it.description) }
+        if (System.getenv("env") == "PRODUCTION") {
+            client.createGlobalApplicationCommands {
+                listOfCommands.forEach {
+                    input(it.name, it.description)
+                    logger.info { "Created global command ${it.name}" }
+                }
+            }
+        } else {
+            client.guilds.collectIndexed { _, guild ->
+                guild.createApplicationCommands {
+                    listOfCommands.forEach {
+                        input(it.name, it.description)
+                        logger.info { "Created guild command ${it.name} in ${guild.name}" }
+                    }
+                }
             }
         }
 

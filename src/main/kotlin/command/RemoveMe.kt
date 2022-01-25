@@ -9,7 +9,8 @@ class RemoveMe(private val userTracker: UserTracker) : BotCommand {
     private val logger = KotlinLogging.logger {}
 
     override val name: String = "remove-me"
-    override val description: String =  "Stop tracking future game sessions. Will not delete game sessions in the past."
+    override val description: String =
+        "Stop tracking future game sessions. Will not delete game sessions in the past."
     override suspend fun invoke(interaction: ApplicationCommandInteraction) {
         val user = interaction.user.asUserOrNull()
         if (user != null) {
