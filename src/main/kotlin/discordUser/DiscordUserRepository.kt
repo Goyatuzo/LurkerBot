@@ -36,4 +36,10 @@ data class DiscordUserRepository(private val mongoClient: MongoClient) {
             logger.info { "Updated user: ${user.username}#${user.discriminator}" }
         }
     }
+
+    fun removeUserInDiscord(user: UserInDiscord) {
+        val collection = getUserCollection()
+        collection.deleteOne(UserInDiscord::userId eq user.userId)
+        logger.info { "Deleting new user: ${user.username}#${user.discriminator}" }
+    }
 }
