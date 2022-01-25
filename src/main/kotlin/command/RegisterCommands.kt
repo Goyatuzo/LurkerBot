@@ -3,6 +3,7 @@ package com.lurkerbot.command
 import com.lurkerbot.discordUser.UserTracker
 import dev.kord.core.Kord
 import dev.kord.core.behavior.createApplicationCommands
+import dev.kord.core.entity.interaction.ApplicationCommandInteraction
 import dev.kord.core.event.interaction.InteractionCreateEvent
 import dev.kord.core.on
 import kotlinx.coroutines.flow.collectIndexed
@@ -33,10 +34,14 @@ class RegisterCommands(private val client: Kord, userTracker: UserTracker) {
         }
 
         client.on<InteractionCreateEvent> {
-            listOfCommands.forEach { cmd ->
-                if (cmd.name == interaction.data.data.name.value) {
-                    cmd.invoke(this)
-                }
+            when (val interaction = interaction) {
+                is ApplicationCommandInteraction ->
+                    listOfCommands.forEach { cmd ->
+                        if (cmd.name == interaction.name) {
+                            cmd.invoke(interaction)
+                        }
+                    }
+                else -> logger.warn { "Command ${interaction::class.java} is not matched" }
             }
         }
     }
