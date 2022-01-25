@@ -13,12 +13,9 @@ import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
-import mu.KotlinLogging
 import org.litote.kmongo.KMongo
 
 suspend fun main() {
-    val logger = KotlinLogging.logger {}
-
     val client = Kord(System.getenv("LURKER_BOT_TOKEN"))
     val mongoClient = KMongo.createClient(System.getenv("LURKER_BOT_DB"))
 
