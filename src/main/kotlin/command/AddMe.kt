@@ -5,7 +5,7 @@ import dev.kord.core.behavior.interaction.followUpEphemeral
 import dev.kord.core.entity.interaction.ApplicationCommandInteraction
 import mu.KotlinLogging
 
-class AddMeCommand(private val userTracker: UserTracker) : BotCommand {
+class AddMe(private val userTracker: UserTracker) : BotCommand {
     private val logger = KotlinLogging.logger {}
 
     override val name: String = "add-me"
