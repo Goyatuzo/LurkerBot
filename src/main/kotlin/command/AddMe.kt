@@ -9,7 +9,7 @@ class AddMe(private val userTracker: UserTracker) : BotCommand {
     private val logger = KotlinLogging.logger {}
 
     override val name: String = "add-me"
-    override val description: String = "Descriptive"
+    override val description: String = "Start tracking the time you play games. If you're already tracking, update your username."
     override suspend fun invoke(interaction: ApplicationCommandInteraction) {
         val user = interaction.user.asUserOrNull()
         if (user != null) {
