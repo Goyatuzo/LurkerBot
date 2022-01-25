@@ -12,7 +12,7 @@ import mu.KotlinLogging
 class RegisterCommands(private val client: Kord, userTracker: UserTracker) {
     private val logger = KotlinLogging.logger {}
 
-    private val listOfCommands: List<BotCommand> = listOf(AddMeCommand(userTracker))
+    private val listOfCommands: List<BotCommand> = listOf(AddMe(userTracker))
 
     suspend fun initialize() {
         client.globalCommands.collectIndexed { _, command ->
