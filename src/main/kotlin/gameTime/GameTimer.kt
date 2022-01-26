@@ -40,7 +40,7 @@ class GameTimer(private val timerRepository: TimerRepository) {
                 val updatedEnd = it.copy(sessionEnd = at)
                 val timeElapsed =
                     ChronoUnit.MILLIS.between(updatedEnd.sessionBegin, updatedEnd.sessionEnd)
-                return if (timeElapsed > 500) {
+                return if (timeElapsed > 5000) {
                     // Remove first to eliminate possibility of data being sent to db
                     beingTracked.remove(userId)
                     serverBeingTracked.remove(userId)
