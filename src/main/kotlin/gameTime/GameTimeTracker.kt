@@ -32,11 +32,11 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
     }
 
     suspend fun processEvent(event: PresenceUpdateEvent) {
-        if (!userTracker.userIsBeingTracked(event.user.id.toString())) {
+        val user = event.getUser()
+
+        if (!userTracker.userIsBeingTracked(user.id.value.toString())) {
             return
         }
-
-        val user = event.getUser()
 
         if (!user.isBot) {
             val currentGame = event.presence.activities.firstOrNull { it.type == ActivityType.Game }
