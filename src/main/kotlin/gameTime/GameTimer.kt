@@ -39,8 +39,8 @@ class GameTimer(private val timerRepository: TimerRepository) {
             beingTracked[userId]?.let {
                 val updatedEnd = it.copy(sessionEnd = at)
                 val timeElapsed =
-                    ChronoUnit.MILLIS.between(updatedEnd.sessionBegin, updatedEnd.sessionEnd)
-                return if (timeElapsed > 500) {
+                    ChronoUnit.MINUTES.between(updatedEnd.sessionBegin, updatedEnd.sessionEnd)
+                return if (timeElapsed >= 1) {
                     // Remove first to eliminate possibility of data being sent to db
                     beingTracked.remove(userId)
                     serverBeingTracked.remove(userId)
