@@ -1,7 +1,7 @@
 package com.lurkerbot.command
 
 import com.lurkerbot.discordUser.UserTracker
-import dev.kord.core.behavior.interaction.followUpEphemeral
+import dev.kord.core.behavior.interaction.respondEphemeral
 import dev.kord.core.entity.interaction.ApplicationCommandInteraction
 import mu.KotlinLogging
 
@@ -13,17 +13,15 @@ class RemoveMe(private val userTracker: UserTracker) : BotCommand {
         "Stop tracking future game sessions. Will not delete game sessions in the past."
     override suspend fun invoke(interaction: ApplicationCommandInteraction) {
         val user = interaction.user.asUserOrNull()
-        if (user != null) {
-            userTracker.removeUser(user)
+        userTracker.removeUser(user)
 
-            interaction.acknowledgeEphemeral().apply {
-                followUpEphemeral {
-                    content =
-                        "Future game sessions will not be recorded. Existing records can be deleted with a separate command."
-                }
-            }
-        } else {
-            logger.warn { "${interaction.name} was invoked without a user" }
+        interaction.respondEphemeral {
+            content =
+                "Future game sessions will not be recorded. Existing records can be deleted with a separate command."
+        }
+
+        logger.info {
+            "${interaction.invokedCommandName} was run for ${user.username}#${user.discriminator}"
         }
     }
 }

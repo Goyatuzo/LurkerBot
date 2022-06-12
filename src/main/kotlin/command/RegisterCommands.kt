@@ -15,13 +15,13 @@ class RegisterCommands(private val client: Kord, userTracker: UserTracker) {
     private val listOfCommands: List<BotCommand> = listOf(AddMe(userTracker), RemoveMe(userTracker))
 
     suspend fun initialize() {
-        client.globalCommands.collectIndexed { _, command ->
+        client.getGlobalApplicationCommands().collectIndexed { _, command ->
             logger.warn("Deleting global command: ${command.name}")
             command.delete()
         }
 
         client.guilds.collectIndexed { _, guild ->
-            guild.commands.collectIndexed { _, command ->
+            guild.getApplicationCommands().collectIndexed { _, command ->
                 logger.warn("Deleting guild command: ${command.name} from ${guild.name}")
                 command.delete()
             }
@@ -49,7 +49,7 @@ class RegisterCommands(private val client: Kord, userTracker: UserTracker) {
             when (val interaction = interaction) {
                 is ApplicationCommandInteraction ->
                     listOfCommands.forEach { cmd ->
-                        if (cmd.name == interaction.name) {
+                        if (cmd.name == interaction.invokedCommandName) {
                             cmd.invoke(interaction)
                         }
                     }
