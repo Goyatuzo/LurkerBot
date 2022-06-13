@@ -1,4 +1,4 @@
-package com.lurkerbot.discordUser
+package discordUser
 
 import dev.kord.core.entity.User
 
