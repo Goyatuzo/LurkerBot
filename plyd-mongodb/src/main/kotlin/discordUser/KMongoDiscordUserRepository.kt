@@ -1,11 +1,13 @@
-package com.lurkerbot.discordUser
+package discordUser
 
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import mu.KotlinLogging
 import org.litote.kmongo.*
 
-data class DiscordUserRepository(private val mongoClient: MongoClient) {
+class KMongoDiscordUserRepository(
+    private val mongoClient: MongoClient
+) : DiscordUserRepository {
     private val logger = KotlinLogging.logger {}
 
     private fun getUserCollection(): MongoCollection<UserInDiscord> {
@@ -13,13 +15,13 @@ data class DiscordUserRepository(private val mongoClient: MongoClient) {
         return database.getCollection<UserInDiscord>("discord_db_user")
     }
 
-    fun getAllUsers(): Map<String, UserInDiscord> =
+    override fun getAllUsers(): Map<String, UserInDiscord> =
         getUserCollection().find().associateBy { it.userId }
 
-    fun getUserInDiscord(userId: String): UserInDiscord? =
+    override fun getUserInDiscord(userId: String): UserInDiscord? =
         getUserCollection().findOne(UserInDiscord::userId eq userId)
 
-    fun saveUserInDiscord(user: UserInDiscord) {
+    override fun saveUserInDiscord(user: UserInDiscord) {
         val collection = getUserCollection()
 
         if (getUserInDiscord(user.userId) == null) {
@@ -37,7 +39,7 @@ data class DiscordUserRepository(private val mongoClient: MongoClient) {
         }
     }
 
-    fun removeUserInDiscord(user: UserInDiscord) {
+    override fun removeUserInDiscord(user: UserInDiscord) {
         val collection = getUserCollection()
         collection.deleteOne(UserInDiscord::userId eq user.userId)
         logger.info { "Deleting new user: ${user.username}#${user.discriminator}" }

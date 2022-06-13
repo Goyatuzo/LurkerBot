@@ -20,8 +20,13 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
+    implementation("io.github.microutils:kotlin-logging:1.12.5")
 }
 
 tasks.test {
     useJUnit()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>() {
+    kotlinOptions.jvmTarget = "11"
 }
