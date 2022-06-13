@@ -2,13 +2,12 @@ package gameTime
 
 import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
-import com.lurkerbot.discordUser.UserTracker
 import com.lurkerbot.gameTime.GameTimeTracker
-import com.lurkerbot.gameTime.GameTimer
 import dev.kord.common.entity.ActivityType
 import dev.kord.core.entity.Activity
 import dev.kord.core.entity.User
 import dev.kord.core.event.user.PresenceUpdateEvent
+import discordUser.UserTracker
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.After

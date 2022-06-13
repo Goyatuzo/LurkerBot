@@ -1,11 +1,11 @@
 package command
 
-import com.lurkerbot.discordUser.UserTracker
 import dev.kord.core.Kord
 import dev.kord.core.behavior.createApplicationCommands
 import dev.kord.core.entity.interaction.ApplicationCommandInteraction
 import dev.kord.core.event.interaction.InteractionCreateEvent
 import dev.kord.core.on
+import discordUser.UserTracker
 import kotlinx.coroutines.flow.collectIndexed
 import mu.KotlinLogging
 

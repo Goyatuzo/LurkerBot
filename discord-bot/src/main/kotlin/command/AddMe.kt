@@ -1,8 +1,8 @@
 package command
 
-import com.lurkerbot.discordUser.UserTracker
 import dev.kord.core.behavior.interaction.respondEphemeral
 import dev.kord.core.entity.interaction.ApplicationCommandInteraction
+import discordUser.UserTracker
 import mu.KotlinLogging
 
 class AddMe(private val userTracker: UserTracker) : BotCommand {

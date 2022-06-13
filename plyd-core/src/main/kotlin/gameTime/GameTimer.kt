@@ -1,4 +1,4 @@
-package com.lurkerbot.gameTime
+package gameTime
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok

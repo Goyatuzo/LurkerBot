@@ -1,9 +1,11 @@
 package com.lurkerbot.gameTime
 
-import com.lurkerbot.discordUser.UserTracker
 import dev.kord.common.entity.ActivityType
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.user.PresenceUpdateEvent
+import discordUser.UserTracker
+import gameTime.GameTimer
+import gameTime.TimeRecord
 import kotlinx.coroutines.flow.collectIndexed
 import mu.KotlinLogging
 

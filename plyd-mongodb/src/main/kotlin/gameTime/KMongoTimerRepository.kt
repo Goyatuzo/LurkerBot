@@ -1,13 +1,13 @@
-package com.lurkerbot.gameTime
+package gameTime
 
 import com.mongodb.client.MongoClient
 import mu.KotlinLogging
-import org.litote.kmongo.*
+import org.litote.kmongo.getCollection
 
-data class TimerRepository(private val mongoClient: MongoClient) {
+class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerRepository {
     private val logger = KotlinLogging.logger {}
 
-    fun saveTimeRecord(record: TimeRecord) {
+    override fun saveTimeRecord(record: TimeRecord) {
         val database = mongoClient.getDatabase("lurker-bot")
         val collection = database.getCollection<TimeRecord>("game_time")
 
