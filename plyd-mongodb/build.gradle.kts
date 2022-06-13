@@ -2,9 +2,6 @@ plugins {
     id("com.plyd")
 }
 
-group = "me.yuto"
-version = "1.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
 }

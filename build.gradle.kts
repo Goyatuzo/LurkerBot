@@ -5,12 +5,12 @@ plugins {
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
-        target("**/src/**/*.kt", "**/src/**/*.kts")
+        target("**/src/**/*.kt")
         // by default the target is every '.kt' and '.kts` file in the java sourcesets
         ktfmt().kotlinlangStyle()
     }
     kotlinGradle {
-        target("*.gradle.kts") // default target for kotlinGradle
+        target("**/src/**/*.kts") // default target for kotlinGradle
         ktlint() // or ktfmt() or prettier()
     }
 }
