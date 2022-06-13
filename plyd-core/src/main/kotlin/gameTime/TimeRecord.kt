@@ -12,5 +12,5 @@ data class TimeRecord(
     val largeAssetText: String?,
     val smallAssetText: String?
 ) {
-    companion object { }
+    companion object {}
 }

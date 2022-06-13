@@ -1,13 +1,10 @@
-plugins {
-    id("org.jetbrains.kotlin.jvm")
-}
+plugins { id("org.jetbrains.kotlin.jvm") }
 
 group = "me.yuto"
+
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
 val log4jVersion = "2.17.2"
 
@@ -23,10 +20,6 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:1.12.5")
 }
 
-tasks.test {
-    useJUnit()
-}
+tasks.test { useJUnit() }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>() {
-    kotlinOptions.jvmTarget = "11"
-}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>() { kotlinOptions.jvmTarget = "11" }

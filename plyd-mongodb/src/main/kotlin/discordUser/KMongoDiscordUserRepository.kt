@@ -5,9 +5,7 @@ import com.mongodb.client.MongoCollection
 import mu.KotlinLogging
 import org.litote.kmongo.*
 
-class KMongoDiscordUserRepository(
-    private val mongoClient: MongoClient
-) : DiscordUserRepository {
+class KMongoDiscordUserRepository(private val mongoClient: MongoClient) : DiscordUserRepository {
     private val logger = KotlinLogging.logger {}
 
     private fun getUserCollection(): MongoCollection<UserInDiscord> {

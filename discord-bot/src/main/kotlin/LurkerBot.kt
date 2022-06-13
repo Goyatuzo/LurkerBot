@@ -1,7 +1,6 @@
 package com.lurkerbot
 
 import com.lurkerbot.gameTime.GameTimeTracker
-import gameTime.GameTimer
 import command.RegisterCommands
 import dev.kord.core.Kord
 import dev.kord.core.event.gateway.ReadyEvent
@@ -12,6 +11,7 @@ import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import discordUser.KMongoDiscordUserRepository
 import discordUser.UserTracker
+import gameTime.GameTimer
 import gameTime.KMongoTimerRepository
 import org.litote.kmongo.KMongo
 
