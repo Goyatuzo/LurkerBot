@@ -1,4 +1,4 @@
-package com.lurkerbot.command
+package command
 
 import com.lurkerbot.discordUser.UserTracker
 import dev.kord.core.Kord

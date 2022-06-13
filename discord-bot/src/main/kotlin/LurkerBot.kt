@@ -1,11 +1,6 @@
 package com.lurkerbot
 
-import com.lurkerbot.command.RegisterCommands
-import com.lurkerbot.discordUser.DiscordUserRepository
-import com.lurkerbot.discordUser.UserTracker
-import com.lurkerbot.gameTime.GameTimeTracker
-import com.lurkerbot.gameTime.GameTimer
-import com.lurkerbot.gameTime.TimerRepository
+import command.RegisterCommands
 import dev.kord.core.Kord
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.user.PresenceUpdateEvent
@@ -13,6 +8,8 @@ import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
+import discordUser.KMongoDiscordUserRepository
+import discordUser.UserTracker
 import org.litote.kmongo.KMongo
 
 suspend fun main() {
@@ -21,7 +18,7 @@ suspend fun main() {
 
     val timerRepository = TimerRepository(mongoClient)
     val gameTimer = GameTimer(timerRepository)
-    val userRepository = DiscordUserRepository(mongoClient)
+    val userRepository = KMongoDiscordUserRepository(mongoClient)
     val userTracker = UserTracker(userRepository)
     val gameTimeTracker = GameTimeTracker(gameTimer, userTracker)
 

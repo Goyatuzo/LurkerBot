@@ -1,4 +1,4 @@
-package com.lurkerbot.command
+package command
 
 import dev.kord.core.entity.interaction.ApplicationCommandInteraction
 
