@@ -1,1 +1,1 @@
-worker: java -jar build/libs/LurkerBot-1.0-SNAPSHOT.jar
+worker: java -jar discord-bot/libs/LurkerBot-1.0-SNAPSHOT.jar
