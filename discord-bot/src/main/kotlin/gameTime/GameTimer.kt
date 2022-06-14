@@ -1,8 +1,9 @@
-package gameTime
+package com.lurkerbot.gameTime
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import gameTime.*
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import mu.KotlinLogging
