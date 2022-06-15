@@ -6,6 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.lurkerbot.gameTime.GameTimer
 import io.mockk.*
 import java.time.LocalDateTime
+import kotlinx.datetime.toKotlinLocalDateTime
 import org.junit.After
 import org.junit.Test
 
@@ -16,8 +17,8 @@ class GameTimerTest {
 
     private val basicTimeRecord =
         TimeRecord(
-            sessionBegin = LocalDateTime.now(),
-            sessionEnd = LocalDateTime.now(),
+            sessionBegin = LocalDateTime.now().toKotlinLocalDateTime(),
+            sessionEnd = LocalDateTime.now().toKotlinLocalDateTime(),
             gameName = "game",
             userId = "test",
             gameDetail = "Detail",
@@ -41,7 +42,11 @@ class GameTimerTest {
         val actual = gameTimer.endLogging("test", "test server", later)
         assertThat(actual).isEqualTo(Ok(Unit))
 
-        verify { timerRepository.saveTimeRecord(toInsert.copy(sessionEnd = later)) }
+        verify {
+            timerRepository.saveTimeRecord(
+                toInsert.copy(sessionEnd = later.toKotlinLocalDateTime())
+            )
+        }
 
         confirmVerified(timerRepository)
     }
@@ -63,7 +68,7 @@ class GameTimerTest {
         val firstToInsert = basicTimeRecord.copy()
 
         val fakeTime = LocalDateTime.of(2020, 1, 1, 1, 0, 0)
-        val secondToInsert = basicTimeRecord.copy(sessionBegin = fakeTime)
+        val secondToInsert = basicTimeRecord.copy(sessionBegin = fakeTime.toKotlinLocalDateTime())
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
         gameTimer.beginLogging("test", "test server", firstToInsert)
@@ -79,7 +84,7 @@ class GameTimerTest {
         val later = LocalDateTime.now().plusHours(1)
 
         val fakeTime = LocalDateTime.of(2020, 1, 1, 1, 0, 0)
-        val secondToInsert = basicTimeRecord.copy(sessionBegin = fakeTime)
+        val secondToInsert = basicTimeRecord.copy(sessionBegin = fakeTime.toKotlinLocalDateTime())
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
         gameTimer.beginLogging("test", "test server", firstToInsert)
@@ -89,8 +94,12 @@ class GameTimerTest {
         gameTimer.endLogging("test", "test server 2", later)
 
         verify(exactly = 1) {
-            timerRepository.saveTimeRecord(record = firstToInsert.copy(sessionEnd = later))
-            timerRepository.saveTimeRecord(record = not(secondToInsert.copy(sessionEnd = later)))
+            timerRepository.saveTimeRecord(
+                record = firstToInsert.copy(sessionEnd = later.toKotlinLocalDateTime())
+            )
+            timerRepository.saveTimeRecord(
+                record = not(secondToInsert.copy(sessionEnd = later.toKotlinLocalDateTime()))
+            )
         }
 
         confirmVerified(timerRepository)
@@ -141,7 +150,14 @@ class GameTimerTest {
         gameTimer.beginLogging("test", "test server", toInsert)
         val actual = gameTimer.endLogging("test", "test server", now)
         assertThat(actual)
-            .isEqualTo(Err(StateChangedTooFast("test", toInsert.copy(sessionEnd = now))))
+            .isEqualTo(
+                Err(
+                    StateChangedTooFast(
+                        "test",
+                        toInsert.copy(sessionEnd = now.toKotlinLocalDateTime())
+                    )
+                )
+            )
 
         verify { timerRepository wasNot called }
 
