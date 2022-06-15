@@ -1,6 +1,5 @@
 plugins {
     id("com.plyd")
-    kotlin("jvm")
 }
 
 dependencies {
