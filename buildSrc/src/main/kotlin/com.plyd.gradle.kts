@@ -20,6 +20,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
     implementation("io.github.microutils:kotlin-logging:1.12.5")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
 }
 
 tasks.test { useJUnit() }
