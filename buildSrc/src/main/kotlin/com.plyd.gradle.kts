@@ -1,4 +1,6 @@
-plugins { id("org.jetbrains.kotlin.jvm") }
+plugins {
+    id("org.jetbrains.kotlin.jvm")
+}
 
 group = "me.yuto"
 version = "0.0.1"
@@ -17,6 +19,8 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
     implementation("io.github.microutils:kotlin-logging:1.12.5")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
 }
 
 tasks.test { useJUnit() }
