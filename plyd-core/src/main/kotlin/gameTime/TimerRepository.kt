@@ -7,6 +7,6 @@ interface TimerRepository {
     fun saveTimeRecord(record: TimeRecord)
     fun getSummedTimeRecordsFor(
         userId: String,
-        from: LocalDateTime = LocalDateTime.now().minusWeeks(2)
+        from: LocalDateTime
     ): List<GameTimeSum>
 }
