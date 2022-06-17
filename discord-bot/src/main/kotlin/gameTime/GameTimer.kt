@@ -6,8 +6,6 @@ import com.github.michaelbull.result.Result
 import gameTime.*
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toKotlinLocalDateTime
 import mu.KotlinLogging
 
 class GameTimer(private val timerRepository: TimerRepository) {
@@ -40,12 +38,9 @@ class GameTimer(private val timerRepository: TimerRepository) {
     ): Result<Unit, GameTimeError> {
         if (userIsBeingTracked(userId, guildId)) {
             beingTracked[userId]?.let {
-                val updatedEnd = it.copy(sessionEnd = at.toKotlinLocalDateTime())
+                val updatedEnd = it.copy(sessionEnd = at)
                 val timeElapsed =
-                    ChronoUnit.MILLIS.between(
-                        updatedEnd.sessionBegin.toJavaLocalDateTime(),
-                        updatedEnd.sessionEnd.toJavaLocalDateTime()
-                    )
+                    ChronoUnit.MILLIS.between(updatedEnd.sessionBegin, updatedEnd.sessionEnd)
                 return if (timeElapsed >= 5000) {
                     // Remove first to eliminate possibility of data being sent to db
                     beingTracked.remove(userId)

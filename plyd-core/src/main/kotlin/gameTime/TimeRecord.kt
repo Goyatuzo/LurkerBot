@@ -1,9 +1,7 @@
 package gameTime
 
-import kotlinx.datetime.LocalDateTime
-import kotlinx.serialization.Serializable
+import java.time.LocalDateTime
 
-@Serializable
 data class TimeRecord(
     val sessionBegin: LocalDateTime,
     val sessionEnd: LocalDateTime,
