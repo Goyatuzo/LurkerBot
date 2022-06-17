@@ -17,7 +17,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 // from marking it
 // as unused.
 fun Application.module() {
-    val mongoClient = KMongo.createClient(System.getenv("LURKER_WEB_DB"))
+    val mongoClient = KMongo.createClient(System.getenv("LURKER_SITE_DB"))
 
     val timerRepository = KMongoTimerRepository(mongoClient)
 
