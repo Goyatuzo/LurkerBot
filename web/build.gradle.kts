@@ -24,7 +24,7 @@ dependencies {
 tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
-        attributes("Main-Class" to "com.lurkerbot.LurkerBotKt")
+        attributes("Main-Class" to "com.lurkerbot.web.ApplicationKt")
     }
     from(
         configurations.runtimeClasspath.get()
