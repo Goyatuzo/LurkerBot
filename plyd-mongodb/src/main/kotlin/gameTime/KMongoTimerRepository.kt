@@ -25,7 +25,7 @@ class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerReposit
     override fun getSummedTimeRecordsFor(userId: String, from: LocalDateTime): List<GameTimeSum> =
         getCollection()
             .aggregate<GameTimeSum>(
-                match(TimeRecord::userId eq userId),
+                match(TimeRecord::userId eq userId, TimeRecord::sessionEnd gte from),
                 group(
                     TimeRecord::gameName,
                     GameTimeSum::time sum
