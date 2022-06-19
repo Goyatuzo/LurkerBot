@@ -3,6 +3,7 @@ package com.lurkerbot.web
 import com.lurkerbot.web.plugins.configureRouting
 import com.lurkerbot.web.plugins.configureSerialization
 import com.lurkerbot.web.plugins.configureTemplating
+import com.lurkerbot.web.routes.configurePagesResource
 import com.lurkerbot.web.routes.configureUserResource
 import gameTime.GameTimeService
 import gameTime.KMongoTimerRepository
@@ -26,5 +27,7 @@ fun Application.module() {
     configureRouting()
     configureTemplating()
     configureSerialization()
+
+    configurePagesResource()
     configureUserResource(gameTimerService)
 }
