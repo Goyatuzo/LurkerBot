@@ -17,8 +17,6 @@ fun Application.configureRouting() {
     }
 
     routing {
-        get("/") { call.respond(PebbleContent("pages/index.html", mapOf("name" to "TEST USER"))) }
-        // Static plugin. Try to access `/static/index.html`
         static("/static") { resources("static") }
     }
 }
