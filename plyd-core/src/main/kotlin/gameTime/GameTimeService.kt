@@ -5,6 +5,6 @@ import java.time.LocalDateTime
 class GameTimeService(private val timerRepository: TimerRepository) {
     fun getTimesForDiscordUserById(
         discordUserId: String,
-        from: LocalDateTime = LocalDateTime.now().minusWeeks(2)
+        from: LocalDateTime
     ) = timerRepository.getSummedTimeRecordsFor(discordUserId, from)
 }

@@ -2,33 +2,26 @@
 
 {% block content %}
 
-<div class="ui container">
-    <h1>{{ user.userInfo.username + '#' + user.userInfo.discriminator }}</h1>
+<h1 class="title">{{ user.userInfo.username + '#' + user.userInfo.discriminator }}</h1>
 
-    <div id="live-feed-entry" data-user-id='{{ user_id }}'></div>
+<a class="button" href="?from=2weeks">2 Weeks</a>
+<a class="button" href="?from=all">All Times</a>
 
-    <h2>Gameplay Graphs</h2>
-    <div id="game-summary-graphs"></div>
-
-    <button class="ui button"><a href="?from=2weeks">2 Weeks</a></button>
-    <button class="ui button"><a href="?from=all">All Times</a></button>
-
-    <table class="ui celled table">
-        <thead>
+<table class="table is-striped is-fullwidth">
+    <thead>
         <tr>
             <th>Game</th>
             <th>Hours Played</th>
         </tr>
-        </thead>
-        <tbody>
+    </thead>
+    <tbody>
         {% for entry in user.gameTimeSum %}
         <tr>
             <td data-label="Game">{{ entry['gameName'] }}</td>
             <td data-label="Time Played">{{ entry['time'] | numberformat("#.##") }}</td>
         </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-</div>
 {% endblock %}
