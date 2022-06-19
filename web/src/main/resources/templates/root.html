@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+
+<head>
+    {% block head %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.7/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.7/dist/semantic.min.js"></script>
+
+    <title>Lurker</title>
+    {% endblock %}
+</head>
+
+<body>
+<div class="ui menu">
+    <div class="ui container">
+        <a class="item" href="/">Home</a>
+        <a class="item" href="/stats">Stats</a>
+
+        <div class="right menu">
+            <a class="ui item" href="/join">Join</a>
+        </div>
+    </div>
+</div>
+
+{% block content %}{% endblock %}
+
+<footer>
+    {% block footer %}
+    {% endblock %}
+</footer>
+{% block scripts %}{% endblock %}
+</body>
+
+</html>
