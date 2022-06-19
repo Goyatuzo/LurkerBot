@@ -5,8 +5,8 @@ import io.ktor.server.application.*
 import io.ktor.server.pebble.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import page.PageService
 import java.time.LocalDateTime
+import page.PageService
 
 fun Application.configurePagesResource(pageService: PageService) {
     routing {
@@ -18,11 +18,12 @@ fun Application.configurePagesResource(pageService: PageService) {
             if (userId.isNullOrEmpty()) {
                 call.respond(HttpStatusCode.NotFound)
             } else {
-                val fromDate = if (from == "all") {
-                    LocalDateTime.MIN
-                } else {
-                    LocalDateTime.now().minusWeeks(2)
-                }
+                val fromDate =
+                    if (from == "all") {
+                        LocalDateTime.MIN
+                    } else {
+                        LocalDateTime.now().minusWeeks(2)
+                    }
 
                 val userData = pageService.getUserTimeStatsByDiscordId(userId, fromDate)
 

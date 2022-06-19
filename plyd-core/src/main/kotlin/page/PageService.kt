@@ -2,8 +2,8 @@ package page
 
 import discordUser.UserService
 import gameTime.GameTimeService
-import response.UserTimeStats
 import java.time.LocalDateTime
+import response.UserTimeStats
 
 class PageService(
     private val userService: UserService,

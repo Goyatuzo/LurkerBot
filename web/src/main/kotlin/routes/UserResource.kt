@@ -15,7 +15,9 @@ fun Application.configureUserResource(gameTimeService: GameTimeService) {
             if (discordUserId == null) {
                 call.respond(HttpStatusCode.NotFound)
             } else {
-                call.respond(gameTimeService.getTimesForDiscordUserById(discordUserId, LocalDateTime.now()))
+                call.respond(
+                    gameTimeService.getTimesForDiscordUserById(discordUserId, LocalDateTime.now())
+                )
             }
         }
     }
