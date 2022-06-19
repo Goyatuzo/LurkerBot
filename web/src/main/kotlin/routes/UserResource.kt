@@ -8,7 +8,7 @@ import io.ktor.server.routing.*
 
 fun Application.configureUserResource(gameTimeService: GameTimeService) {
     routing {
-        get("/user/{discordUserId}") {
+        get("/api/user/{discordUserId}") {
             val discordUserId = call.parameters["discordUserId"]
 
             if (discordUserId == null) {

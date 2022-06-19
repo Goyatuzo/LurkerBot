@@ -1,0 +1,77 @@
+{%extends "root.html" %}
+
+{% block content %}
+
+<div class="ui container">
+    {{ super() }}
+    <h1>{{ user_info.username + '#' + user_info.discriminator }}</h1>
+
+    {% if drill_deeper %}
+    <div id="live-feed-entry" data-user-id='{{ user_id }}'></div>
+    {% endif %}
+
+    <h2>Gameplay Graphs</h2>
+    <div id="game-summary-graphs"></div>
+    {% if drill_deeper == 'true' %}
+    <p>Click on one of the bars to get the breakdown of each game's time played.</p>
+    {% endif %}
+
+    <button class="ui button"><a href="?from=2weeks">2 Weeks</a></button>
+    <button class="ui button"><a href="?from=all">All Times</a></button>
+
+    <table class="ui celled table">
+        {% if drill_deeper %}
+        <thead>
+        <tr>
+            <th>Game</th>
+            <th>Hours Played</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entry in times %}
+        <tr>
+            <td data-label="Game">{{ entry['_id'] }}</td>
+            <td data-label="Time Played"><a
+                    href="{{ url_for('user.get_user_game_graph', user_id=user_id, game_name=entry['_id'], from=request.args.get('from')) }}">{{ entry['time'] | round(2) }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+        {% else %}
+        <thead>
+        <tr>
+            <th>Detail</th>
+            <th>State</th>
+            <th>Large Asset</th>
+            <th>Small Asset</th>
+            <th>Hours Played</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entry in times %}
+        <tr>
+            <td>{{ entry['_id']['gameDetail'] }}</td>
+            <td>{{ entry['_id']['gameState'] }}</td>
+            <td>{{ entry['_id']['largeAssetText'] }}</td>
+            <td>{{ entry['_id']['smallAssetText'] }}</td>
+
+            <td data-label="Time Played">{{ entry['time'] | round(2) }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    const userId = "{{ user_info.userId }}";
+    const gameName = "{{ game_name }}";
+</script>
+
+<script src="{{ static_url_for('dist/live-feed-bundle.js') }}"></script>
+<script src="{{ static_url_for('dist/user-graphs-bundle.js') }}"></script>
+{% endblock %}
