@@ -20,7 +20,7 @@ fun Application.configurePagesResource(pageService: PageService) {
             } else {
                 val fromDate =
                     if (from == "all") {
-                        LocalDateTime.MIN
+                        LocalDateTime.of(0, 1, 1, 0, 0, 0)
                     } else {
                         LocalDateTime.now().minusWeeks(2)
                     }
