@@ -5,16 +5,17 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import java.time.LocalDateTime
 
 fun Application.configureUserResource(gameTimeService: GameTimeService) {
     routing {
-        get("/user/{discordUserId}") {
+        get("/api/user/{discordUserId}") {
             val discordUserId = call.parameters["discordUserId"]
 
             if (discordUserId == null) {
                 call.respond(HttpStatusCode.NotFound)
             } else {
-                call.respond(gameTimeService.getTimesForDiscordUserById(discordUserId))
+                call.respond(gameTimeService.getTimesForDiscordUserById(discordUserId, LocalDateTime.now()))
             }
         }
     }

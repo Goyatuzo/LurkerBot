@@ -3,26 +3,32 @@
 
 <head>
     {% block head %}
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.7/dist/semantic.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.7/dist/semantic.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <title>Lurker</title>
     {% endblock %}
 </head>
 
 <body>
-<div class="ui menu">
-    <div class="ui container">
-        <a class="item" href="/">Home</a>
-        <a class="item" href="/stats">Stats</a>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
 
-        <div class="right menu">
-            <a class="ui item" href="/join">Join</a>
+    <div id="nav" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="/">
+                Home
+            </a>
         </div>
     </div>
-</div>
+</nav>
 
+<section class="section">
+    <div class="container">
 {% block content %}{% endblock %}
 
 <footer>
@@ -30,6 +36,7 @@
     {% endblock %}
 </footer>
 {% block scripts %}{% endblock %}
+    </div>
 </body>
 
 </html>

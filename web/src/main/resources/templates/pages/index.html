@@ -2,64 +2,25 @@
 
 {% block content %}
 
-<div class="ui vertical masthead center aligned segment">
-    <div class="ui text container">
-        <h1 class="ui header" style="font-size: 4em;">Plyd</h1>
-        <h2>Track time played in a game and see stats.</h2>
-    </div>
 
-    <div class="ui placeholder segment">
-        <div class="ui two column stackable center aligned grid">
-            <div class="ui vertical divider">Or</div>
-            <div class="middle aligned row">
-                <div class="column">
-                    <div class="ui icon header">
-                        <i class="search icon"></i>
-                        Find User
-                    </div>
-                    <div class="field">
-                        <div class="ui search">
-                            <div class="ui icon input">
-                                <input class="prompt" type="text" placeholder="Search by Username...">
-                                <i class="arrow right icon"></i>
-                            </div>
-                            <div class="results"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="ui icon header">
-                        <i class="world icon"></i>
-                        Join and Start Tracking
-                    </div>
-                    <p>No registration necessary</p>
-                    <a class="ui primary button" href="/join">
-                        Join
-                    </a>
-                </div>
-            </div>
+<h1 class="ui header" style="font-size: 4em;">Plyd</h1>
+<h2>Track time played in a game and see stats.</h2>
+
+<form class="box">
+    <div class="field">
+        <label class="label" for="username">Username</label>
+        <div class="control">
+            <input id="username" class="input" type="text" placeholder="Name#1234">
         </div>
     </div>
-</div>
+
+    <button class="button is-primary">Search</button>
+</form>
 
 <div class="ui vertical stripe segment">
     <div class="ui middle aligned stackable grid container">
         <div class="row">
             <div class="wide column">
-                <h3 class="ui header">What is this?</h3>
-                <p style="font-size:1.33em">Remember Xfire or Raptr? This uses Discord to keep track of gametime for
-                    Steam, UPlay, Epic Games, Origin, and more.</p>
-
-                <h3 class="ui header">What am I tracking?</h3>
-                <p style="font-size:1.33em">Your status / Presence on Discord. If it changes and you're being tracked, I
-                    parse that information to
-                    determine what game you are playing as well as the game state and information available to me via
-                    presence.
-                </p>
-                <p style="font-size:1.33em">Only the bot is tracking items, and the code is readily available <a
-                        href="https://github.com/Goyatuzo/LurkerBot">on
-                    Github</a></p>
-            </div>
         </div>
     </div>
 </div>
