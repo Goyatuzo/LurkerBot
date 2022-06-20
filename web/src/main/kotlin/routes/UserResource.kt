@@ -20,5 +20,31 @@ fun Application.configureUserResource(gameTimeService: GameTimeService) {
                 )
             }
         }
+
+        get("/api/user/{discordUserId}/{gameName}") {
+            val discordUserId = call.parameters["discordUserId"]
+            val gameName = call.parameters["gameName"]
+
+            if (discordUserId.isNullOrEmpty() || gameName.isNullOrEmpty()) {
+                call.respond(HttpStatusCode.NotFound)
+            } else {
+
+                val times =
+                    gameTimeService.getTimesForDiscordUserByIdAndGame(
+                        discordUserId,
+                        gameName,
+                        LocalDateTime.now().minusWeeks(2)
+                    )
+                println(times)
+
+                call.respond(
+                    gameTimeService.getTimesForDiscordUserByIdAndGame(
+                        discordUserId,
+                        gameName,
+                        LocalDateTime.now().minusWeeks(2)
+                    )
+                )
+            }
+        }
     }
 }

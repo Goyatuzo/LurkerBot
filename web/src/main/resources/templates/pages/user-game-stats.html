@@ -1,0 +1,34 @@
+{% extends "root.html" %}
+
+{% block content %}
+
+<h1 class="title">{{ user.userInfo.username + '#' + user.userInfo.discriminator }}</h1>
+
+<a class="button" href="?from=2weeks">2 Weeks</a>
+<a class="button" href="?from=all">All Times</a>
+
+<table class="table is-striped is-fullwidth">
+    <thead>
+        <tr>
+            <th>Detail</th>
+            <th>State</th>
+            <th>Large Asset</th>
+            <th>Small Asset</th>
+            <th>Hours Played</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for entry in user.gameTime %}
+    <tr>
+        <td data-label="detail">{{ entry.detail }}</td>
+        <td data-label="state">{{ entry.state }}</td>
+        <td data-label="large-asset-text">{{ entry.largeAsset }}</td>
+        <td data-label="small-asset-text">{{ entry.smallAsset }}</td>
+        <td data-label="time-played">{{ entry.time | numberformat("#.##") }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
