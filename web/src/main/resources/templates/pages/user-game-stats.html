@@ -1,0 +1,27 @@
+{% extends "root.html" %}
+
+{% block content %}
+
+<h1 class="title">{{ user.userInfo.username + '#' + user.userInfo.discriminator }}</h1>
+
+<a class="button" href="?from=2weeks">2 Weeks</a>
+<a class="button" href="?from=all">All Times</a>
+
+<table class="table is-striped is-fullwidth">
+    <thead>
+    <tr>
+        <th>Game</th>
+        <th>Hours Played</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for entry in user.gameTimeSum %}
+    <tr>
+        <td data-label="Game">{{ entry['gameName'] }}</td>
+        <td data-label="Time Played">{{ entry['time'] | numberformat("#.##") }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
