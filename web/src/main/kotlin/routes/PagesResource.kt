@@ -55,7 +55,7 @@ fun Application.configurePagesResource(pageService: PageService) {
                 if (userData == null) {
                     call.respond(HttpStatusCode.NotFound)
                 } else {
-                    call.respond(PebbleContent("pages/user-stats.html", mapOf("user" to userData)))
+                    call.respond(PebbleContent("pages/user-game-stats.html", mapOf("user" to userData)))
                 }
             }
         }

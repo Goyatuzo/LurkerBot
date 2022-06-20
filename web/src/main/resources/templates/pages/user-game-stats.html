@@ -9,16 +9,23 @@
 
 <table class="table is-striped is-fullwidth">
     <thead>
-    <tr>
-        <th>Game</th>
-        <th>Hours Played</th>
-    </tr>
+        <tr>
+            <th>Detail</th>
+            <th>State</th>
+            <th>Large Asset</th>
+            <th>Small Asset</th>
+            <th>Hours Played</th>
+        </tr>
     </thead>
+
     <tbody>
-    {% for entry in user.gameTimeSum %}
+    {% for entry in user.gameTime %}
     <tr>
-        <td data-label="Game">{{ entry['gameName'] }}</td>
-        <td data-label="Time Played">{{ entry['time'] | numberformat("#.##") }}</td>
+        <td data-label="detail">{{ entry.detail }}</td>
+        <td data-label="state">{{ entry.state }}</td>
+        <td data-label="large-asset-text">{{ entry.largeAsset }}</td>
+        <td data-label="small-asset-text">{{ entry.smallAsset }}</td>
+        <td data-label="time-played">{{ entry.time | numberformat("#.##") }}</td>
     </tr>
     {% endfor %}
     </tbody>
