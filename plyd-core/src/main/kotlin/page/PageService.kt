@@ -21,7 +21,11 @@ class PageService(
         }
     }
 
-    fun getTimesForDiscordUserByIdAndGame(userId: String, gameName: String, from: LocalDateTime): UserTimeStatsByGame? {
+    fun getTimesForDiscordUserByIdAndGame(
+        userId: String,
+        gameName: String,
+        from: LocalDateTime
+    ): UserTimeStatsByGame? {
         val userInfo = userService.getUserByDiscordId(userId)
         val stats = gameTimeService.getTimesForDiscordUserByIdAndGame(userId, gameName, from)
 

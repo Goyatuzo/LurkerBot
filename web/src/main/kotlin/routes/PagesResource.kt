@@ -50,12 +50,15 @@ fun Application.configurePagesResource(pageService: PageService) {
                         LocalDateTime.now().minusWeeks(2)
                     }
 
-                val userData = pageService.getTimesForDiscordUserByIdAndGame(userId, gameName, fromDate)
+                val userData =
+                    pageService.getTimesForDiscordUserByIdAndGame(userId, gameName, fromDate)
 
                 if (userData == null) {
                     call.respond(HttpStatusCode.NotFound)
                 } else {
-                    call.respond(PebbleContent("pages/user-game-stats.html", mapOf("user" to userData)))
+                    call.respond(
+                        PebbleContent("pages/user-game-stats.html", mapOf("user" to userData))
+                    )
                 }
             }
         }
