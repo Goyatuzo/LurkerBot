@@ -4,6 +4,7 @@ import discordUser.UserService
 import gameTime.GameTimeService
 import gameTime.TimerRepository
 import java.time.LocalDateTime
+import response.RecentlyPlayed
 import response.UserTimeStats
 import response.UserTimeStatsByGame
 
@@ -15,7 +16,8 @@ class PageService(
     fun getUserTimeStatsByDiscordId(userId: String, from: LocalDateTime): UserTimeStats? {
         val userInfo = userService.getUserByDiscordId(userId)
         val gameTimeStats = gameTimeService.getTimesForDiscordUserById(userId, from)
-        val mostRecentStats = timerRepository.fiveMostRecentEntries(userId)
+        val mostRecentStats =
+            timerRepository.fiveMostRecentEntries(userId).map { RecentlyPlayed.from(it) }
 
         return if (userInfo == null) {
             null

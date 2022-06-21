@@ -14,6 +14,7 @@
             <th>Large Asset</th>
             <th>Small Asset</th>
             <th>Duration</th>
+            <th>Played Ago</th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +25,8 @@
         <td>{{ entry.gameDetail }}</td>
         <td>{{ entry.largeAssetText }}</td>
         <td>{{ entry.smallAssetText }}</td>
-        <td>{{ entry.time | numberformat("#.##") }}</td>
+        <td>{{ entry.timePlayed | numberformat("#.##") }} hours</td>
+        <td>{{ entry.playedAgo }}</td>
     </tr>
     {% endfor %}
     </tbody>
