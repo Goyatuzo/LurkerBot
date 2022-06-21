@@ -28,7 +28,7 @@ fun Application.module() {
 
     val gameTimerService = GameTimeService(timerRepository)
     val userService = UserService(userRepository)
-    val pageService = PageService(userService, gameTimerService)
+    val pageService = PageService(userService, gameTimerService, timerRepository)
 
     configureRouting()
     configureTemplating()
