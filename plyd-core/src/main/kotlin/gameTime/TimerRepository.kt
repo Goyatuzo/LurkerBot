@@ -12,4 +12,5 @@ interface TimerRepository {
         gameName: String,
         from: LocalDateTime
     ): List<GameTimeDetailedSum>
+    fun fiveMostRecentEntries(userId: String): List<TimeRecord>
 }
