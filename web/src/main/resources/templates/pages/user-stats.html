@@ -4,6 +4,34 @@
 
 <h1 class="title">{{ user.userInfo.username + '#' + user.userInfo.discriminator }}</h1>
 
+<h2 class="subtitle">Most Recent Activity</h2>
+<table class="table is-striped is-fullwidth">
+    <thead>
+        <tr>
+            <th>Game Name</th>
+            <th>State</th>
+            <th>Detail</th>
+            <th>Large Asset</th>
+            <th>Small Asset</th>
+            <th>Duration</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entry in user.mostRecent %}
+    <tr>
+        <td>{{ entry.gameName }}</td>
+        <td>{{ entry.gameState }}</td>
+        <td>{{ entry.gameDetail }}</td>
+        <td>{{ entry.largeAssetText }}</td>
+        <td>{{ entry.smallAssetText }}</td>
+        <td>{{ entry.time | numberformat("#.##") }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h2 class="subtitle">Details</h2>
+
 <a class="button" href="?from=2weeks">2 Weeks</a>
 <a class="button" href="?from=all">All Times</a>
 
