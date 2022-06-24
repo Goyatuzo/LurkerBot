@@ -30,19 +30,12 @@ class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerReposit
                 group(
                     TimeRecord::gameName,
                     GameTimeSum::time sum
-                        ("round".projection from
+                        ("divide".projection from
                             listOf(
-                                "divide".projection from
-                                    listOf(
-                                        "subtract".projection from
-                                            listOf(
-                                                TimeRecord::sessionEnd,
-                                                TimeRecord::sessionBegin
-                                            ),
-                                        3600000
-                                    ),
-                                2
-                            ))
+                                "subtract".projection from
+                                    listOf(TimeRecord::sessionEnd, TimeRecord::sessionBegin),
+                                3600000
+                            )),
                 ),
                 sort(descending(GameTimeSum::time)),
                 project(
@@ -72,18 +65,11 @@ class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerReposit
                         TimeRecord::largeAssetText from TimeRecord::largeAssetText
                     ),
                     GameTimeDetailedSum::time sum
-                        ("round".projection from
+                        ("divide".projection from
                             listOf(
-                                "divide".projection from
-                                    listOf(
-                                        "subtract".projection from
-                                            listOf(
-                                                TimeRecord::sessionEnd,
-                                                TimeRecord::sessionBegin
-                                            ),
-                                        3600000
-                                    ),
-                                2
+                                "subtract".projection from
+                                    listOf(TimeRecord::sessionEnd, TimeRecord::sessionBegin),
+                                3600000
                             )),
                     GameTimeDetailedSum::detail first TimeRecord::gameDetail
                 ),
