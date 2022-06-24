@@ -4,6 +4,23 @@
 
 <h1 class="title">{{ user.userInfo.username + '#' + user.userInfo.discriminator }}</h1>
 
+<div class="tile is-ancestor">
+    <div class="tile is-parent">
+        <div class="tile is-child">
+            <canvas id="gameState"></canvas>
+        </div>
+        <div class="tile is-child">
+            <canvas id="gameDetail"></canvas>
+        </div>
+        <div class="tile is-child">
+            <canvas id="largeAsset"></canvas>
+        </div>
+        <div class="tile is-child">
+            <canvas id="smallAsset"></canvas>
+        </div>
+    </div>
+</div>
+
 <a class="button" href="?from=2weeks">2 Weeks</a>
 <a class="button" href="?from=all">All Times</a>
 
@@ -31,4 +48,131 @@
     </tbody>
 </table>
 
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script type="application/javascript">
+    const baseConfig = {
+        type: 'pie',
+        data: null,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        },
+    };
+
+    const gameStateData = {
+        labels: [
+            {% for datum in user.byGameState %}
+                `{{ datum.name }}`,
+            {% endfor %}],
+        datasets: [
+            {
+                label: 'Game State',
+                data: [
+                    {% for datum in user.byGameState %}
+                        `{{ datum.time }}`,
+                    {% endfor %}],
+                backgroundColor: [
+                    {% for datum in user.byGameState %}
+                        `{{ datum.colorHex }}`,
+                    {% endfor %}],
+                borderColor: [
+                    {% for datum in user.byGameState %}
+                        `{{ datum.colorHex }}`,
+                    {% endfor %}]
+            }
+        ]
+    }
+
+    const gameDetailsData = {
+            labels: [
+                {% for datum in user.byGameDetail %}
+            `{{ datum.name }}`,
+        {% endfor %}],
+    datasets: [
+        {
+            label: 'Game State',
+            data: [
+                {% for datum in user.byGameDetail %}
+            `{{ datum.time }}`,
+        {% endfor %}],
+    backgroundColor: [
+        {% for datum in user.byGameDetail %}
+    `{{ datum.colorHex }}`,
+    {% endfor %}],
+    borderColor: [
+        {% for datum in user.byGameDetail %}
+    `{{ datum.colorHex }}`,
+    {% endfor %}]
+    }
+    ]
+    }
+
+    const smallAssetData = {
+            labels: [
+                {% for datum in user.bySmallAsset %}
+            `{{ datum.name }}`,
+        {% endfor %}],
+    datasets: [
+        {
+            label: 'Game State',
+            data: [
+                {% for datum in user.bySmallAsset %}
+            `{{ datum.time }}`,
+        {% endfor %}],
+    backgroundColor: [
+        {% for datum in user.bySmallAsset %}
+    `{{ datum.colorHex }}`,
+    {% endfor %}],
+    borderColor: [
+        {% for datum in user.bySmallAsset %}
+    `{{ datum.colorHex }}`,
+    {% endfor %}]
+    }
+    ]
+    }
+
+    const largeAssetData = {
+            labels: [
+                {% for datum in user.byLargeAsset %}
+            `{{ datum.name }}`,
+        {% endfor %}],
+    datasets: [
+        {
+            label: 'Game State',
+            data: [
+                {% for datum in user.byLargeAsset %}
+            `{{ datum.time }}`,
+        {% endfor %}],
+    backgroundColor: [
+        {% for datum in user.byLargeAsset %}
+    `{{ datum.colorHex }}`,
+    {% endfor %}],
+    borderColor: [
+        {% for datum in user.byLargeAsset %}
+    `{{ datum.colorHex }}`,
+    {% endfor %}]
+    }
+    ]
+    }
+
+
+    const gameStateConfig = { ...baseConfig, data: gameStateData }
+    const gameDetailConfig = { ...baseConfig, data: gameDetailsData }
+    const smallAssetConfig = { ...baseConfig, data: smallAssetData }
+    const largeAssetConfig = { ...baseConfig, data: largeAssetData }
+
+    new Chart(document.getElementById("gameState"), gameStateConfig);
+    new Chart(document.getElementById("gameDetail"), gameDetailConfig);
+    new Chart(document.getElementById("smallAsset"), smallAssetConfig);
+    new Chart(document.getElementById("largeAsset"), largeAssetConfig);
+
+</script>
 {% endblock %}
