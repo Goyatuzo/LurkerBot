@@ -46,10 +46,6 @@
     </tr>
     {% endfor %}
     </tbody>
-
-    {% for datum in user.byGameState %}
-        {{ datum.name }},
-    {% endfor %}
 </table>
 
 {% endblock %}
@@ -179,6 +175,4 @@
     new Chart(document.getElementById("largeAsset"), largeAssetConfig);
 
 </script>
-
-{{ user.byGameState }}
 {% endblock %}
