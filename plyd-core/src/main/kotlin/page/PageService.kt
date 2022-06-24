@@ -31,7 +31,8 @@ class PageService(
         stats
             .groupBy(keySelector)
             .mapNotNull {
-                if (it.key.isNullOrEmpty()) null else TimeGraphData(it.key!!, it.value.sumOf { t -> t.time })
+                if (it.key.isNullOrEmpty()) null
+                else TimeGraphData.of(it.key!!, it.value.sumOf { t -> t.time })
             }
             .sortedBy(TimeGraphData::time)
 
