@@ -35,6 +35,7 @@ class PageService(
                 else TimeGraphData.of(it.key!!, it.value.sumOf { t -> t.time })
             }
             .sortedBy(TimeGraphData::time)
+            .take(6)
 
     fun getTimesForDiscordUserByIdAndGame(
         userId: String,
