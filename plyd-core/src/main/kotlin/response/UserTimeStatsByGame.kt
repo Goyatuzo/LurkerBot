@@ -6,6 +6,7 @@ import discordUser.UserInDiscord
 data class UserTimeStatsByGame
 private constructor(
     val userInfo: UserInDiscord,
+    val gameName: String,
     val gameTime: List<GameTimeDetailedSum>,
     val byGameState: List<TimeGraphData>,
     val byGameDetail: List<TimeGraphData>,
@@ -15,6 +16,7 @@ private constructor(
     companion object {
         fun of(
             userInfo: UserInDiscord,
+            gameName: String,
             gameTime: List<GameTimeDetailedSum>,
             byGameDetail: List<TimeGraphData>,
             byGameState: List<TimeGraphData>,
@@ -23,6 +25,7 @@ private constructor(
         ) =
             UserTimeStatsByGame(
                 userInfo,
+                gameName,
                 gameTime,
                 byGameState,
                 byGameDetail,
