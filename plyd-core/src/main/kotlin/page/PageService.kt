@@ -54,6 +54,7 @@ class PageService(
         } else {
             UserTimeStatsByGame.of(
                 userInfo = userInfo,
+                gameName = gameName,
                 gameTime = stats,
                 byGameDetail = groupedByDetail,
                 byGameState = groupedByState,
