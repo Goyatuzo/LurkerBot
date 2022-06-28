@@ -3,12 +3,17 @@ package com.lurkerbot.gameTime
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import currentlyPlaying.CurrentlyPlaying
+import currentlyPlaying.CurrentlyPlayingService
 import gameTime.*
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import mu.KotlinLogging
 
-class GameTimer(private val timerRepository: TimerRepository) {
+class GameTimer(
+    private val timerRepository: TimerRepository,
+    private val currentlyPlayingService: CurrentlyPlayingService
+) {
     private val logger = KotlinLogging.logger {}
 
     private val beingTracked: MutableMap<String, TimeRecord> = mutableMapOf()
@@ -25,9 +30,13 @@ class GameTimer(private val timerRepository: TimerRepository) {
         if (beingTracked.containsKey(userId) && !serverBeingTracked.containsKey(guildId)) {
             Err(GameIsAlreadyLogging(userId, beingTracked[userId]!!, record))
         } else {
-            logger.info { "Began recording user: $userId in guild: $guildId" }
+            val toCurrentlyPlaying = CurrentlyPlaying.from(record)
+
+            logger.info { "Began recording in guild: $guildId value $toCurrentlyPlaying" }
             beingTracked[userId] = record
             serverBeingTracked[userId] = guildId
+
+            currentlyPlayingService.save(toCurrentlyPlaying)
             Ok(Unit)
         }
 
@@ -46,6 +55,8 @@ class GameTimer(private val timerRepository: TimerRepository) {
                     beingTracked.remove(userId)
                     serverBeingTracked.remove(userId)
                     timerRepository.saveTimeRecord(updatedEnd)
+
+                    currentlyPlayingService.removeByUserId(userId)
 
                     Ok(Unit)
                 } else {
