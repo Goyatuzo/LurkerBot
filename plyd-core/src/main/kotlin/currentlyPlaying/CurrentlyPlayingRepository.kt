@@ -1,8 +1,8 @@
 package currentlyPlaying
 
 interface CurrentlyPlayingRepository {
-    fun saveCurrentlyPlaying(currentlyPlaying: CurrentlyPlaying)
-    fun getCurrentlyPlayingByDiscordUserId(userId: String): CurrentlyPlaying
-    fun removeCurrentlyPlayingByDiscordUserId(userId: String): CurrentlyPlaying
+    fun save(currentlyPlaying: CurrentlyPlaying)
+    fun getByDiscordUserId(userId: String): CurrentlyPlaying?
+    fun removeByDiscordUserId(userId: String)
     fun clearCurrentlyPlaying()
 }
