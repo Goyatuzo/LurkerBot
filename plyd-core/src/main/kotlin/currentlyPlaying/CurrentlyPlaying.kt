@@ -8,15 +8,17 @@ internal constructor(
     val sessionBegin: LocalDateTime,
     val gameName: String,
     val userId: String,
+    val serverId: String,
     val gameDetail: String?,
     val gameState: String?,
     val largeAssetText: String?,
     val smallAssetText: String?
 ) {
     companion object {
-        fun from(timeRecord: TimeRecord): CurrentlyPlaying =
+        fun from(timeRecord: TimeRecord, serverId: String): CurrentlyPlaying =
             CurrentlyPlaying(
                 userId = timeRecord.userId,
+                serverId = serverId,
                 gameName = timeRecord.gameName,
                 gameDetail = timeRecord.gameDetail,
                 gameState = timeRecord.gameState,

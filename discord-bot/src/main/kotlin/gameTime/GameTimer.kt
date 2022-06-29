@@ -15,26 +15,20 @@ class GameTimer(
     private val currentlyPlayingService: CurrentlyPlayingService
 ) {
     private val logger = KotlinLogging.logger {}
-
-    private val beingTracked: MutableMap<String, TimeRecord> = mutableMapOf()
-    private val serverBeingTracked: MutableMap<String, String> = mutableMapOf()
-
-    private fun userIsBeingTracked(userId: String, guildId: String) =
-        beingTracked.containsKey(userId) && serverBeingTracked[userId] == guildId
-
     fun beginLogging(
         userId: String,
         guildId: String,
         record: TimeRecord
     ): Result<Unit, GameTimeError> =
-        if (beingTracked.containsKey(userId) && !serverBeingTracked.containsKey(guildId)) {
-            Err(GameIsAlreadyLogging(userId, beingTracked[userId]!!, record))
+        if (currentlyPlayingService.isUserCurrentlyPlayingById(
+                userId
+            ) /* beingTracked.containsKey(userId) && !serverBeingTracked.containsKey(guildId) */
+        ) {
+            Err(GameIsAlreadyLogging(userId, record))
         } else {
-            val toCurrentlyPlaying = CurrentlyPlaying.from(record)
+            val toCurrentlyPlaying = CurrentlyPlaying.from(record, guildId)
 
-            logger.info { "Began recording in guild: $guildId value $toCurrentlyPlaying" }
-            beingTracked[userId] = record
-            serverBeingTracked[userId] = guildId
+            logger.info { "Began recording $toCurrentlyPlaying" }
 
             currentlyPlayingService.save(toCurrentlyPlaying)
             Ok(Unit)
@@ -45,26 +39,25 @@ class GameTimer(
         guildId: String,
         at: LocalDateTime = LocalDateTime.now()
     ): Result<Unit, GameTimeError> {
-        if (userIsBeingTracked(userId, guildId)) {
-            beingTracked[userId]?.let {
-                val updatedEnd = it.copy(sessionEnd = at)
-                val timeElapsed =
-                    ChronoUnit.MILLIS.between(updatedEnd.sessionBegin, updatedEnd.sessionEnd)
-                return if (timeElapsed >= 5000) {
-                    // Remove first to eliminate possibility of data being sent to db
-                    beingTracked.remove(userId)
-                    serverBeingTracked.remove(userId)
-                    timerRepository.saveTimeRecord(updatedEnd)
+        val currentlyPlaying = currentlyPlayingService.getByUserId(userId)
+        if (currentlyPlaying != null &&
+                currentlyPlaying.serverId == guildId /* userIsBeingTracked(userId, guildId) */
+        ) {
+            val updatedEnd = TimeRecord.from(currentlyPlaying).copy(sessionEnd = at)
+            val timeElapsed =
+                ChronoUnit.MILLIS.between(updatedEnd.sessionBegin, updatedEnd.sessionEnd)
 
-                    currentlyPlayingService.removeByUserId(userId)
+            currentlyPlayingService.removeByUserId(userId)
+            return if (timeElapsed >= 5000) {
+                // Remove first to eliminate possibility of data being sent to db
+                timerRepository.saveTimeRecord(updatedEnd)
 
-                    Ok(Unit)
-                } else {
-                    logger.warn {
-                        "Not logging for $userId. State change happened in $timeElapsed milliseconds"
-                    }
-                    Err(StateChangedTooFast(userId, updatedEnd))
+                Ok(Unit)
+            } else {
+                logger.warn {
+                    "Not logging for $userId. State change happened in $timeElapsed milliseconds"
                 }
+                Err(StateChangedTooFast(userId, updatedEnd))
             }
         }
 

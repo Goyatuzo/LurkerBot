@@ -1,5 +1,6 @@
 package gameTime
 
+import currentlyPlaying.CurrentlyPlaying
 import java.time.LocalDateTime
 
 data class TimeRecord(
@@ -12,5 +13,17 @@ data class TimeRecord(
     val largeAssetText: String?,
     val smallAssetText: String?
 ) {
-    companion object {}
+    companion object {
+        fun from(currentlyPlaying: CurrentlyPlaying) =
+            TimeRecord(
+                userId = currentlyPlaying.userId,
+                gameName = currentlyPlaying.gameName,
+                gameDetail = currentlyPlaying.gameDetail,
+                gameState = currentlyPlaying.gameState,
+                smallAssetText = currentlyPlaying.smallAssetText,
+                largeAssetText = currentlyPlaying.largeAssetText,
+                sessionBegin = currentlyPlaying.sessionBegin,
+                sessionEnd = LocalDateTime.now()
+            )
+    }
 }

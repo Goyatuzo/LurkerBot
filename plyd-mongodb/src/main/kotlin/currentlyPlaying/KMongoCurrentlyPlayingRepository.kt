@@ -2,11 +2,11 @@ package currentlyPlaying
 
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
+import com.mongodb.client.model.ReplaceOptions
 import mu.KotlinLogging
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import org.litote.kmongo.getCollection
-import org.litote.kmongo.save
 
 class KMongoCurrentlyPlayingRepository(private val mongoClient: MongoClient) :
     CurrentlyPlayingRepository {
@@ -19,7 +19,14 @@ class KMongoCurrentlyPlayingRepository(private val mongoClient: MongoClient) :
     override fun save(currentlyPlaying: CurrentlyPlaying) {
         val collection = getCurrentlyPlayingCollection()
 
-        collection.save(currentlyPlaying)
+        val upsert = ReplaceOptions()
+        upsert.upsert(true)
+
+        collection.replaceOne(
+            CurrentlyPlaying::userId eq currentlyPlaying.userId,
+            currentlyPlaying,
+            upsert
+        )
         logger.info { "Saved currently playing: $currentlyPlaying" }
     }
 
