@@ -20,10 +20,7 @@ class GameTimer(
         guildId: String,
         record: TimeRecord
     ): Result<Unit, GameTimeError> =
-        if (currentlyPlayingService.isUserCurrentlyPlayingById(
-                userId
-            ) /* beingTracked.containsKey(userId) && !serverBeingTracked.containsKey(guildId) */
-        ) {
+        if (currentlyPlayingService.isUserCurrentlyPlayingById(userId)) {
             Err(GameIsAlreadyLogging(userId, record))
         } else {
             val toCurrentlyPlaying = CurrentlyPlaying.from(record, guildId)
@@ -40,9 +37,7 @@ class GameTimer(
         at: LocalDateTime = LocalDateTime.now()
     ): Result<Unit, GameTimeError> {
         val currentlyPlaying = currentlyPlayingService.getByUserId(userId)
-        if (currentlyPlaying != null &&
-                currentlyPlaying.serverId == guildId /* userIsBeingTracked(userId, guildId) */
-        ) {
+        if (currentlyPlaying != null && currentlyPlaying.serverId == guildId) {
             val updatedEnd = TimeRecord.from(currentlyPlaying).copy(sessionEnd = at)
             val timeElapsed =
                 ChronoUnit.MILLIS.between(updatedEnd.sessionBegin, updatedEnd.sessionEnd)
