@@ -4,6 +4,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
 import com.lurkerbot.gameTime.GameTimer
+import currentlyPlaying.CurrentlyPlayingService
 import io.mockk.*
 import java.time.LocalDateTime
 import org.junit.After
@@ -11,8 +12,9 @@ import org.junit.Test
 
 class GameTimerTest {
     private val timerRepository = mockk<TimerRepository>()
+    private val currentlyPlayingService = mockk<CurrentlyPlayingService>()
 
-    private val gameTimer = GameTimer(timerRepository)
+    private val gameTimer = GameTimer(timerRepository, currentlyPlayingService)
 
     private val basicTimeRecord =
         TimeRecord(
@@ -29,6 +31,7 @@ class GameTimerTest {
     @After
     fun teardown() {
         clearMocks(timerRepository)
+        clearMocks(currentlyPlayingService)
     }
 
     @Test
@@ -55,7 +58,7 @@ class GameTimerTest {
         gameTimer.beginLogging("test", "test server", toInsert)
         val error = gameTimer.beginLogging("test", "test server", secondGame)
 
-        assertThat(error).isEqualTo(Err(GameIsAlreadyLogging("test", toInsert, secondGame)))
+        assertThat(error).isEqualTo(Err(GameIsAlreadyLogging("test", secondGame)))
     }
 
     @Test
@@ -70,7 +73,7 @@ class GameTimerTest {
         val error = gameTimer.beginLogging("test", "test server 2", secondToInsert)
 
         assertThat(error)
-            .isEqualTo(Err(GameIsAlreadyLogging("test", firstToInsert, secondToInsert)))
+            .isEqualTo(Err(GameIsAlreadyLogging("test", secondToInsert)))
     }
 
     @Test
