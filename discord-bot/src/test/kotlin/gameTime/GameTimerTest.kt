@@ -65,6 +65,8 @@ class GameTimerTest {
     fun `When duplicate user and game beings logging, error is returned`() {
         val toInsert = basicTimeRecord.copy()
         val secondGame = basicTimeRecord.copy(gameState = "Updated State")
+        val toPlaying = CurrentlyPlaying.from(toInsert, serverId)
+        setupCurrentlyPlayingService(toPlaying)
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
         gameTimer.beginLogging("test", serverId, toInsert)
