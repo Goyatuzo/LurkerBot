@@ -81,6 +81,11 @@ class GameTimerTest {
 
         val fakeTime = LocalDateTime.of(2020, 1, 1, 1, 0, 0)
         val secondToInsert = basicTimeRecord.copy(sessionBegin = fakeTime)
+
+        val toPlayingFirst = CurrentlyPlaying.from(firstToInsert, serverId)
+        val toPlayingSecond = CurrentlyPlaying.from(secondToInsert, serverId)
+        setupCurrentlyPlayingService(toPlayingFirst)
+        setupCurrentlyPlayingService(toPlayingSecond)
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
         gameTimer.beginLogging("test", serverId, firstToInsert)
