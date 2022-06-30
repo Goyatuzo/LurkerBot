@@ -6,8 +6,4 @@ data class NeverStartedLogging(val userId: String, val guildId: String) : GameTi
 
 data class StateChangedTooFast(val userId: String, val record: TimeRecord) : GameTimeError()
 
-data class GameIsAlreadyLogging(
-    val userId: String,
-    val alreadyLogging: TimeRecord,
-    val newRecord: TimeRecord
-) : GameTimeError()
+data class GameIsAlreadyLogging(val userId: String, val newRecord: TimeRecord) : GameTimeError()

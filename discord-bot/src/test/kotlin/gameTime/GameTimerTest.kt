@@ -4,15 +4,20 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
 import com.lurkerbot.gameTime.GameTimer
+import currentlyPlaying.CurrentlyPlaying
+import currentlyPlaying.CurrentlyPlayingService
 import io.mockk.*
 import java.time.LocalDateTime
 import org.junit.After
 import org.junit.Test
 
 class GameTimerTest {
-    private val timerRepository = mockk<TimerRepository>()
+    private val serverId = "test server"
 
-    private val gameTimer = GameTimer(timerRepository)
+    private val timerRepository = mockk<TimerRepository>()
+    private val currentlyPlayingService = mockk<CurrentlyPlayingService>()
+
+    private val gameTimer = GameTimer(timerRepository, currentlyPlayingService)
 
     private val basicTimeRecord =
         TimeRecord(
@@ -29,19 +34,31 @@ class GameTimerTest {
     @After
     fun teardown() {
         clearMocks(timerRepository)
+        clearMocks(currentlyPlayingService)
+    }
+
+    private fun setupCurrentlyPlayingService(currentlyPlaying: CurrentlyPlaying) {
+        every {
+            currentlyPlayingService.isUserCurrentlyPlayingById(currentlyPlaying.userId)
+        } returns true
+        every { currentlyPlayingService.getByUserId(currentlyPlaying.userId) } returns
+            currentlyPlaying
+        every { currentlyPlayingService.removeByUserId(currentlyPlaying.userId) } returns Unit
     }
 
     @Test
     fun `A person can start playing a game and an hour later, successfully ends logging`() {
         val later = LocalDateTime.now().plusHours(1)
         val toInsert = basicTimeRecord.copy()
+        val toPlaying = CurrentlyPlaying.from(toInsert, serverId)
+        setupCurrentlyPlayingService(toPlaying)
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", "test server", toInsert)
-        val actual = gameTimer.endLogging("test", "test server", later)
+        gameTimer.beginLogging("test", serverId, toInsert)
+        val actual = gameTimer.endLogging("test", serverId, later)
         assertThat(actual).isEqualTo(Ok(Unit))
 
-        verify { timerRepository.saveTimeRecord(toInsert.copy(sessionEnd = later)) }
+        verify(exactly = 1) { timerRepository.saveTimeRecord(toInsert.copy(sessionEnd = later)) }
 
         confirmVerified(timerRepository)
     }
@@ -50,12 +67,14 @@ class GameTimerTest {
     fun `When duplicate user and game beings logging, error is returned`() {
         val toInsert = basicTimeRecord.copy()
         val secondGame = basicTimeRecord.copy(gameState = "Updated State")
+        val toPlaying = CurrentlyPlaying.from(toInsert, serverId)
+        setupCurrentlyPlayingService(toPlaying)
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", "test server", toInsert)
-        val error = gameTimer.beginLogging("test", "test server", secondGame)
+        gameTimer.beginLogging("test", serverId, toInsert)
+        val error = gameTimer.beginLogging("test", serverId, secondGame)
 
-        assertThat(error).isEqualTo(Err(GameIsAlreadyLogging("test", toInsert, secondGame)))
+        assertThat(error).isEqualTo(Err(GameIsAlreadyLogging("test", secondGame)))
     }
 
     @Test
@@ -64,13 +83,17 @@ class GameTimerTest {
 
         val fakeTime = LocalDateTime.of(2020, 1, 1, 1, 0, 0)
         val secondToInsert = basicTimeRecord.copy(sessionBegin = fakeTime)
+
+        val toPlayingFirst = CurrentlyPlaying.from(firstToInsert, serverId)
+        val toPlayingSecond = CurrentlyPlaying.from(secondToInsert, serverId)
+        setupCurrentlyPlayingService(toPlayingFirst)
+        setupCurrentlyPlayingService(toPlayingSecond)
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", "test server", firstToInsert)
+        gameTimer.beginLogging("test", serverId, firstToInsert)
         val error = gameTimer.beginLogging("test", "test server 2", secondToInsert)
 
-        assertThat(error)
-            .isEqualTo(Err(GameIsAlreadyLogging("test", firstToInsert, secondToInsert)))
+        assertThat(error).isEqualTo(Err(GameIsAlreadyLogging("test", secondToInsert)))
     }
 
     @Test
@@ -80,17 +103,22 @@ class GameTimerTest {
 
         val fakeTime = LocalDateTime.of(2020, 1, 1, 1, 0, 0)
         val secondToInsert = basicTimeRecord.copy(sessionBegin = fakeTime)
+
+        val toPlayingFirst = CurrentlyPlaying.from(firstToInsert, serverId)
+        val toPlayingSecond = CurrentlyPlaying.from(secondToInsert, serverId)
+        setupCurrentlyPlayingService(toPlayingFirst)
+        setupCurrentlyPlayingService(toPlayingSecond)
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", "test server", firstToInsert)
+        gameTimer.beginLogging("test", serverId, firstToInsert)
         gameTimer.beginLogging("test", "test server 2", secondToInsert)
 
-        gameTimer.endLogging("test", "test server", later)
+        gameTimer.endLogging("test", serverId, later)
         gameTimer.endLogging("test", "test server 2", later)
 
         verify(exactly = 1) {
-            timerRepository.saveTimeRecord(record = firstToInsert.copy(sessionEnd = later))
-            timerRepository.saveTimeRecord(record = not(secondToInsert.copy(sessionEnd = later)))
+            timerRepository.saveTimeRecord(record = not(firstToInsert.copy(sessionEnd = later)))
+            timerRepository.saveTimeRecord(record = secondToInsert.copy(sessionEnd = later))
         }
 
         confirmVerified(timerRepository)
@@ -99,18 +127,19 @@ class GameTimerTest {
     @Test
     fun `Should not be be able to save logging that never started`() {
         every { timerRepository.saveTimeRecord(any()) } returns Unit
+        every { currentlyPlayingService.getByUserId(any()) } returns null
 
         val actual =
             gameTimer.endLogging(
                 "test",
-                "test server",
+                serverId,
             )
         assertThat(actual)
             .isEqualTo(
                 Err(
                     NeverStartedLogging(
                         "test",
-                        "test server",
+                        serverId,
                     )
                 )
             )
@@ -124,11 +153,20 @@ class GameTimerTest {
     fun `When logging ends, a new one should be able to start`() {
         val now = LocalDateTime.now().plusHours(1)
         val toInsert = basicTimeRecord.copy()
+
+        val toPlaying = CurrentlyPlaying.from(toInsert, serverId)
+
+        every { currentlyPlayingService.isUserCurrentlyPlayingById(toPlaying.userId) } returns
+            true andThen
+            false
+        every { currentlyPlayingService.getByUserId(toPlaying.userId) } returns toPlaying
+        every { currentlyPlayingService.removeByUserId(toPlaying.userId) } returns Unit
+        every { currentlyPlayingService.save(any()) } returns Unit
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", "test server", toInsert)
-        gameTimer.endLogging("test", "test server", now)
-        val begin = gameTimer.beginLogging("test", "test server", toInsert)
+        gameTimer.beginLogging("test", serverId, toInsert)
+        gameTimer.endLogging("test", serverId, now)
+        val begin = gameTimer.beginLogging("test", serverId, toInsert)
         assertThat(begin).isEqualTo(Ok(Unit))
     }
 
@@ -136,10 +174,13 @@ class GameTimerTest {
     fun `Playing a game for milliseconds is not valid`() {
         val now = LocalDateTime.now()
         val toInsert = basicTimeRecord.copy()
+
+        val toPlaying = CurrentlyPlaying.from(toInsert, serverId)
+        setupCurrentlyPlayingService(toPlaying)
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
-        gameTimer.beginLogging("test", "test server", toInsert)
-        val actual = gameTimer.endLogging("test", "test server", now)
+        gameTimer.beginLogging("test", serverId, toInsert)
+        val actual = gameTimer.endLogging("test", serverId, now)
         assertThat(actual)
             .isEqualTo(Err(StateChangedTooFast("test", toInsert.copy(sessionEnd = now))))
 
