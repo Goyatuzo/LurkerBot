@@ -56,7 +56,7 @@ class GameTimerTest {
         val actual = gameTimer.endLogging("test", serverId, later)
         assertThat(actual).isEqualTo(Ok(Unit))
 
-        verify { timerRepository.saveTimeRecord(toInsert.copy(sessionEnd = later)) }
+        verify(exactly = 1) { timerRepository.saveTimeRecord(toInsert.copy(sessionEnd = later)) }
 
         confirmVerified(timerRepository)
     }
@@ -126,6 +126,7 @@ class GameTimerTest {
     @Test
     fun `Should not be be able to save logging that never started`() {
         every { timerRepository.saveTimeRecord(any()) } returns Unit
+        every { currentlyPlayingService.getByUserId(any()) } returns null
 
         val actual =
             gameTimer.endLogging(
