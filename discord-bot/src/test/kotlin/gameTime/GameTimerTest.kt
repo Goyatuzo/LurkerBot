@@ -38,8 +38,11 @@ class GameTimerTest {
     }
 
     private fun setupCurrentlyPlayingService(currentlyPlaying: CurrentlyPlaying) {
-        every { currentlyPlayingService.isUserCurrentlyPlayingById(currentlyPlaying.userId) } returns true
-        every { currentlyPlayingService.getByUserId(currentlyPlaying.userId) } returns currentlyPlaying
+        every {
+            currentlyPlayingService.isUserCurrentlyPlayingById(currentlyPlaying.userId)
+        } returns true
+        every { currentlyPlayingService.getByUserId(currentlyPlaying.userId) } returns
+            currentlyPlaying
         every { currentlyPlayingService.removeByUserId(currentlyPlaying.userId) } returns Unit
     }
 
@@ -50,7 +53,6 @@ class GameTimerTest {
         val toPlaying = CurrentlyPlaying.from(toInsert, serverId)
         setupCurrentlyPlayingService(toPlaying)
         every { timerRepository.saveTimeRecord(any()) } returns Unit
-
 
         gameTimer.beginLogging("test", serverId, toInsert)
         val actual = gameTimer.endLogging("test", serverId, later)
@@ -91,8 +93,7 @@ class GameTimerTest {
         gameTimer.beginLogging("test", serverId, firstToInsert)
         val error = gameTimer.beginLogging("test", "test server 2", secondToInsert)
 
-        assertThat(error)
-            .isEqualTo(Err(GameIsAlreadyLogging("test", secondToInsert)))
+        assertThat(error).isEqualTo(Err(GameIsAlreadyLogging("test", secondToInsert)))
     }
 
     @Test
@@ -155,7 +156,9 @@ class GameTimerTest {
 
         val toPlaying = CurrentlyPlaying.from(toInsert, serverId)
 
-        every { currentlyPlayingService.isUserCurrentlyPlayingById(toPlaying.userId) } returns true andThen false
+        every { currentlyPlayingService.isUserCurrentlyPlayingById(toPlaying.userId) } returns
+            true andThen
+            false
         every { currentlyPlayingService.getByUserId(toPlaying.userId) } returns toPlaying
         every { currentlyPlayingService.removeByUserId(toPlaying.userId) } returns Unit
         every { currentlyPlayingService.save(any()) } returns Unit
