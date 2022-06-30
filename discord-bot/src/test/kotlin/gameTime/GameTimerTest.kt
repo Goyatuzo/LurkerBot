@@ -152,6 +152,13 @@ class GameTimerTest {
     fun `When logging ends, a new one should be able to start`() {
         val now = LocalDateTime.now().plusHours(1)
         val toInsert = basicTimeRecord.copy()
+
+        val toPlaying = CurrentlyPlaying.from(toInsert, serverId)
+
+        every { currentlyPlayingService.isUserCurrentlyPlayingById(toPlaying.userId) } returns true andThen false
+        every { currentlyPlayingService.getByUserId(toPlaying.userId) } returns toPlaying
+        every { currentlyPlayingService.removeByUserId(toPlaying.userId) } returns Unit
+        every { currentlyPlayingService.save(any()) } returns Unit
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
         gameTimer.beginLogging("test", serverId, toInsert)
@@ -164,6 +171,9 @@ class GameTimerTest {
     fun `Playing a game for milliseconds is not valid`() {
         val now = LocalDateTime.now()
         val toInsert = basicTimeRecord.copy()
+
+        val toPlaying = CurrentlyPlaying.from(toInsert, serverId)
+        setupCurrentlyPlayingService(toPlaying)
         every { timerRepository.saveTimeRecord(any()) } returns Unit
 
         gameTimer.beginLogging("test", serverId, toInsert)
