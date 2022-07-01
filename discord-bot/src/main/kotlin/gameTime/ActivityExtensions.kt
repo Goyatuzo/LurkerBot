@@ -7,5 +7,6 @@ fun Activity?.sameActivityAs(other: Activity?): Boolean =
         other != null &&
         name == other.name &&
         details == other.details &&
+        state == other.state &&
         assets?.smallText == other.assets?.smallText &&
         assets?.largeText == other.assets?.largeText
