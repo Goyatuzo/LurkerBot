@@ -39,7 +39,6 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
             return
         }
 
-
         if (!user.isBot) {
             val currentGame = event.presence.activities.firstOrNull { it.type == ActivityType.Game }
             val oldGame = event.old?.activities?.firstOrNull { it.type == ActivityType.Game }
