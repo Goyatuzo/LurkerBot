@@ -2,7 +2,12 @@
 
 {% block content %}
 
-<h1 class="title">{{ user.userInfo.username + '#' + user.userInfo.discriminator }}</h1>
+<div class="box">
+    <h1 class="title">{{ user.userInfo.username + '#' + user.userInfo.discriminator }}</h1>
+    {% if user.currentlyPlaying is not null %}
+        <h3 class="subtitle">Currently playing {{ user.currentlyPlaying.gameName }}, {{ user.currentlyPlaying.gameState }}</h3>
+    {% endif %}
+</div>
 
 <h2 class="subtitle">Most Recent Activity</h2>
 <table class="table is-striped is-fullwidth">
