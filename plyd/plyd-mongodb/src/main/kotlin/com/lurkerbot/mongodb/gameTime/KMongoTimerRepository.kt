@@ -1,4 +1,4 @@
-package gameTime
+package com.lurkerbot.mongodb.gameTime
 
 import com.lurkerbot.core.gameTime.TimeRecord
 import com.lurkerbot.core.gameTime.TimerRepository

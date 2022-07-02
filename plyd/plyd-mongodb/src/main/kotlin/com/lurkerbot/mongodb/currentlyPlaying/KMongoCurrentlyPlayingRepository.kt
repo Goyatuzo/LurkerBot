@@ -1,4 +1,4 @@
-package currentlyPlaying
+package com.lurkerbot.mongodb.currentlyPlaying
 
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlaying
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingRepository

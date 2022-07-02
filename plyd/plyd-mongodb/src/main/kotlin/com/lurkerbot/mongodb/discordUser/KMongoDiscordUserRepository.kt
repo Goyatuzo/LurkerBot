@@ -1,4 +1,4 @@
-package discordUser
+package com.lurkerbot.mongodb.discordUser
 
 import com.lurkerbot.core.discordUser.DiscordUserRepository
 import com.lurkerbot.core.discordUser.UserInDiscord

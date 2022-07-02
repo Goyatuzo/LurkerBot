@@ -5,7 +5,9 @@ import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingService
 import com.lurkerbot.discordUser.UserTracker
 import com.lurkerbot.gameTime.GameTimeTracker
 import com.lurkerbot.gameTime.GameTimer
-import currentlyPlaying.KMongoCurrentlyPlayingRepository
+import com.lurkerbot.mongodb.currentlyPlaying.KMongoCurrentlyPlayingRepository
+import com.lurkerbot.mongodb.discordUser.KMongoDiscordUserRepository
+import com.lurkerbot.mongodb.gameTime.KMongoTimerRepository
 import dev.kord.core.Kord
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.user.PresenceUpdateEvent
@@ -13,8 +15,6 @@ import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
-import discordUser.KMongoDiscordUserRepository
-import gameTime.KMongoTimerRepository
 import org.litote.kmongo.KMongo
 
 suspend fun main() {

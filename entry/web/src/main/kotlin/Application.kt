@@ -4,14 +4,14 @@ import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingService
 import com.lurkerbot.core.discordUser.UserService
 import com.lurkerbot.core.gameTime.GameTimeService
 import com.lurkerbot.core.page.PageService
+import com.lurkerbot.mongodb.currentlyPlaying.KMongoCurrentlyPlayingRepository
+import com.lurkerbot.mongodb.discordUser.KMongoDiscordUserRepository
+import com.lurkerbot.mongodb.gameTime.KMongoTimerRepository
 import com.lurkerbot.web.plugins.configureRouting
 import com.lurkerbot.web.plugins.configureSerialization
 import com.lurkerbot.web.plugins.configureTemplating
 import com.lurkerbot.web.routes.configurePagesResource
 import com.lurkerbot.web.routes.configureUserResource
-import currentlyPlaying.KMongoCurrentlyPlayingRepository
-import discordUser.KMongoDiscordUserRepository
-import gameTime.KMongoTimerRepository
 import io.ktor.server.application.*
 import org.litote.kmongo.KMongo
 
