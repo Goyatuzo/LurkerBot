@@ -1,2 +1,2 @@
 rootProject.name = "LurkerBot"
-include("plyd-core", "plyd-mongodb", "discord-bot", "web")
+include("plyd:plyd-core", "plyd:plyd-mongodb", "entry:discord-bot", "entry:web")
