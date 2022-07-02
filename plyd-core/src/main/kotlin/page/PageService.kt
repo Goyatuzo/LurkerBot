@@ -1,5 +1,6 @@
 package page
 
+import currentlyPlaying.CurrentlyPlayingService
 import discordUser.UserService
 import gameTime.GameTimeService
 import gameTime.TimerRepository
@@ -9,18 +10,20 @@ import response.*
 class PageService(
     private val userService: UserService,
     private val gameTimeService: GameTimeService,
-    private val timerRepository: TimerRepository
+    private val timerRepository: TimerRepository,
+    private val currentlyPlayingService: CurrentlyPlayingService
 ) {
     fun getUserTimeStatsByDiscordId(userId: String, from: LocalDateTime): UserTimeStats? {
         val userInfo = userService.getUserByDiscordId(userId)
         val gameTimeStats = gameTimeService.getTimesForDiscordUserById(userId, from)
         val mostRecentStats =
             timerRepository.fiveMostRecentEntries(userId).map { RecentlyPlayed.from(it) }
+        val currentlyPlaying = currentlyPlayingService.getByUserId(userId)
 
         return if (userInfo == null) {
             null
         } else {
-            UserTimeStats.of(userInfo, gameTimeStats, mostRecentStats)
+            UserTimeStats.of(userInfo, gameTimeStats, mostRecentStats, currentlyPlaying)
         }
     }
 

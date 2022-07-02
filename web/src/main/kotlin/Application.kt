@@ -5,6 +5,8 @@ import com.lurkerbot.web.plugins.configureSerialization
 import com.lurkerbot.web.plugins.configureTemplating
 import com.lurkerbot.web.routes.configurePagesResource
 import com.lurkerbot.web.routes.configureUserResource
+import currentlyPlaying.CurrentlyPlayingService
+import currentlyPlaying.KMongoCurrentlyPlayingRepository
 import discordUser.KMongoDiscordUserRepository
 import discordUser.UserService
 import gameTime.GameTimeService
@@ -25,10 +27,13 @@ fun Application.module() {
 
     val timerRepository = KMongoTimerRepository(mongoClient)
     val userRepository = KMongoDiscordUserRepository(mongoClient)
+    val currentlyPlayingRepository = KMongoCurrentlyPlayingRepository(mongoClient)
 
     val gameTimerService = GameTimeService(timerRepository)
+    val currentlyPlayingService = CurrentlyPlayingService(currentlyPlayingRepository)
     val userService = UserService(userRepository)
-    val pageService = PageService(userService, gameTimerService, timerRepository)
+    val pageService =
+        PageService(userService, gameTimerService, timerRepository, currentlyPlayingService)
 
     configureRouting()
     configureTemplating()
