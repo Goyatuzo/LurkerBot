@@ -13,8 +13,8 @@ application {
 }
 
 dependencies {
+    implementation(project(":plyd:plyd-dependencies"))
     implementation(project(":plyd:plyd-core"))
-    implementation(project(":plyd:plyd-mongodb"))
 
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-host-common-jvm:$ktorVersion")
@@ -25,7 +25,6 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
-    implementation("org.litote.kmongo:kmongo:4.5.1")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
 }
 

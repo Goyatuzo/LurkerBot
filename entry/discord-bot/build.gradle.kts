@@ -3,10 +3,9 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":plyd:plyd-dependencies"))
     implementation(project(":plyd:plyd-core"))
-    implementation(project(":plyd:plyd-mongodb"))
     implementation("dev.kord:kord-core:0.8.0-M14")
-    implementation("org.litote.kmongo:kmongo:4.5.1")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
