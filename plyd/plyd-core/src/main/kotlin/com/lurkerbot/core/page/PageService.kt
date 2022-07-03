@@ -17,7 +17,7 @@ class PageService(
         val userInfo = userService.getUserByDiscordId(userId)
         val gameTimeStats = gameTimeService.getTimesForDiscordUserById(userId, from)
         val mostRecentStats =
-            timerRepository.fiveMostRecentEntries(userId).map { RecentlyPlayed.from(it) }
+            timerRepository.mostRecentEntries(userId, 8).map { RecentlyPlayed.from(it) }
         val currentlyPlaying = currentlyPlayingService.getByUserId(userId)
 
         return if (userInfo == null) {

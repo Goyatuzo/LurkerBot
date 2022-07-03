@@ -89,12 +89,12 @@ class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerReposit
             )
             .toList()
 
-    override fun fiveMostRecentEntries(userId: String): List<TimeRecord> =
+    override fun mostRecentEntries(userId: String, count: Int): List<TimeRecord> =
         getCollection()
             .aggregate<TimeRecord>(
                 match(TimeRecord::userId eq userId),
                 sort(descending(TimeRecord::sessionEnd)),
-                limit(5)
+                limit(count)
             )
             .toList()
 }
