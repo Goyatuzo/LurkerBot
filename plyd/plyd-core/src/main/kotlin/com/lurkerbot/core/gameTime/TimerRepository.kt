@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 interface TimerRepository {
     fun saveTimeRecord(record: TimeRecord)
     fun getSummedTimeRecordsFor(userId: String, from: LocalDateTime): List<GameTimeSum>
-    fun getSummedTimeRecords(from: LocalDateTime, n: Int): List<GameTimeSum>
+    fun getGroupedTimeRecordsByDate(from: LocalDateTime, n: Int): List<GameTimeSum>
     fun getSummedGameTimeRecordsFor(
         userId: String,
         gameName: String,

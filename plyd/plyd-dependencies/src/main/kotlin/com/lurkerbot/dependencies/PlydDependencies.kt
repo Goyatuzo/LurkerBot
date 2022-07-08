@@ -5,6 +5,7 @@ import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingService
 import com.lurkerbot.core.discordUser.DiscordUserRepository
 import com.lurkerbot.core.discordUser.UserService
 import com.lurkerbot.core.gameTime.GameTimeService
+import com.lurkerbot.core.gameTime.TimeSummaryService
 import com.lurkerbot.core.gameTime.TimerRepository
 import com.lurkerbot.core.page.PageService
 import com.lurkerbot.mongodb.currentlyPlaying.KMongoCurrentlyPlayingRepository
@@ -24,4 +25,5 @@ class PlydDependencies() {
     val userService = UserService(userRepository)
     val pageService =
         PageService(userService, gameTimerService, timerRepository, currentlyPlayingService)
+    val timeSummaryService = TimeSummaryService(timerRepository)
 }
