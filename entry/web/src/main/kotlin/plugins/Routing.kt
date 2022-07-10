@@ -13,6 +13,9 @@ fun Application.configureRouting() {
     install(StatusPages) {
         exception<AuthenticationException> { call, _ -> call.respond(HttpStatusCode.Unauthorized) }
         exception<AuthorizationException> { call, _ -> call.respond(HttpStatusCode.Forbidden) }
+        exception<Throwable> { call, ex ->
+            call.respondText(ex.message.orEmpty(), status = HttpStatusCode.InternalServerError)
+        }
     }
 
     routing { static("/static") { resources("static") } }
