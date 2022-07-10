@@ -30,7 +30,7 @@ class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerReposit
             .aggregate<GameTimeSum>(
                 match(TimeRecord::userId eq userId, TimeRecord::sessionEnd gte from),
                 group(
-                    TimeRecord::gameName from TimeRecord::gameName,
+                    TimeRecord::gameName,
                     GameTimeSum::time sum
                         ("divide".projection from
                             listOf(
@@ -38,10 +38,12 @@ class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerReposit
                                     listOf(TimeRecord::sessionEnd, TimeRecord::sessionBegin),
                                 3600000
                             )),
+                    GameTimeSum::date first(TimeRecord::sessionEnd)
                 ),
                 sort(descending(GameTimeSum::time)),
                 project(
                     GameTimeSum::gameName from "_id".projection,
+                    GameTimeSum::date from GameTimeSum::date,
                     GameTimeSum::time from GameTimeSum::time
                 )
             )
