@@ -6,9 +6,9 @@ import com.lurkerbot.core.response.GameTimeDetailedSum
 import com.lurkerbot.core.response.GameTimeSum
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
-import java.time.LocalDateTime
 import mu.KotlinLogging
 import org.litote.kmongo.*
+import java.time.LocalDateTime
 
 class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerRepository {
     private val logger = KotlinLogging.logger {}
@@ -30,7 +30,7 @@ class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerReposit
             .aggregate<GameTimeSum>(
                 match(TimeRecord::userId eq userId, TimeRecord::sessionEnd gte from),
                 group(
-                    TimeRecord::gameName,
+                    TimeRecord::gameName from TimeRecord::gameName,
                     GameTimeSum::time sum
                         ("divide".projection from
                             listOf(
@@ -47,28 +47,38 @@ class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerReposit
             )
             .toList()
 
-    override fun getSummedTimeRecords(from: LocalDateTime, n: Int): List<GameTimeSum> =
-        getCollection()
-            .aggregate<GameTimeSum>(
-                match(TimeRecord::sessionEnd gte from),
-                group(
-                    TimeRecord::gameName,
-                    GameTimeSum::time sum
-                            ("divide".projection from
-                                    listOf(
-                                        "subtract".projection from
-                                                listOf(TimeRecord::sessionEnd, TimeRecord::sessionBegin),
-                                        3600000
-                                    )),
+    override fun getGroupedTimeRecordsByDate(from: LocalDateTime, n: Int): List<GameTimeSum> {
+        val dateFormat = "%Y-%m-%d"
+        val queries = arrayListOf(
+            match(TimeRecord::sessionEnd gte from),
+            group(
+                fields(
+                    TimeRecord::gameName from TimeRecord::gameName,
+                    TimeRecord::sessionEnd from (MongoOperator.dateToString from (combine("format" from dateFormat, "date" from TimeRecord::sessionEnd))),
                 ),
-                sort(descending(GameTimeSum::time)),
-                project(
-                    GameTimeSum::gameName from "_id".projection,
-                    GameTimeSum::time from GameTimeSum::time
-                ),
-                limit(n)
-            )
+            GameTimeSum::time sum
+                    ("divide".projection from
+                            listOf(
+                                "subtract".projection from
+                                        listOf(TimeRecord::sessionEnd, TimeRecord::sessionBegin),
+                                3600000
+                            )),
+            ),
+            sort(descending(GameTimeSum::time)),
+            project(
+                GameTimeSum::gameName from "_id.gameName".projection,
+                GameTimeSum::date from ("dateFromString".projection from (combine("format" from dateFormat, "dateString" from "_id.sessionEnd".projection))),
+                GameTimeSum::time from GameTimeSum::time,
+                excludeId()
+            ),
+            limit(n)
+        )
+
+        return getCollection()
+            .aggregate(queries, GameTimeSum::class.java)
             .toList()
+    }
+
 
     override fun getSummedGameTimeRecordsFor(
         userId: String,
