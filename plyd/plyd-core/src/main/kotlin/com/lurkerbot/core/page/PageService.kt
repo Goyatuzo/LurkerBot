@@ -3,6 +3,7 @@ package com.lurkerbot.core.page
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingService
 import com.lurkerbot.core.discordUser.UserService
 import com.lurkerbot.core.gameTime.GameTimeService
+import com.lurkerbot.core.gameTime.TimeSummaryService
 import com.lurkerbot.core.gameTime.TimerRepository
 import com.lurkerbot.core.response.*
 import java.time.LocalDateTime
@@ -11,6 +12,7 @@ class PageService(
     private val userService: UserService,
     private val gameTimeService: GameTimeService,
     private val timerRepository: TimerRepository,
+    private val timeSummaryService: TimeSummaryService,
     private val currentlyPlayingService: CurrentlyPlayingService
 ) {
     fun getUserTimeStatsByDiscordId(userId: String, from: LocalDateTime): UserTimeStats? {
@@ -66,4 +68,6 @@ class PageService(
             )
         }
     }
+
+    fun twoWeekSiteStats(): List<GameTimeSum> = timeSummaryService.getAllTimesFromPastWeek()
 }

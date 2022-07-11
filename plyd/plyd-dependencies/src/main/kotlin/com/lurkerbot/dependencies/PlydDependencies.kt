@@ -23,7 +23,14 @@ class PlydDependencies() {
     val gameTimerService = GameTimeService(timerRepository)
     val currentlyPlayingService = CurrentlyPlayingService(currentlyPlayingRepository)
     val userService = UserService(userRepository)
-    val pageService =
-        PageService(userService, gameTimerService, timerRepository, currentlyPlayingService)
     val timeSummaryService = TimeSummaryService(timerRepository)
+
+    val pageService =
+        PageService(
+            userService = userService,
+            gameTimeService = gameTimerService,
+            timerRepository = timerRepository,
+            timeSummaryService = timeSummaryService,
+            currentlyPlayingService = currentlyPlayingService
+        )
 }
