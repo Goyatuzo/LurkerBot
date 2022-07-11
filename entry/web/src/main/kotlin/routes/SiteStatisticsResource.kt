@@ -6,7 +6,5 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureSiteStatisticsResource(timeSummaryService: TimeSummaryService) {
-    routing {
-        get("/api/past-week") { call.respond(timeSummaryService.getTopFivePlayedGames()) }
-    }
+    routing { get("/api/past-week") { call.respond(timeSummaryService.getAllTimesFromPastWeek()) } }
 }
