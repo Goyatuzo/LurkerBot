@@ -38,14 +38,56 @@ class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerReposit
                                     listOf(TimeRecord::sessionEnd, TimeRecord::sessionBegin),
                                 3600000
                             )),
+                    GameTimeSum::date first (TimeRecord::sessionEnd)
                 ),
                 sort(descending(GameTimeSum::time)),
                 project(
                     GameTimeSum::gameName from "_id".projection,
+                    GameTimeSum::date from GameTimeSum::date,
                     GameTimeSum::time from GameTimeSum::time
                 )
             )
             .toList()
+
+    override fun getGroupedTimeRecordsByDate(from: LocalDateTime): List<GameTimeSum> {
+        val dateFormat = "%Y-%m-%d"
+        val queries =
+            arrayListOf(
+                match(TimeRecord::sessionEnd gte from),
+                group(
+                    fields(
+                        TimeRecord::gameName from TimeRecord::gameName,
+                        TimeRecord::sessionEnd from
+                            (MongoOperator.dateToString from
+                                (combine(
+                                    "format" from dateFormat,
+                                    "date" from TimeRecord::sessionEnd
+                                ))),
+                    ),
+                    GameTimeSum::time sum
+                        ("divide".projection from
+                            listOf(
+                                "subtract".projection from
+                                    listOf(TimeRecord::sessionEnd, TimeRecord::sessionBegin),
+                                3600000
+                            )),
+                ),
+                sort(descending(GameTimeSum::time)),
+                project(
+                    GameTimeSum::gameName from "_id.gameName".projection,
+                    GameTimeSum::date from
+                        ("dateFromString".projection from
+                            (combine(
+                                "format" from dateFormat,
+                                "dateString" from "_id.sessionEnd".projection
+                            ))),
+                    GameTimeSum::time from GameTimeSum::time,
+                    excludeId()
+                )
+            )
+
+        return getCollection().aggregate(queries, GameTimeSum::class.java).toList()
+    }
 
     override fun getSummedGameTimeRecordsFor(
         userId: String,
@@ -89,12 +131,12 @@ class KMongoTimerRepository(private val mongoClient: MongoClient) : TimerReposit
             )
             .toList()
 
-    override fun fiveMostRecentEntries(userId: String): List<TimeRecord> =
+    override fun mostRecentEntries(userId: String, count: Int): List<TimeRecord> =
         getCollection()
             .aggregate<TimeRecord>(
                 match(TimeRecord::userId eq userId),
                 sort(descending(TimeRecord::sessionEnd)),
-                limit(5)
+                limit(count)
             )
             .toList()
 }

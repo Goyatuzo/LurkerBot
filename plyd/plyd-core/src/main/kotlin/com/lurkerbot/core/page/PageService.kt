@@ -3,6 +3,7 @@ package com.lurkerbot.core.page
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingService
 import com.lurkerbot.core.discordUser.UserService
 import com.lurkerbot.core.gameTime.GameTimeService
+import com.lurkerbot.core.gameTime.TimeSummaryService
 import com.lurkerbot.core.gameTime.TimerRepository
 import com.lurkerbot.core.response.*
 import java.time.LocalDateTime
@@ -11,13 +12,14 @@ class PageService(
     private val userService: UserService,
     private val gameTimeService: GameTimeService,
     private val timerRepository: TimerRepository,
+    private val timeSummaryService: TimeSummaryService,
     private val currentlyPlayingService: CurrentlyPlayingService
 ) {
     fun getUserTimeStatsByDiscordId(userId: String, from: LocalDateTime): UserTimeStats? {
         val userInfo = userService.getUserByDiscordId(userId)
         val gameTimeStats = gameTimeService.getTimesForDiscordUserById(userId, from)
         val mostRecentStats =
-            timerRepository.fiveMostRecentEntries(userId).map { RecentlyPlayed.from(it) }
+            timerRepository.mostRecentEntries(userId, 8).map { RecentlyPlayed.from(it) }
         val currentlyPlaying = currentlyPlayingService.getByUserId(userId)
 
         return if (userInfo == null) {
@@ -38,7 +40,6 @@ class PageService(
                 else TimeGraphData.of(it.key!!, it.value.sumOf { t -> t.time })
             }
             .sortedByDescending(TimeGraphData::time)
-            .take(6)
 
     fun getTimesForDiscordUserByIdAndGame(
         userId: String,
@@ -67,4 +68,6 @@ class PageService(
             )
         }
     }
+
+    fun twoWeekSiteStats(): List<GameTimeSum> = timeSummaryService.getAllTimesFromPastWeek()
 }

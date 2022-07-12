@@ -5,6 +5,7 @@ import com.lurkerbot.web.plugins.configureRouting
 import com.lurkerbot.web.plugins.configureSerialization
 import com.lurkerbot.web.plugins.configureTemplating
 import com.lurkerbot.web.routes.configurePagesResource
+import com.lurkerbot.web.routes.configureSiteStatisticsResource
 import com.lurkerbot.web.routes.configureUserResource
 import io.ktor.server.application.*
 
@@ -24,4 +25,5 @@ fun Application.module() {
 
     configurePagesResource(dependencies.pageService)
     configureUserResource(dependencies.gameTimerService)
+    configureSiteStatisticsResource(dependencies.timeSummaryService)
 }
