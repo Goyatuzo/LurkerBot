@@ -1,6 +1,7 @@
 package com.lurkerbot.gameTime
 
 import com.lurkerbot.core.gameTime.TimeRecord
+import com.lurkerbot.core.gameTime.TimerService
 import com.lurkerbot.discordUser.UserTracker
 import dev.kord.common.entity.ActivityType
 import dev.kord.core.event.gateway.ReadyEvent
@@ -8,7 +9,7 @@ import dev.kord.core.event.user.PresenceUpdateEvent
 import kotlinx.coroutines.flow.collectIndexed
 import mu.KotlinLogging
 
-class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker: UserTracker) {
+class GameTimeTracker(private val timerService: TimerService, private val userTracker: UserTracker) {
     private val logger = KotlinLogging.logger {}
 
     suspend fun initialize(readyEvent: ReadyEvent) {
@@ -25,7 +26,7 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
                     if (gameActivity != null) {
                         val toRecord = TimeRecord.fromActivity(member.id.toString(), gameActivity)
 
-                        gameTimer.beginLogging(member.id.toString(), guild.id.toString(), toRecord)
+                        timerService.beginLogging(member.id.toString(), guild.id.toString(), toRecord)
                     }
                 }
             }
@@ -44,13 +45,13 @@ class GameTimeTracker(private val gameTimer: GameTimer, private val userTracker:
             val oldGame = event.old?.activities?.firstOrNull { it.type == ActivityType.Game }
 
             if (currentGame == null || !(currentGame.sameActivityAs(oldGame))) {
-                gameTimer.endLogging(user.id.value.toString(), event.guildId.value.toString())
+                timerService.endLogging(user.id.value.toString(), event.guildId.value.toString())
             }
 
             if (currentGame != null) {
                 val toRecord = TimeRecord.fromActivity(user.id.value.toString(), currentGame)
 
-                gameTimer.beginLogging(
+                timerService.beginLogging(
                     user.id.value.toString(),
                     event.guildId.value.toString(),
                     toRecord

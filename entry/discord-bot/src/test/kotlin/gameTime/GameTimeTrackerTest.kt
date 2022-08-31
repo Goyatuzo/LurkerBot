@@ -2,9 +2,9 @@ package gameTime
 
 import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
+import com.lurkerbot.core.gameTime.TimerService
 import com.lurkerbot.discordUser.UserTracker
 import com.lurkerbot.gameTime.GameTimeTracker
-import com.lurkerbot.gameTime.GameTimer
 import dev.kord.common.entity.ActivityType
 import dev.kord.core.entity.Activity
 import dev.kord.core.entity.User
@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Test
 
 class GameTimeTrackerTest {
-    private val gameTimer = mockk<GameTimer>()
+    private val gameTimer = mockk<TimerService>()
     private val userTracker = mockk<UserTracker>()
 
     private val gameTimerTracker = GameTimeTracker(gameTimer, userTracker)

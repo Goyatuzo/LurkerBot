@@ -1,10 +1,10 @@
 package com.lurkerbot
 
 import com.lurkerbot.command.RegisterCommands
+import com.lurkerbot.core.gameTime.TimerService
 import com.lurkerbot.dependencies.PlydDependencies
 import com.lurkerbot.discordUser.UserTracker
 import com.lurkerbot.gameTime.GameTimeTracker
-import com.lurkerbot.gameTime.GameTimer
 import dev.kord.core.Kord
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.user.PresenceUpdateEvent
@@ -18,7 +18,7 @@ suspend fun main() {
 
     val dependencies = PlydDependencies()
 
-    val gameTimer = GameTimer(dependencies.timerRepository, dependencies.currentlyPlayingService)
+    val gameTimer = TimerService(dependencies.timerRepository, dependencies.currentlyPlayingService)
     val userTracker = UserTracker(dependencies.userRepository)
     val gameTimeTracker = GameTimeTracker(gameTimer, userTracker)
 
