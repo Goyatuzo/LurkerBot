@@ -4,6 +4,8 @@ import com.lurkerbot.core.gameTime.TimeRecord
 
 object UserNotFound : DomainError()
 
+object UserNotPlaying : DomainError()
+
 data class NeverStartedLogging(val userId: String, val guildId: String) : DomainError()
 
 data class StateChangedTooFast(val userId: String, val record: TimeRecord) : DomainError()
