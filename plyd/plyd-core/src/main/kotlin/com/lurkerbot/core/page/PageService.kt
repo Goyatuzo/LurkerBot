@@ -1,7 +1,12 @@
 package com.lurkerbot.core.page
 
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.andThen
+import com.github.michaelbull.result.binding
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingService
 import com.lurkerbot.core.discordUser.UserService
+import com.lurkerbot.core.error.DomainError
 import com.lurkerbot.core.gameTime.GameTimeService
 import com.lurkerbot.core.gameTime.TimeSummaryService
 import com.lurkerbot.core.gameTime.TimerRepository
@@ -15,18 +20,17 @@ class PageService(
     private val timeSummaryService: TimeSummaryService,
     private val currentlyPlayingService: CurrentlyPlayingService
 ) {
-    fun getUserTimeStatsByDiscordId(userId: String, from: LocalDateTime): UserTimeStats? {
-        val userInfo = userService.getUserByDiscordId(userId)
+    fun getUserTimeStatsByDiscordId(
+        userId: String,
+        from: LocalDateTime
+    ): Result<UserTimeStats, DomainError> = binding {
+        val userInfo = userService.getUserByDiscordId(userId).bind()
         val gameTimeStats = gameTimeService.getTimesForDiscordUserById(userId, from)
         val mostRecentStats =
             timerRepository.mostRecentEntries(userId, 8).map { RecentlyPlayed.from(it) }
-        val currentlyPlaying = currentlyPlayingService.getByUserId(userId)
+        val currentlyPlaying = currentlyPlayingService.getByUserId(userId).bind()
 
-        return if (userInfo == null) {
-            null
-        } else {
-            UserTimeStats.of(userInfo, gameTimeStats, mostRecentStats, currentlyPlaying)
-        }
+        UserTimeStats.of(userInfo, gameTimeStats, mostRecentStats, currentlyPlaying)
     }
 
     private fun groupTimeByProperty(
@@ -45,29 +49,27 @@ class PageService(
         userId: String,
         gameName: String,
         from: LocalDateTime
-    ): UserTimeStatsByGame? {
-        val userInfo = userService.getUserByDiscordId(userId)
-        val stats = timerRepository.getSummedGameTimeRecordsFor(userId, gameName, from)
+    ): Result<UserTimeStatsByGame, DomainError> =
+        userService.getUserByDiscordId(userId).andThen { userInfo ->
+            val stats = timerRepository.getSummedGameTimeRecordsFor(userId, gameName, from)
 
-        val groupedByDetail = groupTimeByProperty(stats, GameTimeDetailedSum::detail)
-        val groupedByState = groupTimeByProperty(stats, GameTimeDetailedSum::state)
-        val groupedBySmallAsset = groupTimeByProperty(stats, GameTimeDetailedSum::smallAsset)
-        val groupedByLargeAsset = groupTimeByProperty(stats, GameTimeDetailedSum::largeAsset)
+            val groupedByDetail = groupTimeByProperty(stats, GameTimeDetailedSum::detail)
+            val groupedByState = groupTimeByProperty(stats, GameTimeDetailedSum::state)
+            val groupedBySmallAsset = groupTimeByProperty(stats, GameTimeDetailedSum::smallAsset)
+            val groupedByLargeAsset = groupTimeByProperty(stats, GameTimeDetailedSum::largeAsset)
 
-        return if (userInfo == null) {
-            null
-        } else {
-            UserTimeStatsByGame.of(
-                userInfo = userInfo,
-                gameName = gameName,
-                gameTime = stats,
-                byGameDetail = groupedByDetail,
-                byGameState = groupedByState,
-                bySmallAsset = groupedBySmallAsset,
-                byLargeAsset = groupedByLargeAsset
+            Ok(
+                UserTimeStatsByGame.of(
+                    userInfo = userInfo,
+                    gameName = gameName,
+                    gameTime = stats,
+                    byGameDetail = groupedByDetail,
+                    byGameState = groupedByState,
+                    bySmallAsset = groupedBySmallAsset,
+                    byLargeAsset = groupedByLargeAsset
+                )
             )
         }
-    }
 
     fun twoWeekSiteStats(): List<GameTimeSum> = timeSummaryService.getAllTimesFromPastWeek()
 }
