@@ -6,10 +6,7 @@ import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.andThen
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlaying
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingService
-import com.lurkerbot.core.error.DomainError
-import com.lurkerbot.core.error.GameIsAlreadyLogging
-import com.lurkerbot.core.error.NeverStartedLogging
-import com.lurkerbot.core.error.StateChangedTooFast
+import com.lurkerbot.core.error.*
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import mu.KotlinLogging
@@ -60,6 +57,6 @@ class TimerService(
                 }
             }
 
-            return Err(NeverStartedLogging(userId, guildId))
+            return Err(LoggingInDifferentServer(userId, guildId))
         }
 }

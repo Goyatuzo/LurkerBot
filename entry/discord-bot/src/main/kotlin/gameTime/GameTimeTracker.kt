@@ -9,7 +9,10 @@ import dev.kord.core.event.user.PresenceUpdateEvent
 import kotlinx.coroutines.flow.collectIndexed
 import mu.KotlinLogging
 
-class GameTimeTracker(private val timerService: TimerService, private val userTracker: UserTracker) {
+class GameTimeTracker(
+    private val timerService: TimerService,
+    private val userTracker: UserTracker
+) {
     private val logger = KotlinLogging.logger {}
 
     suspend fun initialize(readyEvent: ReadyEvent) {
@@ -26,7 +29,11 @@ class GameTimeTracker(private val timerService: TimerService, private val userTr
                     if (gameActivity != null) {
                         val toRecord = TimeRecord.fromActivity(member.id.toString(), gameActivity)
 
-                        timerService.beginLogging(member.id.toString(), guild.id.toString(), toRecord)
+                        timerService.beginLogging(
+                            member.id.toString(),
+                            guild.id.toString(),
+                            toRecord
+                        )
                     }
                 }
             }

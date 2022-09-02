@@ -5,10 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlaying
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingService
-import com.lurkerbot.core.error.GameIsAlreadyLogging
-import com.lurkerbot.core.error.NeverStartedLogging
-import com.lurkerbot.core.error.StateChangedTooFast
-import com.lurkerbot.core.error.UserNotFound
+import com.lurkerbot.core.error.*
 import io.mockk.*
 import java.time.LocalDateTime
 import org.junit.After
@@ -130,22 +127,15 @@ class TimerServiceTest {
     @Test
     fun `Should not be be able to save logging that never started`() {
         every { timerRepository.saveTimeRecord(any()) } returns Unit
-        every { currentlyPlayingService.getByUserId(any()) } returns Err(UserNotFound)
+        every { currentlyPlayingService.getByUserId(any()) } returns
+            Err(NeverStartedPlaying("test"))
 
         val actual =
             gameTimer.endLogging(
                 "test",
                 serverId,
             )
-        assertThat(actual)
-            .isEqualTo(
-                Err(
-                    NeverStartedLogging(
-                        "test",
-                        serverId,
-                    )
-                )
-            )
+        assertThat(actual).isEqualTo(Err(NeverStartedPlaying("test")))
 
         verify { timerRepository wasNot Called }
 
