@@ -1,5 +1,6 @@
 package com.lurkerbot.web.routes
 
+import com.github.michaelbull.result.mapBoth
 import com.lurkerbot.core.page.PageService
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -25,13 +26,16 @@ fun Application.configurePagesResource(pageService: PageService) {
                         LocalDateTime.now().minusWeeks(2)
                     }
 
-                val userData = pageService.getUserTimeStatsByDiscordId(userId, fromDate)
-
-                if (userData == null) {
-                    call.respond(HttpStatusCode.NotFound)
-                } else {
-                    call.respond(PebbleContent("pages/user-stats.html", mapOf("user" to userData)))
-                }
+                pageService
+                    .getUserTimeStatsByDiscordId(userId, fromDate)
+                    .mapBoth(
+                        {
+                            call.respond(
+                                PebbleContent("pages/user-stats.html", mapOf("user" to it))
+                            )
+                        },
+                        { call.respond(HttpStatusCode.NotFound) }
+                    )
             }
         }
 
@@ -50,16 +54,16 @@ fun Application.configurePagesResource(pageService: PageService) {
                         LocalDateTime.now().minusWeeks(2)
                     }
 
-                val userData =
-                    pageService.getTimesForDiscordUserByIdAndGame(userId, gameName, fromDate)
-
-                if (userData == null) {
-                    call.respond(HttpStatusCode.NotFound)
-                } else {
-                    call.respond(
-                        PebbleContent("pages/user-game-stats.html", mapOf("user" to userData))
+                pageService
+                    .getTimesForDiscordUserByIdAndGame(userId, gameName, fromDate)
+                    .mapBoth(
+                        {
+                            call.respond(
+                                PebbleContent("pages/user-game-stats.html", mapOf("user" to it))
+                            )
+                        },
+                        { call.respond(HttpStatusCode.NotFound) }
                     )
-                }
             }
         }
     }
