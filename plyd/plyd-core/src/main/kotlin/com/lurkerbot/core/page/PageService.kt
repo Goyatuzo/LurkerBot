@@ -1,9 +1,6 @@
 package com.lurkerbot.core.page
 
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.andThen
-import com.github.michaelbull.result.binding
+import com.github.michaelbull.result.*
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingService
 import com.lurkerbot.core.discordUser.UserService
 import com.lurkerbot.core.error.DomainError
@@ -28,9 +25,9 @@ class PageService(
         val gameTimeStats = gameTimeService.getTimesForDiscordUserById(userId, from)
         val mostRecentStats =
             timerRepository.mostRecentEntries(userId, 8).map { RecentlyPlayed.from(it) }
-        val currentlyPlaying = currentlyPlayingService.getByUserId(userId).bind()
+        val currentlyPlaying = currentlyPlayingService.getByUserId(userId)
 
-        UserTimeStats.of(userInfo, gameTimeStats, mostRecentStats, currentlyPlaying)
+        UserTimeStats.of(userInfo, gameTimeStats, mostRecentStats, currentlyPlaying.get())
     }
 
     private fun groupTimeByProperty(
@@ -70,6 +67,4 @@ class PageService(
                 )
             )
         }
-
-    fun twoWeekSiteStats(): List<GameTimeSum> = timeSummaryService.getAllTimesFromPastWeek()
 }
