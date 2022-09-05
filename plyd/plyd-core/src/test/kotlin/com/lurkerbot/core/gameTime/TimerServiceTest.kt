@@ -1,28 +1,23 @@
-package gameTime
+package com.lurkerbot.core.gameTime
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.google.common.truth.Truth.assertThat
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlaying
 import com.lurkerbot.core.currentlyPlaying.CurrentlyPlayingService
-import com.lurkerbot.core.gameTime.TimeRecord
-import com.lurkerbot.core.gameTime.TimerRepository
-import com.lurkerbot.gameTime.GameIsAlreadyLogging
-import com.lurkerbot.gameTime.GameTimer
-import com.lurkerbot.gameTime.NeverStartedLogging
-import com.lurkerbot.gameTime.StateChangedTooFast
+import com.lurkerbot.core.error.*
 import io.mockk.*
 import java.time.LocalDateTime
 import org.junit.After
 import org.junit.Test
 
-class GameTimerTest {
+class TimerServiceTest {
     private val serverId = "test server"
 
     private val timerRepository = mockk<TimerRepository>()
     private val currentlyPlayingService = mockk<CurrentlyPlayingService>()
 
-    private val gameTimer = GameTimer(timerRepository, currentlyPlayingService)
+    private val gameTimer = TimerService(timerRepository, currentlyPlayingService)
 
     private val basicTimeRecord =
         TimeRecord(
@@ -47,7 +42,7 @@ class GameTimerTest {
             currentlyPlayingService.isUserCurrentlyPlayingById(currentlyPlaying.userId)
         } returns true
         every { currentlyPlayingService.getByUserId(currentlyPlaying.userId) } returns
-            currentlyPlaying
+            Ok(currentlyPlaying)
         every { currentlyPlayingService.removeByUserId(currentlyPlaying.userId) } returns Unit
     }
 
@@ -132,22 +127,15 @@ class GameTimerTest {
     @Test
     fun `Should not be be able to save logging that never started`() {
         every { timerRepository.saveTimeRecord(any()) } returns Unit
-        every { currentlyPlayingService.getByUserId(any()) } returns null
+        every { currentlyPlayingService.getByUserId(any()) } returns
+            Err(NeverStartedPlaying("test"))
 
         val actual =
             gameTimer.endLogging(
                 "test",
                 serverId,
             )
-        assertThat(actual)
-            .isEqualTo(
-                Err(
-                    NeverStartedLogging(
-                        "test",
-                        serverId,
-                    )
-                )
-            )
+        assertThat(actual).isEqualTo(Err(NeverStartedPlaying("test")))
 
         verify { timerRepository wasNot Called }
 
@@ -164,7 +152,7 @@ class GameTimerTest {
         every { currentlyPlayingService.isUserCurrentlyPlayingById(toPlaying.userId) } returns
             true andThen
             false
-        every { currentlyPlayingService.getByUserId(toPlaying.userId) } returns toPlaying
+        every { currentlyPlayingService.getByUserId(toPlaying.userId) } returns Ok(toPlaying)
         every { currentlyPlayingService.removeByUserId(toPlaying.userId) } returns Unit
         every { currentlyPlayingService.save(any()) } returns Unit
         every { timerRepository.saveTimeRecord(any()) } returns Unit
