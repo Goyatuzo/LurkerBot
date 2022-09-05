@@ -12,15 +12,11 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }
 
-tasks.withType<Jar> {
+val fatJar = task("fatJar", type = Jar::class) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
-        attributes("Main-Class" to "com.lurkerbot.LurkerBotKt")
+        attributes["Main-Class"] = "com.lurkerbot.LurkerBotKt"
     }
-    from(
-        configurations.runtimeClasspath.get()
-            .map { if (it.isDirectory) it else zipTree(it) }
-    )
-    val sourcesMain = sourceSets.main.get()
-    from(sourcesMain.output)
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    with(tasks.jar.get() as CopySpec)
 }
