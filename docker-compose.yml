@@ -2,6 +2,10 @@ version: '3'
 services:
   bot:
     build: './'
+    environment:
+      - LURKER_BOT_TOKEN=${LURKER_BOT_TOKEN}
+      - LURKER_BOT_DB=${LURKER_BOT_DB}
+      - env=${env}
     logging:
       options:
         max-file: "3"
