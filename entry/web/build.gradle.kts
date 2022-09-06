@@ -28,15 +28,12 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
 }
 
-tasks.withType<Jar> {
+val fatJar = task("fatJar", type = Jar::class) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    baseName = "lurkerbot-web-fat.jar"
     manifest {
-        attributes("Main-Class" to "com.lurkerbot.web.ApplicationKt")
+        attributes["Main-Class"] = "com.lurkerbotweb.ApplicationKt"
     }
-    from(
-        configurations.runtimeClasspath.get()
-            .map { if (it.isDirectory) it else zipTree(it) }
-    )
-    val sourcesMain = sourceSets.main.get()
-    from(sourcesMain.output)
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    with(tasks.jar.get() as CopySpec)
 }

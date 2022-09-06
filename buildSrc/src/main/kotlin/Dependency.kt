@@ -1,5 +1,3 @@
-
-
 object dependency {
     object version {
         const val log4J = "2.17.2"
