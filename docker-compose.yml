@@ -2,6 +2,10 @@ version: '3'
 services:
   bot:
     build: './'
+    logging:
+      options:
+        max-file: "3"
+        max-size: "30m"
 #  mongodb:
 #    image: mongo:5.0.11
 #    environment:
