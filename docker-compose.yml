@@ -10,6 +10,27 @@ services:
       options:
         max-file: "3"
         max-size: "30m"
+    links:
+      - "st-agent"
+  st-agent:
+    image: sematext/agent:latest
+    environment:
+      - INFRA_TOKEN=${SEMATEXT_KEY}
+      - SERVER_BASE_URL=https://spm-receiver.sematext.com
+      - LOGS_RECEIVER_URL=https://logsene-receiver.sematext.com
+      - EVENT_RECEIVER_URL=https://event-receiver.sematext.com
+      - COMMAND_SERVER_URL=https://command.sematext.com
+    cap_add:
+      - SYS_ADMIN
+    restart: always
+    volumes:
+      - /:/hostfs:ro
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+      - /sys/kernel/debug:/sys/kernel/debug
+      - /sys:/host/sys:ro
+      - /dev:/hostfs/dev:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 #  mongodb:
 #    image: mongo:5.0.11
 #    environment:
