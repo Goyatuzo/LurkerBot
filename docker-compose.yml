@@ -12,6 +12,7 @@ services:
         max-size: "30m"
     links:
       - "st-agent"
+      - "st-logagent"
   st-agent:
     image: sematext/agent:latest
     environment:
@@ -26,11 +27,19 @@ services:
     volumes:
       - /:/hostfs:ro
       - /etc/passwd:/etc/passwd:ro
+      - /var/run:/var/run
       - /etc/group:/etc/group:ro
       - /sys/kernel/debug:/sys/kernel/debug
       - /sys:/host/sys:ro
       - /dev:/hostfs/dev:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+  st-logagent:
+    image: sematext/logagent:latest
+    environment:
+      - LOGS_TOKEN=${SEMATEXT_LOG_KEY}
+      - REGION=US
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 #  mongodb:
 #    image: mongo:5.0.11
 #    environment:
