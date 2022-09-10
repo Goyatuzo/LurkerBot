@@ -1,11 +1,54 @@
 version: '3'
 services:
-  mongodb:
-    image: mongo:5.0
+  bot:
+    build: './'
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      - JAVA_TOOL_OPTIONS=-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=3000 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+      - LURKER_BOT_TOKEN=${LURKER_BOT_TOKEN}
+      - LURKER_BOT_DB=${LURKER_BOT_DB}
+      - MONITORING_TOKEN=${SEMATEXT_MONITOR_KEY}
+      - env=${env}
+    logging:
+      options:
+        max-file: "3"
+        max-size: "30m"
+    links:
+      - "st-agent"
+      - "st-logagent"
+  st-agent:
+    image: sematext/agent:latest
+    environment:
+      - INFRA_TOKEN=${SEMATEXT_KEY}
+      - REGION=US
+      - SERVER_BASE_URL=https://spm-receiver.sematext.com
+      - LOGS_RECEIVER_URL=https://logsene-receiver.sematext.com
+      - EVENT_RECEIVER_URL=https://event-receiver.sematext.com
+      - COMMAND_SERVER_URL=https://command.sematext.com
+    cap_add:
+      - SYS_ADMIN
+    restart: always
     volumes:
-      - ./mongo-volume:/data/db
-    ports:
-      - "27017:27017"
+      - /:/hostfs:ro
+      - /etc/passwd:/etc/passwd:ro
+      - /var/run:/var/run
+      - /etc/group:/etc/group:ro
+      - /sys/kernel/debug:/sys/kernel/debug
+      - /sys:/host/sys:ro
+      - /dev:/hostfs/dev:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  st-logagent:
+    image: sematext/logagent:latest
+    environment:
+      - LOGS_TOKEN=${SEMATEXT_LOG_KEY}
+      - REGION=US
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+#  mongodb:
+#    image: mongo:5.0.11
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=user
+#      - MONGO_INITDB_ROOT_PASSWORD=password
+#    volumes:
+#      - ./mongo-volume:/data/db
+#    ports:
+#      - "27017:27017"

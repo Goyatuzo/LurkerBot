@@ -7,20 +7,18 @@ version = "0.0.1"
 
 repositories { mavenCentral() }
 
-val log4jVersion = "2.17.2"
-
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.6.0")
-    testImplementation("com.google.truth:truth:1.1.3")
-    testImplementation("io.mockk:mockk:1.12.4")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
-    implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.16")
-    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
-    implementation("io.github.microutils:kotlin-logging:1.12.5")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
+    testImplementation(dependency.kotlinTest)
+    testImplementation(dependency.googleTruth)
+    testImplementation(dependency.mockK)
+    testImplementation(dependency.kotlinCoRoutinesCore)
+    implementation(dependency.kotlinResult)
+    implementation(dependency.log4JCore)
+    implementation(dependency.log4JApi)
+    implementation(dependency.log4JImpl)
+    implementation(dependency.kotlinLogging)
+    implementation(dependency.kotlinxSerializationJson)
+    implementation(dependency.kotlinxDatetime)
 }
 
 tasks.test { useJUnit() }
