@@ -13,7 +13,7 @@ RUN gradle :entry:discord-bot:fatJar --no-daemon
 FROM amazoncorretto:11 as runBot
 RUN mkdir /app
 COPY --from=buildBot /home/gradle/src/entry/discord-bot/build/libs/lurkerbot-bot-fat.jar /app
-ENTRYPOINT ["java","-jar","/app/lurkerbot-bot-fat.jar"]
+ENTRYPOINT ["java", "$JAVA_OPTS", "-jar","/app/lurkerbot-bot-fat.jar"]
 #
 #FROM amazoncorretto:11 as runWeb
 #RUN mkdir /app

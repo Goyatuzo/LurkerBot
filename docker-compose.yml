@@ -3,8 +3,10 @@ services:
   bot:
     build: './'
     environment:
+      - JAVA_TOOL_OPTIONS=-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=3000 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
       - LURKER_BOT_TOKEN=${LURKER_BOT_TOKEN}
       - LURKER_BOT_DB=${LURKER_BOT_DB}
+      - MONITORING_TOKEN=${SEMATEXT_MONITOR_KEY}
       - env=${env}
     logging:
       options:
@@ -17,6 +19,7 @@ services:
     image: sematext/agent:latest
     environment:
       - INFRA_TOKEN=${SEMATEXT_KEY}
+      - REGION=US
       - SERVER_BASE_URL=https://spm-receiver.sematext.com
       - LOGS_RECEIVER_URL=https://logsene-receiver.sematext.com
       - EVENT_RECEIVER_URL=https://event-receiver.sematext.com
