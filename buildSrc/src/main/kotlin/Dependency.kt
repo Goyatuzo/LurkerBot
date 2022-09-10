@@ -11,7 +11,7 @@ object dependency {
     const val log4JCore = "org.apache.logging.log4j:log4j-core:${version.log4J}"
     const val log4JApi = "org.apache.logging.log4j:log4j-api:${version.log4J}"
     const val log4JImpl = "org.apache.logging.log4j:log4j-slf4j-impl:${version.log4J}"
-    const val kotlinLogging = "io.github.microutils:kotlin-logging:1.12.5"
+    const val kotlinLogging = "io.github.microutils:kotlin-logging:2.1.23"
     const val kotlinxSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
     const val kotlinxDatetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.3.2"
 }
