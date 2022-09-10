@@ -14,4 +14,5 @@ object dependency {
     const val kotlinLogging = "io.github.microutils:kotlin-logging:2.1.23"
     const val kotlinxSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
     const val kotlinxDatetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.3.2"
+    const val kmongo = "org.litote.kmongo:kmongo:4.7.0"
 }
