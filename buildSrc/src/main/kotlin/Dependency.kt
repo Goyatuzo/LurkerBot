@@ -4,7 +4,7 @@ object dependency {
     }
 
     const val googleTruth = "com.google.truth:truth:1.1.3"
-    const val mockK = "io.mockk:mockk:1.12.4"
+    const val mockK = "io.mockk:mockk:1.12.7"
     const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:1.6.0"
     const val kotlinCoRoutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2"
     const val kotlinResult = "com.michael-bull.kotlin-result:kotlin-result:1.1.16"
