@@ -5,7 +5,7 @@ plugins {
 dependencies {
     implementation(project(":plyd:plyd-dependencies"))
     implementation(project(":plyd:plyd-core"))
-    implementation("dev.kord:kord-core:0.8.0-M14")
+    implementation("dev.kord:kord-core:0.8.0-M16")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

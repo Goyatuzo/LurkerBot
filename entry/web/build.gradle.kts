@@ -3,7 +3,7 @@ plugins {
     id("com.plyd")
 }
 
-val ktorVersion = "2.0.2"
+val ktorVersion = "2.1.1"
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")

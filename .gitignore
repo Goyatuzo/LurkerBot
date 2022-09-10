@@ -202,3 +202,4 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,windows,macos,kotlin,gradle
 
 mongo-volume
+.env
