@@ -20,16 +20,17 @@ dependencies {
     implementation(project(":plyd:plyd-dependencies"))
     implementation(project(":plyd:plyd-core"))
 
-    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-host-common-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-sessions-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-pebble-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
-    testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
+    implementation(libs.ktor.server.jvm.core)
+    implementation(libs.ktor.server.jvm.hostCommon)
+    implementation(libs.ktor.server.jvm.statusPages)
+    implementation(libs.ktor.server.jvm.auth)
+    implementation(libs.ktor.server.jvm.sessions)
+    implementation(libs.ktor.server.jvm.pebble)
+    implementation(libs.ktor.server.jvm.contentNegotiation)
+    implementation(libs.ktor.server.jvm.netty)
+    implementation(libs.ktor.serialization.jvm.kotlinx.json)
+
+    testImplementation(libs.ktor.server.jvm.tests)
 }
 
 val fatJar = task("fatJar", type = Jar::class) {
