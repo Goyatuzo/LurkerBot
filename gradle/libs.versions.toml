@@ -21,10 +21,10 @@ log4J-self4Impl = { module = "org.apache.logging.log4j-slf4j-impl:log4j-core", v
 googleTruth = { module = "com.google.truth:truth", version.ref = "googleTruthVersion" }
 mockK = { module = "io.mockk:mockk", version.ref = "mockKVersion" }
 michaelBullResult = { module = "com.michael-bull.kotlin-result:kotlin-result", version.ref = "resultVersion" }
-kmongo = { module = "org.litote.kmongo:kmongo:4.9.0" }
-kotlinx-dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1" }
-kotlinLoggin = { module = "io.github.microutils:kotlin-logging:3.0.5" }
+kmongo = { module = "org.litote.kmongo:kmongo", version = "4.9.0" }
+kotlinx-dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.4.0" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.5.1" }
+kotlinLoggin = { module = "io.github.microutils:kotlin-logging", version = "3.0.5" }
 
 #[bundles]
 
