@@ -30,7 +30,7 @@ dependencies {
 
 val fatJar = task("fatJar", type = Jar::class) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    baseName = "lurkerbot-web-fat.jar"
+    archiveBaseName = "lurkerbot-web-fat.jar"
     manifest {
         attributes["Main-Class"] = "com.lurkerbotweb.ApplicationKt"
     }

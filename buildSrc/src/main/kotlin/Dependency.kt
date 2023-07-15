@@ -1,7 +1,7 @@
 object dependency {
     object version {
         const val log4J = "2.17.2"
-        const val kotlin = "1.6.21"
+        const val kotlin = "1.9.0"
     }
 
     const val googleTruth = "com.google.truth:truth:1.1.3"

@@ -7,6 +7,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
 }
 
