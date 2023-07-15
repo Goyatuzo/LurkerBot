@@ -1,6 +1,6 @@
 plugins {
     id("com.plyd")
-    id("org.jetbrains.kotlin.plugin.serialization") version dependency.version.kotlin
+    alias(libs.plugins.kotlin.serialization)
 }
 
 dependencies {

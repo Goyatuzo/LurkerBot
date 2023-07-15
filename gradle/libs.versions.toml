@@ -31,3 +31,4 @@ kotlinLoggin = { module = "io.github.microutils:kotlin-logging", version = "3.0.
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotlessVersion" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinVersion" }
