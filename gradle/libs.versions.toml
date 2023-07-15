@@ -1,0 +1,33 @@
+[versions]
+discord4JVersion = "3.2.5"
+spotlessVersion = "6.19.0"
+kotlinVersion = "1.9.0"
+jnitVersion = "5.7.1"
+log4JVersion = "2.20.0"
+kotlinCoroutinesVersion = "1.6.4"
+googleTruthVersion = "1.1.3"
+mockKVersion = "1.13.5"
+resultVersion = "1.1.18"
+
+[libraries]
+discord4J = { module = "com.discord4j:discord4j-core", version.ref = "discord4JVersion" }
+junitBom = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jnitVersion" }
+junit = { module = "org.junit.jupiter:junit-jupiter" }
+kotlin-test = { module = "org.junit.jupiter:junit-jupiter", version.ref = "kotlinVersion" }
+kotlin-coRoutines-Core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutinesVersion" }
+log4J-ore = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4JVersion" }
+log4J-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4JVersion" }
+log4J-self4Impl = { module = "org.apache.logging.log4j-slf4j-impl:log4j-core", version.ref = "log4JVersion" }
+googleTruth = { module = "com.google.truth:truth", version.ref = "googleTruthVersion" }
+mockK = { module = "io.mockk:mockk", version.ref = "mockKVersion" }
+michaelBullResult = { module = "com.michael-bull.kotlin-result:kotlin-result", version.ref = "resultVersion" }
+kmongo = { module = "org.litote.kmongo:kmongo:4.9.0" }
+kotlinx-dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1" }
+kotlinLoggin = { module = "io.github.microutils:kotlin-logging:3.0.5" }
+
+#[bundles]
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotlessVersion" }
