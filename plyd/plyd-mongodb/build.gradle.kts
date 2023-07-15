@@ -1,5 +1,5 @@
 plugins {
-    id("com.plyd")
+    alias(libs.plugins.kotlin)
 }
 
 repositories {
@@ -8,5 +8,7 @@ repositories {
 
 dependencies {
     implementation(project(":plyd:plyd-core"))
-    implementation(dependency.kmongo)
+    implementation(libs.kmongo)
+    implementation(libs.kotlinLogging)
+    implementation(libs.kotlinx.dateTime)
 }

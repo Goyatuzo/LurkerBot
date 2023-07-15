@@ -16,6 +16,7 @@ class TimerService(
     private val currentlyPlayingService: CurrentlyPlayingService
 ) {
     private val logger = KotlinLogging.logger {}
+
     fun beginLogging(
         userId: String,
         guildId: String,

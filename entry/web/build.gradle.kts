@@ -1,6 +1,6 @@
 plugins {
+    alias(libs.plugins.kotlin)
     application
-    id("com.plyd")
 }
 
 val ktorVersion = "2.1.1"
@@ -10,6 +10,10 @@ application {
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {

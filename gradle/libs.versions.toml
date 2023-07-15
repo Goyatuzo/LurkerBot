@@ -24,7 +24,7 @@ michaelBullResult = { module = "com.michael-bull.kotlin-result:kotlin-result", v
 kmongo = { module = "org.litote.kmongo:kmongo", version = "4.9.0" }
 kotlinx-dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.4.0" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.5.1" }
-kotlinLoggin = { module = "io.github.microutils:kotlin-logging", version = "3.0.5" }
+kotlinLogging = { module = "io.github.microutils:kotlin-logging", version = "3.0.5" }
 
 #[bundles]
 

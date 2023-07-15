@@ -1,6 +1,10 @@
 plugins {
-    id("com.plyd")
-    id("com.diffplug.spotless") version "6.1.0"
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.spotless)
+}
+
+repositories {
+    mavenCentral()
 }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
