@@ -1,11 +1,18 @@
 plugins {
-    id("com.plyd")
+    alias(libs.plugins.kotlin)
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
     implementation(project(":plyd:plyd-dependencies"))
     implementation(project(":plyd:plyd-core"))
     implementation("dev.kord:kord-core:0.8.0-M16")
+
+    testImplementation(libs.googleTruth)
+    testImplementation(libs.mockK)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

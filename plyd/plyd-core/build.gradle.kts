@@ -1,8 +1,18 @@
 plugins {
-    id("com.plyd")
-    id("org.jetbrains.kotlin.plugin.serialization") version dependency.version.kotlin
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    implementation(dependency.kotlinxDatetime)
+    implementation(libs.kotlinx.dateTime)
+    implementation(libs.kotlinx.serialization.json)
+    api(libs.michaelBullResult)
+    implementation(libs.kotlinLogging)
+
+    testImplementation(libs.mockK)
+    testImplementation(libs.googleTruth)
 }

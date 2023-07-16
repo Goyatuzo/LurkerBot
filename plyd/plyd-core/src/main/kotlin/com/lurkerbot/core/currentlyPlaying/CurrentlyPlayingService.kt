@@ -9,6 +9,7 @@ class CurrentlyPlayingService(private val currentlyPlayingRepository: CurrentlyP
     fun save(currentlyPlaying: CurrentlyPlaying) {
         currentlyPlayingRepository.save(currentlyPlaying)
     }
+
     fun getByUserId(userId: String): Result<CurrentlyPlaying, DomainError> =
         currentlyPlayingRepository.getByDiscordUserId(userId).toResultOr {
             NeverStartedPlaying(userId)
@@ -17,7 +18,9 @@ class CurrentlyPlayingService(private val currentlyPlayingRepository: CurrentlyP
     fun removeByUserId(userId: String) {
         currentlyPlayingRepository.removeByDiscordUserId(userId)
     }
+
     fun isUserCurrentlyPlayingById(userId: String): Boolean =
         currentlyPlayingRepository.getByDiscordUserId(userId) != null
+
     fun clearAll() = currentlyPlayingRepository.clearCurrentlyPlaying()
 }

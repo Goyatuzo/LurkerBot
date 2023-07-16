@@ -18,6 +18,7 @@ class KMongoCurrentlyPlayingRepository(private val mongoClient: MongoClient) :
         val database = mongoClient.getDatabase("lurker-bot")
         return database.getCollection<CurrentlyPlaying>("currently_playing")
     }
+
     override fun save(currentlyPlaying: CurrentlyPlaying) {
         val collection = getCurrentlyPlayingCollection()
 

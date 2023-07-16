@@ -11,6 +11,7 @@ class AddMe(private val userTracker: UserTracker) : BotCommand {
     override val name: String = "add-me"
     override val description: String =
         "Start tracking the time you play games. If you're already tracking, update your username."
+
     override suspend fun invoke(interaction: ApplicationCommandInteraction) {
         val user = interaction.user.asUserOrNull()
         userTracker.addUser(user)
