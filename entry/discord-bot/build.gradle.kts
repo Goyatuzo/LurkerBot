@@ -21,7 +21,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 
 val fatJar = task("fatJar", type = Jar::class) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    archiveFileName.set("lurkerbot-bot-fat.jar")
+    archiveBaseName = "lurkerbot-bot-fat"
     manifest {
         attributes["Main-Class"] = "com.lurkerbot.LurkerBotKt"
     }
