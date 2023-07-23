@@ -37,7 +37,7 @@ val fatJar = task("fatJar", type = Jar::class) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName = "lurkerbot-web-fat"
     manifest {
-        attributes["Main-Class"] = "com.lurkerbotweb.ApplicationKt"
+        attributes["Main-Class"] = "com.lurkerbot.web.ApplicationKt"
     }
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     with(tasks.jar.get() as CopySpec)

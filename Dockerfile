@@ -17,5 +17,5 @@ RUN gradle :entry:web:fatJar --no-daemon
 
 FROM amazoncorretto:11 as runWeb
 RUN mkdir /app
-COPY --from=buildWeb /home/gradle/src/entry/discord-bot/build/libs/lurkerbot-web-fat.jar /app/lurkerbot-web.jar
+COPY --from=buildWeb /home/gradle/src/entry/web/build/libs/lurkerbot-web-fat.jar /app/lurkerbot-web.jar
 ENTRYPOINT ["java","-jar","/app/lurkerbot-web.jar"]
